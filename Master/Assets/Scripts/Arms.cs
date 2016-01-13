@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Arms : MonoBehaviour
@@ -21,6 +22,7 @@ public class Arms : MonoBehaviour
     public Sprite torsoOnly;
     public Sprite oneLeg;
     public Sprite twoLegs;
+	private Text textArea;
     public GameObject[] goWithTag;
     public GameObject[] allArms;
     public GameObject armObj;
@@ -39,7 +41,7 @@ public class Arms : MonoBehaviour
         oneArm = false;
         leg = gameObject.GetComponent<LegObject>();
         body = gameObject.GetComponent<Torso>();
-        player = GameObject.Find("ROLLINGHEAD_0").transform;
+        player = GameObject.Find("Player").transform;
         sprRend = GetComponent<SpriteRenderer>();
         armCount = 0;
         goWithTag = new GameObject[100];
@@ -49,7 +51,7 @@ public class Arms : MonoBehaviour
     void Update()
     {
         attachOrDetachArms();
-        nearArm = CheckCloseToTag("arm", 0.5f);
+        nearArm = CheckCloseToTag("arm", 3.5f);
         //hasTorso = body.hasTorso;
         //detachArms ();
     }
@@ -62,12 +64,12 @@ public class Arms : MonoBehaviour
         Debug.Log("Arm Count is " + armCount);
         if (armCount == 0 && Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Debug.Log("Cannot detach! You don't have any arms!");
+            textArea.text = "Cannot detach! You don't have any arms!";
         }
 
         if (!body.hasTorso && nearArm && Input.GetKeyDown(KeyCode.X))
         {
-            Debug.Log("You need a torso to attach the arm!");
+            textArea.text = "You need a torso to attach the arm!";
         }
         else if (Input.GetKeyDown(KeyCode.X) && nearArm)
         {

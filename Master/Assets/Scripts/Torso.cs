@@ -29,6 +29,7 @@ public class Torso : MonoBehaviour
     Transform player;
     Vector3 pos;
 
+
     // Use this for initialization
     void Start()
     {
@@ -51,7 +52,7 @@ public class Torso : MonoBehaviour
         	detachTorso();
 		}
 
-        nearTorso = CheckCloseToTag("torso", 1.5f);
+        nearTorso = CheckCloseToTag("torso",3.0f);
 
         //sprRend.sprite = test;
     }

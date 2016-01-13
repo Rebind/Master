@@ -70,7 +70,7 @@ public class LegObject : MonoBehaviour
             detach();
         }
         changeSprites();
-        nearLeg = CheckCloseToTag("leg", 1.5f);
+        nearLeg = CheckCloseToTag("leg", 3.0f);
     }
 
 
