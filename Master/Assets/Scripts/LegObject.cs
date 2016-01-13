@@ -37,18 +37,20 @@ public class LegObject : MonoBehaviour
     public GameObject legObj;
     public GameObject[] allLegs;
     Transform player;
+	private int trackOfLegs;
 
     Vector3 pos;
 
     // Use this for initialization
     void Start()
     {
+		trackOfLegs = 0;
         arm = GetComponent<Arms>();
         body = GetComponent<Torso>();
         oneLeg = false;
         twoLegs = false;
         legCount = 0;
-        player = GameObject.Find("ROLLINGHEAD_0").transform;
+        player = GameObject.Find("Player").transform;
         sprRend = GetComponent<SpriteRenderer>();
         goWithTag = new GameObject[100];
     }
@@ -56,21 +58,19 @@ public class LegObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-        Debug.Log("test in leg update");
-        if (Input.GetKeyDown(KeyCode.X) && nearLeg)
+        if (Input.GetKeyDown(KeyCode.X) && nearLeg && legCount != 2)
         {
             attachLeg();
-            Debug.Log("test in leg update attach if");
+			goWithTag[trackOfLegs] = legObj;
+			trackOfLegs++;
+		
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             detach();
         }
         changeSprites();
-        //Debug.Log ("" + goWithTag [1]);
-        nearLeg = CheckCloseToTag("leg", 1.0f);
+        nearLeg = CheckCloseToTag("leg", 1.5f);
     }
 
 
@@ -127,10 +127,11 @@ public class LegObject : MonoBehaviour
 
     void CreateLegObj()
     {
-        pos = player.position;
-        legObj.SetActive(true);
-        Instantiate(legObj, pos, Quaternion.Euler(0f, 0f, 0f));
-        Destroy(legObj);
+			pos = player.position;
+			legObj.SetActive (true);
+			Instantiate (legObj, pos, Quaternion.Euler (0f, 0f, 0f));
+			Destroy (legObj);
+		
     }
 
     //Checking if the player is near the leg body part
@@ -143,7 +144,7 @@ public class LegObject : MonoBehaviour
             if (Vector3.Distance(transform.position, allLegs[i].transform.position) <= minimumDistance)
             {
                 legObj = allLegs[i];
-                goWithTag[i] = allLegs[i];
+                //goWithTag[i] = allLegs[i];
                 Debug.Log("Press X to pick up. Leg");
                 return true;
             }
@@ -155,26 +156,25 @@ public class LegObject : MonoBehaviour
     //attaching leg object
     void attachLeg()
     {
-        Debug.Log("testing in attach leg");
-        if (nearLeg && Input.GetKeyDown(KeyCode.X) && body.hasTorso && arm.armCount == 0 && (legCount == 0))
+        if (body.hasTorso && arm.armCount == 0 && (legCount == 0))
         {
             //change sprite to head with torso and one leg
             //change movement/jump speed
             legCount = 1;
             oneLeg = true;
-            legObj.SetActive(false);
+			legObj.SetActive(false);
         }
-        else if (nearLeg && Input.GetKeyDown(KeyCode.X) && body.hasTorso && (legCount == 1) && arm.armCount == 0)
+        else if (body.hasTorso && (legCount == 1) && arm.armCount == 0)
         {
             //change sprite to head with torso and two legs
             //change movement/jump speed
             legCount = 2;
             twoLegs = true;
             oneLeg = false;
-            legObj.SetActive(false);
+			legObj.SetActive(false);
         }
         //Attach leg
-        else if (nearLeg && Input.GetKeyDown(KeyCode.X) && body.hasTorso && (legCount == 0) && arm.armCount == 2)
+        else if (body.hasTorso && (legCount == 0) && arm.armCount == 2)
         {
             //change sprite to head with torso two arm and one leg
             //change movement/jump speed
@@ -182,7 +182,7 @@ public class LegObject : MonoBehaviour
             oneLeg = true;
             legObj.SetActive(false);
         }
-        else if (nearLeg && Input.GetKeyDown(KeyCode.X) && body.hasTorso && (legCount == 1) && arm.armCount == 1)
+        else if (body.hasTorso && (legCount == 1) && arm.armCount == 1)
         {
             //change sprite to head with torso one arm and one leg
             //change movement/jump speed
@@ -191,7 +191,7 @@ public class LegObject : MonoBehaviour
             legObj.SetActive(false);
         }
         //Attach leg
-        else if (nearLeg && Input.GetKeyDown(KeyCode.X) && body.hasTorso && (legCount == 1) && arm.armCount == 2)
+        else if (body.hasTorso && (legCount == 1) && arm.armCount == 2)
         {
             //change sprite to head with torso two arms and two legs
             //change movement/jump speed
@@ -199,7 +199,7 @@ public class LegObject : MonoBehaviour
             oneLeg = true;
             legObj.SetActive(false);
         }
-        else if (nearLeg && Input.GetKeyDown(KeyCode.X) && body.hasTorso && (legCount == 0) && arm.armCount == 1)
+        else if (body.hasTorso && (legCount == 0) && arm.armCount == 1)
         {
             //change sprite to head with torso one arm and one leg
             //change movement/jump speed
@@ -213,17 +213,18 @@ public class LegObject : MonoBehaviour
     void detach()
     {
         //Detach one leg
-        if (Input.GetKeyDown(KeyCode.Alpha3) && body.hasTorso && arm.armCount == 0 && legCount == 1)
+        if (body.hasTorso && arm.armCount == 0 && legCount == 1)
         {
             //Change sprite to head with torso, no arms, no legs
             //change movement or jump speed
             oneLeg = false;
+			CreateLegObj();
             legCount = 0;
-            CreateLegObj();
+            
 
         }
         //Detach one leg
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && body.hasTorso && arm.armCount == 0 && legCount == 2)
+        else if (body.hasTorso && arm.armCount == 0 && legCount == 2)
         {
             //Change sprite to head with torso with one leg
             //change movement or jump speed
@@ -231,38 +232,42 @@ public class LegObject : MonoBehaviour
             CreateLegObj();
             legCount = 1;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && body.hasTorso && arm.armCount == 2 && legCount == 1)
+        else if (body.hasTorso && arm.armCount == 2 && legCount == 1)
         {
             //Change sprite to head with torso and two arms
             //change movement or jump speed
             oneLeg = false;
+			CreateLegObj();
             legCount = 0;
-            CreateLegObj();
+            
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && body.hasTorso && arm.armCount == 1 && legCount == 1)
+        else if (body.hasTorso && arm.armCount == 1 && legCount == 1)
         {
             //Change sprite to head with torso and an arm
             //change movement or jump speed
             oneLeg = false;
+			CreateLegObj();
             legCount = 0;
-            CreateLegObj();
+            
         }
         //Detach one leg
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && body.hasTorso && arm.armCount == 2 && legCount == 1)
+        else if (body.hasTorso && arm.armCount == 2 && legCount == 1)
         {
             //Change sprite to head with torso and two arms
             //change movement or jump speed
             oneLeg = false;
+			CreateLegObj();
             legCount = 0;
-            CreateLegObj();
+            
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && body.hasTorso && arm.armCount == 2 && legCount == 2)
+        else if (body.hasTorso && arm.armCount == 2 && legCount == 2)
         {
             //Change sprite to head with torso, 2 arms, 1 leg
             //change movement or jump speed
             oneLeg = false;
+			CreateLegObj();
             legCount = 1;
-            CreateLegObj();
+            
         }
     }
 }

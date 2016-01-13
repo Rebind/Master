@@ -29,13 +29,6 @@ public class Torso : MonoBehaviour
     Transform player;
     Vector3 pos;
 
-
-    private KeyCode[] keyCodes = {
-        KeyCode.Alpha1,
-    };
-
-
-
     // Use this for initialization
     void Start()
     {
@@ -51,8 +44,12 @@ public class Torso : MonoBehaviour
     void Update()
     {
         pos = player.position;
-        attachTorso();
-        detachTorso();
+		if (nearTorso && Input.GetKeyDown (KeyCode.X)) {
+			attachTorso ();
+		}
+		else if(Input.GetKeyDown (KeyCode.Alpha1)){
+        	detachTorso();
+		}
 
         nearTorso = CheckCloseToTag("torso", 1.5f);
 
@@ -84,7 +81,6 @@ public class Torso : MonoBehaviour
         {
             //Speed changes
             sub = bodyObj;
-            Debug.Log("testing in attaching");
             bodyObj.SetActive(false);
             hasTorso = true;
             sprRend.sprite = head;
@@ -98,12 +94,10 @@ public class Torso : MonoBehaviour
         //pos.x += 4;
         if (hasTorso && Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log("Testing in detach");
-            //sprite changes to head
             sprRend.sprite = head;
             //speed changes.
             bodyObj.SetActive(true);
-            hasTorso = false;
+           
             Instantiate(bodyObj, pos, Quaternion.Euler(0f, 0f, 0f));
             Destroy(bodyObj);
             oneArm();
@@ -114,6 +108,7 @@ public class Torso : MonoBehaviour
             oneArmTwoLegs();
             twoArmsOneLeg();
             twoArmsTwoLegs();
+			hasTorso = false;
         }
     }
     void oneArm()
