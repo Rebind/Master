@@ -21,10 +21,12 @@ public class Player : MonoBehaviour
     private Controller2D myController;
     private Animator myAnimator;
     private bool canJump;
+	private bool facingRight;
     private Torso torso;
 
     void Start()
     {
+		facingRight = true;
         torso = GetComponent<Torso>();
         myAnimator = GetComponent<Animator>();
         myController = GetComponent<Controller2D>();
@@ -34,6 +36,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+		float horizontal = Input.GetAxis("Horizontal");
         if (torso.hasTorso)
         {
             myAnimator.SetBool("hasTorso", true);
@@ -44,7 +47,9 @@ public class Player : MonoBehaviour
         }
         HandleMovments();
         HandleInputs();
+		Flip(horizontal);
     }
+		
 
     private void HandleMovments()
     {
@@ -70,6 +75,20 @@ public class Player : MonoBehaviour
     {
 
     }
+
+	private void Flip(float horizontal)
+	{
+		if(horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
+		{
+			facingRight = !facingRight;
+
+			Vector3 theScale = transform.localScale;
+
+			theScale.x *= -1;
+
+			transform.localScale = theScale;
+		}
+	}
 
 
 }
