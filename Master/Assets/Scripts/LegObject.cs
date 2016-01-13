@@ -48,7 +48,7 @@ public class LegObject : MonoBehaviour
         oneLeg = false;
         twoLegs = false;
         legCount = 0;
-        player = GameObject.Find("ROLLINGHEAD_0").transform;
+        player = GameObject.Find("Player").transform;
         sprRend = GetComponent<SpriteRenderer>();
         goWithTag = new GameObject[100];
     }
