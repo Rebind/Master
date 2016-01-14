@@ -21,11 +21,11 @@ public class Player : MonoBehaviour
     private Controller2D myController;
     private Animator myAnimator;
     private bool canJump;
-    private Torso torso;
+    private MergeAttachDetach limbs;
 
     void Start()
     {
-        torso = GetComponent<Torso>();
+        limbs = GetComponent<MergeAttachDetach>();
         myAnimator = GetComponent<Animator>();
         myController = GetComponent<Controller2D>();
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (torso.hasTorso)
+        if (limbs.hasTorso)
         {
             myAnimator.SetBool("hasTorso", true);
         }

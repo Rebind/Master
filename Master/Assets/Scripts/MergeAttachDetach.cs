@@ -7,7 +7,7 @@ public class MergeAttachDetach : MonoBehaviour
 	[SerializeField]
 	public GameObject	leg, arm, torso;
 	[SerializeField]
-	public GameObject[] bodyStates = new GameObject[10];//{head, headTorso, headTorsoArm, headTorsoTwoArms,headTorsoTwoArmsLeg, headTorsoTwoArmsTwoLegs, headTorsoLeg, headTorsoTwoLegs, headTorsoArmLeg, headTorsoArmTwoLegs};
+	public Sprite[] bodyStates;//{head, headTorso, headTorsoArm, headTorsoTwoArms,headTorsoTwoArmsLeg, headTorsoTwoArmsTwoLegs, headTorsoLeg, headTorsoTwoLegs, headTorsoArmLeg, headTorsoArmTwoLegs};
 	
 	/*
 	 * 0 -  just the head
@@ -23,10 +23,10 @@ public class MergeAttachDetach : MonoBehaviour
 	 */
 	
 	
-	private GameObject currentBodyState; //stores the current state of the body, gets from the array
+	private Sprite currentBodyState; //stores the current state of the body, gets from the array
 	
 	private GameObject[] nearbyLimbsofType;
-	private bool hasTorso, hasArm, hasSecondArm, hasLeg, hasSecondLeg;
+	public bool hasTorso, hasArm, hasSecondArm, hasLeg, hasSecondLeg;
 	private Player player;
 	private float minimumDistance = 3.5f;
 	private Vector3 pos;
@@ -34,7 +34,7 @@ public class MergeAttachDetach : MonoBehaviour
 	void Start ()
 	{
 		player = GetComponent<Player> ();
-
+		bodyStates =  new Sprite[10];
 		//hasTorso = hasArm = hasLeg = hasSecondLeg = true; //for testing purposes start with all body parts except second hand
 		assignState ();
 		torso = GameObject.Find ("Torso");
@@ -51,7 +51,8 @@ public class MergeAttachDetach : MonoBehaviour
 			detach ();
 		}
 	}
-	
+
+
 	private void assignState () //assigns the state of the sprite
 	{
 		if (hasTorso && hasLeg && hasSecondLeg && hasArm && hasSecondArm) {
@@ -216,5 +217,6 @@ public class MergeAttachDetach : MonoBehaviour
 		Instantiate (limbs, pos, Quaternion.Euler(0f, 0f, 0f));
 		Destroy(limbs);
 	}
+
 }
 
