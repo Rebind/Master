@@ -52,7 +52,13 @@ public class MergeAttachDetach : MonoBehaviour
 		}
 	}
 
-
+	/*
+	 * 
+	 * This is changing the players body states to whatever 
+	 * the player attaches itself to. 
+	 * 
+	 * 
+	 * */
 	private void assignState () //assigns the state of the sprite
 	{
 		if (hasTorso && hasLeg && hasSecondLeg && hasArm && hasSecondArm) {
@@ -87,7 +93,13 @@ public class MergeAttachDetach : MonoBehaviour
 		} else if (!hasTorso)
 			currentBodyState = bodyStates [0];
 	}
-	
+
+	/*
+	 * 
+	 * Which limbs the player are nearby
+	 * 
+	 * 
+	 * */
 	private void whichLimb ()
 	{
 		if (nearbyLimbOfType ("arm") && canAttach (arm)) {
@@ -99,7 +111,12 @@ public class MergeAttachDetach : MonoBehaviour
 		}
 		
 	}
-	
+
+	/*
+	 * 
+	 * This is to test if players have necessary limbs to attach itself
+	 * 
+	 * */
 	private bool canAttach (GameObject limb)
 	{
 		if ((limb.tag == "arm") && (!hasSecondArm) && (hasTorso)) {
@@ -111,7 +128,13 @@ public class MergeAttachDetach : MonoBehaviour
 		} else
 			return false;
 	}
-	
+
+	/*
+	 * 
+	 * This returns true if player is near a certain limb object
+	 * 
+	 * 
+	 * */
 	bool nearbyLimbOfType (string tag)
 	{
 		nearbyLimbsofType = GameObject.FindGameObjectsWithTag (tag);
@@ -134,7 +157,14 @@ public class MergeAttachDetach : MonoBehaviour
 		}
 		return false;
 	}
-	
+
+	/*
+	 * 
+	 * This is attaching the limb.
+	 * It will disable the object in the game if player decides to attach.
+	 * Then, it will change the player's state.
+	 * 
+	 * */
 	public void attachLimb (GameObject limb)
 	{
 		
@@ -175,19 +205,21 @@ public class MergeAttachDetach : MonoBehaviour
 		
 		
 	}
-	
+
+	/*
+	 * 
+	 * This is the detach part.
+	 * Checks if player has the necessary parts to detach
+	 * Then, the limb will respawn where players are at. 
+	 * 
+	 * 
+	 * */
 	public void detach ()
 	{
 		if (Input.GetKeyDown (KeyCode.Alpha1) && hasTorso) {
 			torso.SetActive (true);
-			arm.SetActive(true);
-			leg.SetActive(true);
+			checkForDifferentLimbs();
 			instantiateBodyParts(torso);
-			hasTorso = false;
-			hasArm = false;
-			hasLeg = false;
-			hasSecondArm = false;
-			hasSecondLeg = false;
 			assignState();
 		} else if (Input.GetKeyDown (KeyCode.Alpha2) && hasArm) {
 			arm.SetActive (true);
@@ -211,6 +243,39 @@ public class MergeAttachDetach : MonoBehaviour
 			assignState();
 		}
 		
+	}
+
+	/*
+	 * 
+	 * This is checking if players have a torso, arms, and legs, and
+	 * they want to detach the torso. If players detach the torso, 
+	 * everything will fall apart. 
+	 * 
+	 * 
+	 * */
+	public void checkForDifferentLimbs(){
+
+		if (hasArm && !hasSecondArm) {
+			arm.SetActive(true);
+			instantiateBodyParts(arm);
+		}
+		else if (hasArm && hasSecondArm) {
+			arm.SetActive(true);
+			instantiateBodyParts(arm);
+		}
+		if (hasLeg && !hasSecondLeg) {
+			leg.SetActive(true);
+			instantiateBodyParts(leg);
+		}
+		else if (hasLeg && hasSecondLeg) {
+			leg.SetActive(true);
+			instantiateBodyParts(leg);
+		}
+		hasTorso = false;
+		hasArm = false;
+		hasLeg = false;
+		hasSecondArm = false;
+		hasSecondLeg = false;
 	}
 	public void instantiateBodyParts(GameObject limbs){
 		pos = player.transform.position;
