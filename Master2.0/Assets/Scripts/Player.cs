@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private float moveSpeed;
-
+    private bool facingRight;
     private float gravity;
 
     private float jumpVelocity;
@@ -22,8 +22,10 @@ public class Player : MonoBehaviour
     private Animator myAnimator;
     private bool canJump;
 
+
     void Start()
     {
+        facingRight = true;
         myAnimator = GetComponent<Animator>();
         myController = GetComponent<Controller2D>();
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         HandleMovments();
+        Flip();
         HandleInputs();
     }
 
@@ -54,7 +57,27 @@ public class Player : MonoBehaviour
         playerVelocity.y += gravity * Time.deltaTime;
         myController.Move(playerVelocity * Time.deltaTime);
         myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+        if (myAnimator.GetFloat("speed") != 0)
+        {
+            myAnimator.SetBool("isMoving", true);
+        }
+        else
+        {
+            myAnimator.SetBool("isMoving", false);
+        }
     }
+
+    private void Flip()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        if (horizontal > 0 && !facingRight || horizontal<0 && facingRight)
+         {
+                facingRight = !facingRight;
+                Vector3 theScale = transform.localScale;
+                theScale.x *= -1;
+                transform.localScale = theScale;
+          }
+        }
 
     private void HandleInputs()
     {
