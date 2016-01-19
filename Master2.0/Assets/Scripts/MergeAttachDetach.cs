@@ -47,7 +47,7 @@ public class MergeAttachDetach : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            Debug.Log("X Pressed");
+            //Debug.Log("X Pressed");
             whichLimb();
         }
         else
@@ -238,7 +238,7 @@ public class MergeAttachDetach : MonoBehaviour
         {
             hasTorso = true;
             assignState();
-            Debug.Log("testing in here");
+           // Debug.Log("testing in here");
             torso.SetActive(false);
 
         }
