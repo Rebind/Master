@@ -28,6 +28,32 @@ namespace UnityStandardAssets._2D
         // Update is called once per frame
         private void Update()
         {
+            // Keybindings to number pad to switch Main Camera 
+            // to certain game objects
+            if (Input.GetKeyUp(KeyCode.Keypad1)){
+                Debug.Log("1 is pressed");
+                target = GameObject.Find("Player").transform;
+            }
+            if (Input.GetKeyUp(KeyCode.Keypad2)){
+                Debug.Log("2 is pressed");
+                target = GameObject.Find("Arm").transform;
+            }
+            if (Input.GetKeyUp(KeyCode.Keypad3)){
+                Debug.Log("3 is pressed");
+                target = GameObject.Find("Arm (1)").transform;
+            }
+            if (Input.GetKeyUp(KeyCode.Keypad4)){
+                Debug.Log("4 is pressed");
+                target = GameObject.Find("Torso").transform;
+            }
+            if (Input.GetKeyUp(KeyCode.Keypad5)){
+                Debug.Log("5 is pressed");
+                target = GameObject.Find("Leg").transform;
+            }
+            if (Input.GetKeyUp(KeyCode.Keypad6)){
+                Debug.Log("6 is pressed");
+                target = GameObject.Find("Leg (1)").transform;
+            }
             // only update lookahead pos if accelerating or changed direction
             float xMoveDelta = (target.position - m_LastTargetPosition).x;
 
