@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MergeAttachDetach : MonoBehaviour
 {
 
     [SerializeField]
-    public GameObject leg, arm, torso;
+    public GameObject leg, arm, torso, twoLegs, twoArms;
     [SerializeField]
     public Sprite[] bodyStates;//{head, headTorso, headTorsoArm, headTorsoTwoArms,headTorsoTwoArmsLeg, headTorsoTwoArmsTwoLegs, headTorsoLeg, headTorsoTwoLegs, headTorsoArmLeg, headTorsoArmTwoLegs};
+
+    List<GameObject> armsList;
+    List<GameObject> torsoList;
+    List<GameObject> legsList;
+
+    string objectTag;
 
     /*
 	 * 0 -  just the head
@@ -24,15 +31,22 @@ public class MergeAttachDetach : MonoBehaviour
 
 
     private Sprite currentBodyState; //stores the current state of the body, gets from the array
-    private Animator myAnimator;
+    private Animator myAnimator; //Animator for the different states
     private GameObject[] nearbyLimbsofType;
     public bool hasTorso, hasArm, hasSecondArm, hasLeg, hasSecondLeg;
     private Player player;
     private float minimumDistance = 3.5f;
     private Vector3 pos;
+    bool armt;
+    bool legt;
+    bool torsot;
     // Use this for initialization
     void Start()
     {
+        objectTag = "";
+        armsList = new List<GameObject>();
+        legsList = new List<GameObject>();
+        torsoList = new List<GameObject>();
         myAnimator = GetComponent<Animator>();
         player = GetComponent<Player>();
         bodyStates = new Sprite[10];
@@ -45,15 +59,18 @@ public class MergeAttachDetach : MonoBehaviour
 
     void Update()
     {
+
+        multipleLimbs();
         if (Input.GetKeyDown(KeyCode.X))
         {
-            //Debug.Log("X Pressed");
+            Debug.Log("X Pressed");
             whichLimb();
         }
         else
         {
             detach();
         }
+        Debug.Log(objectTag);
     }
 
     /*
@@ -64,18 +81,18 @@ public class MergeAttachDetach : MonoBehaviour
 	 * 
 	 * */
 
-                    /*
-                * 0 -  just the head
-                * 1 - head and torso
-                * 2 - head torso and one arm
-                * 3 - head torso and both arms
-                * 4 - head torso, both arms and one leg
-                * 5 - full body
-                * 6 - head, torso and one leg
-                * 7 - head, torso and both legs
-                * 8 - head, torso, leg and one arm
-                * 9 - head, torso, arm and two legs
-                */
+    /*
+* 0 -  just the head
+* 1 - head and torso
+* 2 - head torso and one arm
+* 3 - head torso and both arms
+* 4 - head torso, both arms and one leg
+* 5 - full body
+* 6 - head, torso and one leg
+* 7 - head, torso and both legs
+* 8 - head, torso, leg and one arm
+* 9 - head, torso, arm and two legs
+*/
     private void assignState() //assigns the state of the sprite
     {
         if (hasTorso && hasLeg && hasSecondLeg && hasArm && hasSecondArm)
@@ -139,7 +156,7 @@ public class MergeAttachDetach : MonoBehaviour
         }
         else if (!hasTorso)
             myAnimator.SetInteger("state", 0);
-            currentBodyState = bodyStates[0];
+        currentBodyState = bodyStates[0];
     }
 
     /*
@@ -152,15 +169,15 @@ public class MergeAttachDetach : MonoBehaviour
     {
         if (nearbyLimbOfType("arm") && canAttach(arm))
         {
-            attachLimb(arm);
+            attachLimb(armsList);
         }
         else if (nearbyLimbOfType("leg") && canAttach(leg))
         {
-            attachLimb(leg);
+            attachLimb(legsList);
         }
         else if (nearbyLimbOfType("torso") && canAttach(torso))
         {
-            attachLimb(torso);
+            attachLimb(torsoList);
         }
 
     }
@@ -172,15 +189,15 @@ public class MergeAttachDetach : MonoBehaviour
 	 * */
     private bool canAttach(GameObject limb)
     {
-        if ((limb.tag == "arm") && (!hasSecondArm) && (hasTorso))
+        if ((!hasSecondArm) && (hasTorso))
         {
             return true;
         }
-        else if (limb.tag == "leg" && !hasSecondLeg && hasTorso)
+        else if (!hasSecondLeg && hasTorso)
         {
             return true;
         }
-        else if (limb.tag == "torso" && !hasTorso)
+        else if (!hasTorso)
         {
             return true;
         }
@@ -196,32 +213,93 @@ public class MergeAttachDetach : MonoBehaviour
 	 * */
     bool nearbyLimbOfType(string tag)
     {
-        nearbyLimbsofType = GameObject.FindGameObjectsWithTag(tag);
+        List<GameObject> whichList = new List<GameObject>();
 
-        for (int i = 0; i < nearbyLimbsofType.Length; ++i)
+
+        if (tag == "torso")
         {
-            if (Vector3.Distance(transform.position, nearbyLimbsofType[i].transform.position) <= minimumDistance)
+            whichList = torsoList;
+
+        }
+        else if (tag == "arm")
+        {
+
+            whichList = armsList;
+
+        }
+        else if (tag == "leg")
+        {
+
+            whichList = legsList;
+
+        }
+        for (int i = 0; i < whichList.Count; ++i)
+        {
+
+            if (Vector3.Distance(transform.position, whichList[i].transform.position) <= minimumDistance)
             {
-                if (tag == "arm")
+                if (whichList[i].tag == "torso" && !hasTorso)
                 {
-                    arm = nearbyLimbsofType[i];
+                    torso = whichList[i].gameObject;
+                    objectTag = "torso";
                     return true;
                 }
-                else if (tag == "leg")
+                else if (whichList[i].tag == "arm" && !hasArm && !hasSecondArm && hasTorso)
                 {
-                    leg = nearbyLimbsofType[i];
+                    arm = whichList[i].gameObject;
+                    objectTag = "arm";
                     return true;
                 }
-                else if (tag == "torso")
+                else if (whichList[i].tag == "arm" && hasArm && !hasSecondArm && hasTorso)
                 {
-                    torso = nearbyLimbsofType[i];
-
+                    twoArms = whichList[i].gameObject;
+                    objectTag = "arm";
                     return true;
                 }
-
+                else if (whichList[i].tag == "leg" && !hasLeg && !hasSecondLeg && hasTorso)
+                {
+                    leg = whichList[i].gameObject;
+                    objectTag = "leg";
+                    return true;
+                }
+                else if (whichList[i].tag == "leg" && hasLeg && !hasSecondLeg && hasTorso)
+                {
+                    twoLegs = whichList[i].gameObject;
+                    objectTag = "leg";
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    /**
+	 * 
+	 * Multiple Game Objects
+	 * 
+	 * 
+	 * */
+
+    void multipleLimbs()
+    {
+        Transform[] hinges = GameObject.FindObjectsOfType(typeof(Transform)) as Transform[];
+        //foreach(object go in allObjects)
+        foreach (Transform go in hinges)
+        {
+            //Destroy (child.gameObject);
+            if (go.tag == "arm")
+            {
+                armsList.Add(go.gameObject);
+            }
+            else if (go.tag == "torso")
+            {
+                torsoList.Add(go.gameObject);
+            }
+            else if (go.tag == "leg")
+            {
+                legsList.Add(go.gameObject);
+            }
+        }
     }
 
     /*
@@ -231,56 +309,51 @@ public class MergeAttachDetach : MonoBehaviour
 	 * Then, it will change the player's state.
 	 * 
 	 * */
-    public void attachLimb(GameObject limb)
+    public void attachLimb(List<GameObject> limb)
     {
 
-        if (limb.tag == "torso")
+        if (!hasTorso && objectTag == "torso")
         {
             hasTorso = true;
             assignState();
-           // Debug.Log("testing in here");
+            Debug.Log("testing in here");
+            //torso.transform.position = arm.transform.position;
             torso.SetActive(false);
 
         }
-        else if (limb.tag == "arm")
+        else if (hasTorso && objectTag == "arm")
         {
 
             if (!hasArm)
             {
                 hasArm = true;
+                arm.SetActive(false);
             }
             else if (hasArm && !hasSecondArm)
             {
                 hasSecondArm = true;
+                twoArms.SetActive(false);
             }
 
             assignState();
-
-            arm.SetActive(false);
-
         }
-        else if (limb.tag == "leg")
+        else if (objectTag == "leg" && hasTorso)
         {
             if (!hasLeg)
             {
                 hasLeg = true;
+                leg.SetActive(false);
             }
             else if (hasLeg && !hasSecondLeg)
             {
                 hasSecondLeg = true;
+                twoLegs.SetActive(false);
             }
 
             assignState();
 
-            leg.SetActive(false);
+
         }
-    }
-
-    public void bodyState()
-    {
-
-
-
     }
 
     /*
@@ -298,6 +371,7 @@ public class MergeAttachDetach : MonoBehaviour
             torso.SetActive(true);
             checkForDifferentLimbs();
             instantiateBodyParts(torso);
+            hasTorso = false;
             assignState();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) && hasArm && !hasSecondArm)
@@ -307,11 +381,11 @@ public class MergeAttachDetach : MonoBehaviour
             hasArm = false;
             assignState();
         }
-        else if (Input.GetKey(KeyCode.Alpha2) && hasSecondArm)
+        else if (Input.GetKey(KeyCode.Alpha2) && hasArm && hasSecondArm)
         {
-            arm.SetActive(true);
+            twoArms.SetActive(true);
+            instantiateBodyParts(twoArms);
             hasSecondArm = false;
-            instantiateBodyParts(arm);
             assignState();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3) && hasLeg && !hasSecondLeg)
@@ -323,9 +397,10 @@ public class MergeAttachDetach : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3) && hasSecondLeg)
         {
-            leg.SetActive(true);
+            twoLegs.SetActive(true);
             hasSecondLeg = false;
             instantiateBodyParts(leg);
+            instantiateBodyParts(twoLegs);
             assignState();
         }
 
@@ -349,7 +424,9 @@ public class MergeAttachDetach : MonoBehaviour
         }
         else if (hasArm && hasSecondArm)
         {
+            twoArms.SetActive(true);
             arm.SetActive(true);
+            instantiateBodyParts(twoArms);
             instantiateBodyParts(arm);
         }
         if (hasLeg && !hasSecondLeg)
@@ -359,7 +436,9 @@ public class MergeAttachDetach : MonoBehaviour
         }
         else if (hasLeg && hasSecondLeg)
         {
+            twoLegs.SetActive(true);
             leg.SetActive(true);
+            instantiateBodyParts(twoLegs);
             instantiateBodyParts(leg);
         }
         hasTorso = false;
@@ -371,8 +450,7 @@ public class MergeAttachDetach : MonoBehaviour
     public void instantiateBodyParts(GameObject limbs)
     {
         pos = player.transform.position;
-        Instantiate(limbs, pos, Quaternion.Euler(0f, 0f, 0f));
-        Destroy(limbs);
+        limbs.transform.position = pos;
     }
 
 }
