@@ -63,14 +63,14 @@ public class MergeAttachDetach : MonoBehaviour
         multipleLimbs();
         if (Input.GetKeyDown(KeyCode.X))
         {
-            Debug.Log("X Pressed");
+          //  Debug.Log("X Pressed");
             whichLimb();
         }
         else
         {
             detach();
         }
-        Debug.Log(objectTag);
+       // Debug.Log(objectTag);
     }
 
     /*
@@ -316,7 +316,7 @@ public class MergeAttachDetach : MonoBehaviour
         {
             hasTorso = true;
             assignState();
-            Debug.Log("testing in here");
+            //Debug.Log("testing in here");
             //torso.transform.position = arm.transform.position;
             torso.SetActive(false);
 
