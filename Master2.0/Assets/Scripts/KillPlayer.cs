@@ -15,16 +15,17 @@ public class KillPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       // Debug.Log("player respwan here");
     }
 
-    void OnTriggerEnter2d(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "Player")
+       if (other.name == "Player")
         {
             Debug.Log("player respwan here");
             mylevelmanager.respawnPlayer();
         }
-        Debug.Log("player respwan here");
+
     }
 
 }
