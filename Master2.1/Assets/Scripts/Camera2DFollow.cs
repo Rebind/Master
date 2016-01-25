@@ -10,11 +10,26 @@ namespace UnityStandardAssets._2D
         public float lookAheadFactor = 3;
         public float lookAheadReturnSpeed = 0.5f;
         public float lookAheadMoveThreshold = 0.1f;
+        //public GameObject tmp; 
 
         private float m_OffsetZ;
         private Vector3 m_LastTargetPosition;
         private Vector3 m_CurrentVelocity;
         private Vector3 m_LookAheadPos;
+
+        //function to disable a script
+        private void disable(String off)
+        {
+            GameObject focus = GameObject.Find(off);
+            focus.GetComponent<Player>().enabled=false;
+        }
+
+        //function to enable a script
+        private void enable(String on)
+        {
+            GameObject focus = GameObject.Find(on);
+            focus.GetComponent<Player>().enabled=true;
+        }
 
         // Use this for initialization
         private void Start()
@@ -22,6 +37,8 @@ namespace UnityStandardAssets._2D
             m_LastTargetPosition = target.position;
             m_OffsetZ = (transform.position - target.position).z;
             transform.parent = null;
+
+            disable("Player2");
         }
 
 
@@ -30,10 +47,19 @@ namespace UnityStandardAssets._2D
         {
             // Keybindings to number pad to switch Main Camera 
             // to certain game objects
-            if (Input.GetKeyUp(KeyCode.Keypad1))
+            if (Input.GetKeyUp(KeyCode.Q))
             {
-                Debug.Log("1 is pressed");
+                Debug.Log("Q is pressed");
+                target = GameObject.Find("Player2").transform;
+                disable("Player");
+                enable("Player2");
+            }
+            if (Input.GetKeyUp(KeyCode.E))
+            {
+                Debug.Log("E is pressed");
                 target = GameObject.Find("Player").transform;
+                disable("Player2");
+                enable("Player");
             }
             if (Input.GetKeyUp(KeyCode.Keypad2))
             {
