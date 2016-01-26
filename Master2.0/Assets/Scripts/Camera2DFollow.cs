@@ -11,6 +11,7 @@ namespace UnityStandardAssets._2D
         public float lookAheadReturnSpeed = 0.5f;
         public float lookAheadMoveThreshold = 0.1f;
 
+       // public GameObject transParticle;
         private float m_OffsetZ;
         private Vector3 m_LastTargetPosition;
         private Vector3 m_CurrentVelocity;
@@ -33,6 +34,7 @@ namespace UnityStandardAssets._2D
             if (Input.GetKeyUp(KeyCode.Keypad1))
             {
                 Debug.Log("1 is pressed");
+              //  Instantiate(transParticle, GameObject.Find("Player").transform.position, GameObject.Find("Player").transform.rotation);
                 target = GameObject.Find("Player").transform;
             }
             if (Input.GetKeyUp(KeyCode.Keypad2))

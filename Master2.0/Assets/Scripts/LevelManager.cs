@@ -6,6 +6,10 @@ public class LevelManager : MonoBehaviour
     public GameObject currentCheckpoint;
     private Controller2D player;
 
+    public GameObject deathParticle;
+    public GameObject respawnParticle;
+
+    public float respawnDelay;
     // Use this for initialization
     void Start()
     {
@@ -15,12 +19,24 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void respawnPlayer()
     {
-        Debug.Log("player respwan here");
+        StartCoroutine("respawnPlayerCo");
+        
+    }
+
+    public IEnumerator respawnPlayerCo()
+    {
+        Instantiate(deathParticle, player.transform.position, player.transform.rotation);
+        player.enabled = false;
+        player.GetComponent<Renderer>().enabled = false;
+        yield return new WaitForSeconds(respawnDelay);
+        player.enabled = true;
+        player.GetComponent<Renderer>().enabled = true;
+        Instantiate(respawnParticle, currentCheckpoint.transform.position, currentCheckpoint.transform.rotation);
         player.transform.position = currentCheckpoint.transform.position;
     }
 }
