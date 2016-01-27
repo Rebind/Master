@@ -70,7 +70,7 @@ public class MergeAttachDetach : MonoBehaviour
         {
             detach();
         }
-        Debug.Log(objectTag);
+        //Debug.Log(objectTag);
     }
 
     /*

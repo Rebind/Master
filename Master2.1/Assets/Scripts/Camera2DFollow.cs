@@ -5,30 +5,43 @@ namespace UnityStandardAssets._2D
 {
     public class Camera2DFollow : MonoBehaviour
     {
+        //variable to hold the distance between objects that can switch
+        //control to
+        [SerializeField]
+        public float distBetween = 10f;
+
+        //variable to keep track of which object the player is controlling
+        public String inControl = "";
         public Transform target;
         public float damping = 1;
         public float lookAheadFactor = 3;
         public float lookAheadReturnSpeed = 0.5f;
         public float lookAheadMoveThreshold = 0.1f;
-        //public GameObject tmp; 
 
         private float m_OffsetZ;
         private Vector3 m_LastTargetPosition;
         private Vector3 m_CurrentVelocity;
         private Vector3 m_LookAheadPos;
 
-        //function to disable a script
-        private void disable(String off)
+        //function to toogle script on or off, 0 == off, 1 == on
+        private void toogleScript(String targetobj, int OnOff)
         {
-            GameObject focus = GameObject.Find(off);
-            focus.GetComponent<Player>().enabled=false;
+            GameObject focus = GameObject.Find(targetobj);
+            if (OnOff == 1) 
+            {
+                focus.GetComponent<Player>().enabled=true;
+            } else
+            {
+                focus.GetComponent<Player>().enabled=false;
+            }
         }
 
-        //function to enable a script
-        private void enable(String on)
-        {
-            GameObject focus = GameObject.Find(on);
-            focus.GetComponent<Player>().enabled=true;
+        //function to calculate distance between objects
+        private float calcDistance(String tmp1, String tmp2){
+            Transform tr1 = GameObject.Find(tmp1).transform;
+            Transform tr2 = GameObject.Find(tmp2).transform;
+            float distance = Vector3.Distance(tr1.position, tr2.position);
+            return distance; 
         }
 
         // Use this for initialization
@@ -38,53 +51,78 @@ namespace UnityStandardAssets._2D
             m_OffsetZ = (transform.position - target.position).z;
             transform.parent = null;
 
-            disable("Player2");
+            inControl = "head";
+            toogleScript("Arm (1)", 0);
+            toogleScript("Torso", 0);
+            toogleScript("Arm", 0);
+            toogleScript("Leg", 0);
+            toogleScript("Leg (1)", 0);
         }
-
 
         // Update is called once per frame
         private void Update()
         {
             // Keybindings to number pad to switch Main Camera 
             // to certain game objects
-            if (Input.GetKeyUp(KeyCode.Q))
+            if (Input.GetKeyUp(KeyCode.Q) && inControl != "head")
             {
-                Debug.Log("Q is pressed");
-                target = GameObject.Find("Player2").transform;
-                disable("Player");
-                enable("Player2");
+                if(calcDistance("Player", inControl) <= distBetween){
+                    target = GameObject.Find("Player").transform;
+                    toogleScript(inControl, 0);
+                    toogleScript("Player", 1);
+                    inControl = "head";
+                    Debug.Log(inControl);
+                }
             }
             if (Input.GetKeyUp(KeyCode.E))
             {
-                Debug.Log("E is pressed");
-                target = GameObject.Find("Player").transform;
-                disable("Player2");
-                enable("Player");
+                if(calcDistance("Player", "Arm (1)") <= distBetween){
+                    target = GameObject.Find("Arm (1)").transform;
+                    toogleScript("Player", 0);
+                    toogleScript("Arm (1)", 1);
+                    inControl = "Arm (1)";
+                    Debug.Log(inControl);
+                }
             }
-            if (Input.GetKeyUp(KeyCode.Keypad2))
+            if (Input.GetKeyUp(KeyCode.R))
             {
-                Debug.Log("2 is pressed");
-                target = GameObject.Find("Arm").transform;
+                if(calcDistance("Player", "Arm") <= distBetween){
+                    target = GameObject.Find("Arm").transform;
+                    toogleScript("Player", 0);
+                    toogleScript("Arm", 1);
+                    inControl = "Arm";
+                    Debug.Log(inControl);
+                }
             }
-            if (Input.GetKeyUp(KeyCode.Keypad3))
+            if (Input.GetKeyUp(KeyCode.T))
             {
-                Debug.Log("3 is pressed");
-                target = GameObject.Find("Arm (1)").transform;
+                if(calcDistance("Player", "Torso") <= distBetween){
+                    target = GameObject.Find("Torso").transform;
+                    toogleScript("Player", 0);
+                    toogleScript("Torso", 1);
+                    inControl = "Torso";
+                    Debug.Log(inControl);
+                }
             }
-            if (Input.GetKeyUp(KeyCode.Keypad4))
+            if (Input.GetKeyUp(KeyCode.Y))
             {
-                Debug.Log("4 is pressed");
-                target = GameObject.Find("Torso").transform;
+                if(calcDistance("Player", "Leg (1)") <= distBetween){
+                    target = GameObject.Find("Leg (1)").transform;
+                    toogleScript("Player", 0);
+                    toogleScript("Leg (1)", 1);
+                    inControl = "Leg (1)";
+                    Debug.Log(inControl);
+                }
             }
-            if (Input.GetKeyUp(KeyCode.Keypad5))
+            if (Input.GetKeyUp(KeyCode.U))
             {
-                Debug.Log("5 is pressed");
-                target = GameObject.Find("Leg").transform;
-            }
-            if (Input.GetKeyUp(KeyCode.Keypad6))
-            {
-                Debug.Log("6 is pressed");
-                target = GameObject.Find("Leg (1)").transform;
+                if(calcDistance("Player", "Leg") <= distBetween){
+                    target = GameObject.Find("Leg").transform;
+                    toogleScript("Player", 0);
+                    toogleScript("Leg", 1);
+                    inControl = "Leg";
+                    Debug.Log(inControl);
+                }
             }
             // only update lookahead pos if accelerating or changed direction
             float xMoveDelta = (target.position - m_LastTargetPosition).x;
