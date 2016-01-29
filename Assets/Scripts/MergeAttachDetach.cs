@@ -34,9 +34,12 @@ public class MergeAttachDetach : MonoBehaviour
 	private Animator myAnimator; //Animator for the different states
 	private GameObject[] nearbyLimbsofType;
 	public bool hasTorso, hasArm, hasSecondArm, hasLeg, hasSecondLeg;
+	public bool hasBoot, hasTorch, hasShovel, hasPickaxe;
 	private Player player;
 	private float minimumDistance = 2.5f;
 	private Vector3 pos;
+
+
 	bool armt;
 	bool legt;
 	bool torsot;
@@ -70,6 +73,8 @@ public class MergeAttachDetach : MonoBehaviour
 		{
 			detach();
 		}
+
+		Debug.Log (hasPickaxe + "hello");
 		//Debug.Log (objectTag);
 	}
 
@@ -346,6 +351,7 @@ public class MergeAttachDetach : MonoBehaviour
 
 
 		}
+		checkForWeapon ();
 	}
 
 	/*
@@ -445,4 +451,18 @@ public class MergeAttachDetach : MonoBehaviour
 		limbs.transform.position = pos;
 	}
 
+	private void checkForWeapon(){
+		if (arm.name == "pickaxe" || twoArms.name == "pickaxe") {
+			hasPickaxe = true;
+		}
+		if (arm.name == "torch" || twoArms.name == "torch") {
+			hasTorch = true;
+		}
+		if (arm.name == "shovel" || twoArms.name == "shovel") {
+			hasShovel = true;
+		}
+		if (leg.name == "boot" || twoLegs.name == "boot") {
+			hasBoot = true;
+		}
+	}
 }
