@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour
         player.enabled = false;
         player.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(respawnDelay);
-		SceneManager.LoadScene ("ninja");
+		SceneManager.LoadScene ("defaultTestScene");
       //  Application.LoadLevel(Application.loadedLevel);
         yield return new WaitForSeconds(respawnDelay);
         player.enabled = true;

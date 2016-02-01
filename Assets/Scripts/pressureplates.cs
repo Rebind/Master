@@ -48,7 +48,7 @@ public class pressureplates : MonoBehaviour {
 		// if players are on top of the pressure plates
 		if (!isUnderneath)
 		{
-			Debug.Log("HOORAY!");
+			//Debug.Log("HOORAY!");
 			//Destroy(this.gameObject);
 		}
 		else
