@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private Controller2D player;
+    private GameObject player;
 
     public GameObject deathParticle;
    
@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        player = FindObjectOfType<Controller2D>();
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -31,13 +31,13 @@ public class LevelManager : MonoBehaviour
     public IEnumerator respawnPlayerCo()
     {
         Instantiate(deathParticle, player.transform.position, player.transform.rotation);
-        player.enabled = false;
+        player.SetActive(false);
         player.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(respawnDelay);
-		SceneManager.LoadScene ("ninja");
-      //  Application.LoadLevel(Application.loadedLevel);
+		//SceneManager.LoadScene ("ninja");
+       Application.LoadLevel(Application.loadedLevel);
         yield return new WaitForSeconds(respawnDelay);
-        player.enabled = true;
+        player.SetActive(true);
         player.GetComponent<Renderer>().enabled = true;
         
         //Instantiate(respawnParticle, currentCheckpoint.transform.position, currentCheckpoint.transform.rotation);
