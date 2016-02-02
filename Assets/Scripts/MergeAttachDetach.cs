@@ -67,10 +67,10 @@ public class MergeAttachDetach : MonoBehaviour
 
 		multipleLimbs ();
         addWeapon();
-        Debug.Log(arm);
+        //Debug.Log(arm);
 		if (Input.GetKeyDown(KeyCode.X))
 		{
-			Debug.Log("X Pressed");
+			//Debug.Log("X Pressed");
 			whichLimb();
 		}
 		else
@@ -164,15 +164,21 @@ public class MergeAttachDetach : MonoBehaviour
 	 * */
 	private void whichLimb()
 	{
-		if (nearbyLimbOfType("arm") && canAttach(arm))
+		if (nearbyLimbOfType("arm") )//&& canAttach(arm))
 		{
+			
+			attachLimb(armsList);	
+		}
+		else if  ((nearbyLimbOfType("pickaxe")))
+		{
+			Debug.Log("In here for testing");
 			attachLimb(armsList);
 		}
-		else if (nearbyLimbOfType("leg") && canAttach(leg))
+		else if (nearbyLimbOfType("leg") )//&& canAttach(leg))
 		{
 			attachLimb(legsList);
 		}
-		else if (nearbyLimbOfType("torso") && canAttach(torso))
+		else if (nearbyLimbOfType("torso") )//&& canAttach(torso))
 		{
 			attachLimb(torsoList);
 		}
@@ -183,7 +189,7 @@ public class MergeAttachDetach : MonoBehaviour
 	 * 
 	 * This is to test if players have necessary limbs to attach itself
 	 * 
-	 * */
+	 * 
 	private bool canAttach(GameObject limb)
 	{
 		if ((!hasSecondArm) && (hasTorso))
@@ -200,7 +206,7 @@ public class MergeAttachDetach : MonoBehaviour
 		}
 		else
 			return false;
-	}
+	}*/
 
 	/*
 	 * 
@@ -236,14 +242,15 @@ public class MergeAttachDetach : MonoBehaviour
 					objectTag = "torso";
 					return true;
 				}
-				else if (whichList[i].tag == "arm" && !hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true))
+				else if ((whichList[i].tag == "arm" ||whichList[i].tag == "pickaxe") && !hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true))
 				{
-			
+					Debug.Log("testin in here is true");
 					arm = whichList[i].gameObject;
 					objectTag = "arm";
 					return true;
 				}
-				else if(whichList[i].tag == "arm" && hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true)){
+				
+				else if((whichList[i].tag == "arm" || whichList[i].tag == "pickaxe") && hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true)){
 					twoArms = whichList[i].gameObject;
                     //if(twoArms.tag == "pickaxe")
 					objectTag = "arm";
@@ -282,6 +289,10 @@ public class MergeAttachDetach : MonoBehaviour
 			if(go.tag == "arm"){
 				armsList.Add(go.gameObject);
 			}
+			else if(go.tag == "pickaxe")
+			{
+				armsList.Add(go.gameObject);
+			}
 			else if(go.tag == "torso"){
 				torsoList.Add (go.gameObject);
 			}
@@ -294,12 +305,12 @@ public class MergeAttachDetach : MonoBehaviour
 
     private void addWeapon()
     {
-        GameObject[] armsWithAxe = GameObject.FindGameObjectsWithTag("pickaxe");
-        foreach(GameObject foundOne in armsWithAxe)
-        {
+        //GameObject[] armsWithAxe = GameObject.FindGameObjectsWithTag("pickaxe");
+        //foreach(GameObject foundOne in armsWithAxe)
+        //{
             //GameObject objMain = foundOne.transform.parent.gameObject;
-            armsList.Add(foundOne);
-        }
+          //  armsList.Add(foundOne);
+        //}
 
     }
 
@@ -375,14 +386,14 @@ public class MergeAttachDetach : MonoBehaviour
 			checkForDifferentLimbs();
 			instantiateBodyParts(torso);
 			hasTorso = false;
-			detachWeaponLimbs ();
+			//detachWeaponLimbs ();
 			assignState();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2) && hasArm && !hasSecondArm)
 		{
 			arm.SetActive(true);
 			instantiateBodyParts(arm);
-			detachWeaponLimbs ();
+			//detachWeaponLimbs ();
 			hasArm = false;
 			assignState();
 		}
@@ -390,7 +401,7 @@ public class MergeAttachDetach : MonoBehaviour
 		{
 			twoArms.SetActive(true);
 			instantiateBodyParts(twoArms);
-			detachWeaponLimbs ();
+			//detachWeaponLimbs ();
 			hasSecondArm = false;
 			assignState();
 		}
@@ -399,7 +410,7 @@ public class MergeAttachDetach : MonoBehaviour
 			leg.SetActive(true);
 			hasLeg = false;
 			instantiateBodyParts(leg);
-			detachWeaponLimbs ();
+			//detachWeaponLimbs ();
 			assignState();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasSecondLeg)
@@ -407,10 +418,11 @@ public class MergeAttachDetach : MonoBehaviour
 			twoLegs.SetActive(true);
 			hasSecondLeg = false;
 			instantiateBodyParts(leg);
-			detachWeaponLimbs ();
+			//detachWeaponLimbs ();
 			instantiateBodyParts(twoLegs);
 			assignState();
 		}
+		detachWeaponLimbs();
 
 	}
 
