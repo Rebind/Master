@@ -55,11 +55,13 @@ public class MergeAttachDetach : MonoBehaviour
 		myAnimator = GetComponent<Animator>();
 		player = GetComponent<Player>();
 		bodyStates = new Sprite[10];
-		//hasTorso = hasArm = hasLeg = hasSecondLeg = true; //for testing purposes start with all body parts except second hand
-		assignState();
 		torso = GameObject.Find("Torso");
 		arm = GameObject.Find("Arm");
 		leg = GameObject.Find("leg");
+		twoArms = GameObject.Find("Arm");
+		twoLegs = GameObject.Find("leg");
+		assignState();
+		
 	}
 
 	void Update()
@@ -252,7 +254,6 @@ public class MergeAttachDetach : MonoBehaviour
 				
 				else if((whichList[i].tag == "arm" || whichList[i].tag == "pickaxe") && hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true)){
 					twoArms = whichList[i].gameObject;
-                    //if(twoArms.tag == "pickaxe")
 					objectTag = "arm";
 
 					return true;
@@ -388,6 +389,7 @@ public class MergeAttachDetach : MonoBehaviour
 			hasTorso = false;
 			//detachWeaponLimbs ();
 			assignState();
+			detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2) && hasArm && !hasSecondArm)
 		{
@@ -396,6 +398,7 @@ public class MergeAttachDetach : MonoBehaviour
 			//detachWeaponLimbs ();
 			hasArm = false;
 			assignState();
+			detachWeaponLimbs();
 		}
 		else if (Input.GetKey(KeyCode.Alpha2) && hasArm && hasSecondArm)
 		{
@@ -404,6 +407,7 @@ public class MergeAttachDetach : MonoBehaviour
 			//detachWeaponLimbs ();
 			hasSecondArm = false;
 			assignState();
+			detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasLeg && !hasSecondLeg)
 		{
@@ -412,6 +416,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(leg);
 			//detachWeaponLimbs ();
 			assignState();
+			detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasSecondLeg)
 		{
@@ -421,8 +426,9 @@ public class MergeAttachDetach : MonoBehaviour
 			//detachWeaponLimbs ();
 			instantiateBodyParts(twoLegs);
 			assignState();
+			detachWeaponLimbs();
 		}
-		detachWeaponLimbs();
+		//detachWeaponLimbs();
 
 	}
 
@@ -484,9 +490,7 @@ public class MergeAttachDetach : MonoBehaviour
 		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
 			hasShovel = true;
 		}
-		if (leg.tag == "boot" || twoLegs.tag == "boot") {
-			hasBoot = true;
-		}
+		
 	}
 
 	//if players detach the limbs with weapons, set it to false.
@@ -499,9 +503,6 @@ public class MergeAttachDetach : MonoBehaviour
 		}
 		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
 			hasShovel = false;
-		}
-		if (leg.tag == "boot" || twoLegs.tag == "boot") {
-			hasBoot = false;
 		}
 	}
 
