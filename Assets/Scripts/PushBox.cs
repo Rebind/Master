@@ -21,7 +21,6 @@ public class PushBox : MonoBehaviour
     {
         //Debug.Log(gameObject.transform.position.x);
 		pushController();
-        
     }
 
 	private void pushController(){
@@ -59,7 +58,13 @@ public class PushBox : MonoBehaviour
 		}
 	}
 
-
+	void OnCollisionEnter2D (Collision2D col){
+			if (col.gameObject.tag == "wall") {
+			//print ("on wall");
+				//gameObject.layer = 8;
+				Destroy(GetComponent<Rigidbody2D>());
+			}
+	}
 
 }
 
