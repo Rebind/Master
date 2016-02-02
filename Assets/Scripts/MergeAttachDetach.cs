@@ -108,51 +108,51 @@ public class MergeAttachDetach : MonoBehaviour
 			currentBodyState = bodyStates[5];
 		}
 		else if (hasTorso && hasLeg && !hasSecondLeg && hasArm && !hasSecondArm){
-				myAnimator.SetInteger("state", 8);
-				currentBodyState = bodyStates[8];
+			myAnimator.SetInteger("state", 8);
+			currentBodyState = bodyStates[8];
 		}
 		else if (hasTorso && hasLeg && hasSecondLeg && !hasArm && !hasSecondArm)
 		{
-					myAnimator.SetInteger("state", 7);
-					currentBodyState = bodyStates[7];
+			myAnimator.SetInteger("state", 7);
+			currentBodyState = bodyStates[7];
 		}
 		else if (hasTorso && hasLeg && !hasSecondLeg && !hasArm && !hasSecondArm)
 		{
-						myAnimator.SetInteger("state", 6);
-						currentBodyState = bodyStates[6];
+			myAnimator.SetInteger("state", 6);
+			currentBodyState = bodyStates[6];
 		}
 		else if (hasTorso && hasLeg && !hasSecondLeg && hasArm && hasSecondArm)
 		{
-							myAnimator.SetInteger("state", 4);
-							currentBodyState = bodyStates[4];
+			myAnimator.SetInteger("state", 4);
+			currentBodyState = bodyStates[4];
 		}
 		else if (hasTorso && !hasLeg && !hasSecondLeg && hasArm && !hasSecondArm)
 		{
-								myAnimator.SetInteger("state", 2);
-								currentBodyState = bodyStates[2];
+			myAnimator.SetInteger("state", 2);
+			currentBodyState = bodyStates[2];
 		}
 		else if (hasTorso && !hasLeg && !hasSecondLeg && hasArm && hasSecondArm)
 		{
-									myAnimator.SetInteger("state", 3);
-									currentBodyState = bodyStates[3];
+			myAnimator.SetInteger("state", 3);
+			currentBodyState = bodyStates[3];
 		}
 		else if (!hasTorso && !hasLeg && !hasSecondLeg && !hasArm && !hasSecondArm)
 		{
-										myAnimator.SetInteger("state", 0);
-										currentBodyState = bodyStates[0];
+			myAnimator.SetInteger("state", 0);
+			currentBodyState = bodyStates[0];
 		}
 		else if (hasTorso && !hasLeg && !hasSecondLeg && !hasArm && !hasSecondArm)
 		{
-											myAnimator.SetInteger("state", 1);
-											currentBodyState = bodyStates[1];
+			myAnimator.SetInteger("state", 1);
+			currentBodyState = bodyStates[1];
 		}
 		else if (hasTorso && hasLeg && hasSecondLeg && hasArm && !hasSecondArm)
 		{
-												myAnimator.SetInteger("state", 9);
-												currentBodyState = bodyStates[9];
+			myAnimator.SetInteger("state", 9);
+			currentBodyState = bodyStates[9];
 		}
 		else if (!hasTorso)
-												myAnimator.SetInteger("state", 0);
+			myAnimator.SetInteger("state", 0);
 		currentBodyState = bodyStates[0];
 	}
 
