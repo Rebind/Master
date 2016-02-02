@@ -4,7 +4,7 @@ using System.Collections;
 namespace UnityStandardAssets._2D{
 	public class SwitchControl : MonoBehaviour {
 		//Instance of Camera2DFollow script
-		public Camera2DFollow CameraScript;
+		public CameraFollow CameraScript;
 		//Instance of certain game objects
 		public GameObject 	cameraObject, 
 							playerObject, 
@@ -75,7 +75,7 @@ namespace UnityStandardAssets._2D{
 		void Start () {
 			//initializing instances of game objects
 			cameraObject = GameObject.Find("Main Camera");
-			CameraScript = cameraObject.GetComponent<Camera2DFollow>();
+			CameraScript = cameraObject.GetComponent<CameraFollow>();
 
 			playerObject	= GameObject.Find("Player");
 			armObject 		= GameObject.Find("Arm");
