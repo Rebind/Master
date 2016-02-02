@@ -66,19 +66,18 @@ public class MergeAttachDetach : MonoBehaviour
 	{
 
 		multipleLimbs ();
+        addWeapon();
+        Debug.Log(arm);
 		if (Input.GetKeyDown(KeyCode.X))
 		{
 			Debug.Log("X Pressed");
 			whichLimb();
-			useWeapon ();
 		}
 		else
 		{
 			detach();
 		}
-
-		//Debug.Log (hasPickaxe + "hello");
-		//Debug.Log (objectTag);
+        
 	}
 
 	/*
@@ -189,7 +188,6 @@ public class MergeAttachDetach : MonoBehaviour
 	{
 		if ((!hasSecondArm) && (hasTorso))
 		{
-			Debug.Log ("can attach true");
 			return true;
 		}
 		else if ( !hasSecondLeg && hasTorso)
@@ -218,7 +216,7 @@ public class MergeAttachDetach : MonoBehaviour
 		if (tag == "torso") {
 			whichList = torsoList;
 
-		} else if (tag == "arm") {
+		} else if (tag == "arm" || tag == "pickaxe") {
 
 			whichList = armsList;
 
@@ -240,13 +238,14 @@ public class MergeAttachDetach : MonoBehaviour
 				}
 				else if (whichList[i].tag == "arm" && !hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true))
 				{
-					//whichList[i].gameObject.SetActive(false);
+			
 					arm = whichList[i].gameObject;
 					objectTag = "arm";
 					return true;
 				}
 				else if(whichList[i].tag == "arm" && hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true)){
 					twoArms = whichList[i].gameObject;
+                    //if(twoArms.tag == "pickaxe")
 					objectTag = "arm";
 
 					return true;
@@ -267,7 +266,7 @@ public class MergeAttachDetach : MonoBehaviour
 		return false;
 	}
 
-	/**
+	/*
 	 * 
 	 * Multiple Game Objects
 	 * 
@@ -276,6 +275,7 @@ public class MergeAttachDetach : MonoBehaviour
 
 	void multipleLimbs(){
 		Transform[] hinges = GameObject.FindObjectsOfType(typeof(Transform)) as Transform[];
+        //GameObject[] armsWithAxe = GameObject.FindGameObjectsWithTag("pickaxe");
 		//foreach(object go in allObjects)
 		foreach (Transform go in hinges) {
 			//Destroy (child.gameObject);
@@ -289,7 +289,19 @@ public class MergeAttachDetach : MonoBehaviour
 				legsList.Add (go.gameObject);
 			}
 		}
+
 	}
+
+    private void addWeapon()
+    {
+        GameObject[] armsWithAxe = GameObject.FindGameObjectsWithTag("pickaxe");
+        foreach(GameObject foundOne in armsWithAxe)
+        {
+            //GameObject objMain = foundOne.transform.parent.gameObject;
+            armsList.Add(foundOne);
+        }
+
+    }
 
 	/*
 	 * 
@@ -451,49 +463,35 @@ public class MergeAttachDetach : MonoBehaviour
 
 	//Check if players have a weapon in their hands
 	private void checkForWeapon(){
-		if (arm.name == "pickaxe" || twoArms.name == "pickaxe") {
+		if (arm.tag == "pickaxe" || twoArms.tag == "pickaxe") {
 			hasPickaxe = true;
 		}
-		if (arm.name == "torch" || twoArms.name == "torch") {
+		if (arm.tag == "torch" || twoArms.tag == "torch") {
 			hasTorch = true;
 		}
-		if (arm.name == "shovel" || twoArms.name == "shovel") {
+		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
 			hasShovel = true;
 		}
-		if (leg.name == "boot" || twoLegs.name == "boot") {
+		if (leg.tag == "boot" || twoLegs.tag == "boot") {
 			hasBoot = true;
 		}
 	}
 
 	//if players detach the limbs with weapons, set it to false.
 	private void detachWeaponLimbs(){
-		if (arm.name == "pickaxe" || twoArms.name == "pickaxe") {
+		if (arm.tag == "pickaxe" || twoArms.tag == "pickaxe") {
 			hasPickaxe = false;
 		}
-		if (arm.name == "torch" || twoArms.name == "torch") {
+		if (arm.tag == "torch" || twoArms.tag == "torch") {
 			hasTorch = false;
 		}
-		if (arm.name == "shovel" || twoArms.name == "shovel") {
+		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
 			hasShovel = false;
 		}
-		if (leg.name == "boot" || twoLegs.name == "boot") {
+		if (leg.tag == "boot" || twoLegs.tag == "boot") {
 			hasBoot = false;
 		}
 	}
 
-	//Use the weapon if players have it attached.
-	private void useWeapon(){
-		if (hasPickaxe) {
-			//do certain actions
-		}
-		if (hasTorch) {
-			//do certain actions
-		}
-		if (hasShovel) {
-			//do certain actions
-		}
-		if (hasBoot) {
-			//do certain actions
-		}
-	}
+	
 }
