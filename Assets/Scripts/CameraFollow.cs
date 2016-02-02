@@ -4,6 +4,11 @@ using System.Collections;
 public class CameraFollow : MonoBehaviour {
 
 	public Controller2D target;
+	public Controller2D Player;
+	public Controller2D Arm;
+	public Controller2D Arm2;
+	public Controller2D Leg;
+	public Controller2D Leg2;
 	public float verticalOffset;
 	public float lookAheadDstX;
 	public float lookSmoothTimeX;
@@ -19,6 +24,24 @@ public class CameraFollow : MonoBehaviour {
 	float smoothVelocityY;
 
 	bool lookAheadStopped;
+
+	public void ChangeTarget(string newTarget){
+		//target = new Controller2D();
+
+		switch(newTarget)
+		{
+		case "Player": 	target = Player;
+			break;
+		case "Arm":		target = Arm;
+			break;
+		case "Arm (1)":	target = Arm2;
+			break;
+		case "Leg":		target = Leg;
+			break;
+		case "Leg (1)":	target = Leg2;
+			break;			
+		}
+	}
 
 	void Start() {
 		focusArea = new FocusArea (target.collider.bounds, focusAreaSize);
