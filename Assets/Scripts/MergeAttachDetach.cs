@@ -13,6 +13,9 @@ public class MergeAttachDetach : MonoBehaviour
 	List<GameObject> armsList;
 	List<GameObject> torsoList;
 	List<GameObject> legsList;
+	
+	public AudioClip attachSound;
+	public AudioClip detachSound;
 
 	string objectTag;
 
@@ -68,7 +71,6 @@ public class MergeAttachDetach : MonoBehaviour
 	{
 
 		multipleLimbs ();
-        addWeapon();
         //Debug.Log(arm);
 		if (Input.GetKeyDown(KeyCode.X))
 		{
@@ -173,7 +175,7 @@ public class MergeAttachDetach : MonoBehaviour
 		}
 		else if  ((nearbyLimbOfType("pickaxe")))
 		{
-			Debug.Log("In here for testing");
+			//Debug.Log("In here for testing");
 			attachLimb(armsList);
 		}
 		else if (nearbyLimbOfType("leg") )//&& canAttach(leg))
@@ -244,27 +246,30 @@ public class MergeAttachDetach : MonoBehaviour
 					objectTag = "torso";
 					return true;
 				}
-				else if ((whichList[i].tag == "arm" ||whichList[i].tag == "pickaxe") && !hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true))
+				else if ((whichList[i].tag == "arm" || whichList[i].tag == "pickaxe"|| whichList[i].tag == "shovel" || whichList[i].tag == "torch" ) 
+						&& !hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true))
 				{
-					Debug.Log("testin in here is true");
 					arm = whichList[i].gameObject;
 					objectTag = "arm";
 					return true;
 				}
 				
-				else if((whichList[i].tag == "arm" || whichList[i].tag == "pickaxe") && hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true)){
+				else if((whichList[i].tag == "arm" || whichList[i].tag == "pickaxe" || whichList[i].tag == "shovel" || whichList[i].tag == "torch" )  
+						&& hasArm && !hasSecondArm && hasTorso && (whichList[i].gameObject.activeSelf == true)){
 					twoArms = whichList[i].gameObject;
 					objectTag = "arm";
 
 					return true;
 				}
-				else if (whichList[i].tag == "leg" && !hasLeg && !hasSecondLeg && hasTorso && (whichList[i].gameObject.activeSelf == true))
+				else if ((whichList[i].tag == "leg" || whichList[i].tag == "boot") 
+						&& !hasLeg && !hasSecondLeg && hasTorso && (whichList[i].gameObject.activeSelf == true))
 				{
 					leg = whichList[i].gameObject;
 					objectTag = "leg";
 					return true;
 				}
-				else if(whichList[i].tag == "leg" && hasLeg && !hasSecondLeg && hasTorso && (whichList[i].gameObject.activeSelf == true)){
+				else if((whichList[i].tag == "leg" || whichList[i].tag == "boot") 
+					&& hasLeg && !hasSecondLeg && hasTorso && (whichList[i].gameObject.activeSelf == true)){
 					twoLegs = whichList[i].gameObject;
 					objectTag = "leg";
 					return true;
@@ -294,27 +299,28 @@ public class MergeAttachDetach : MonoBehaviour
 			{
 				armsList.Add(go.gameObject);
 			}
+			else if(go.tag == "torch")
+			{
+				armsList.Add(go.gameObject);
+			}
+			else if(go.tag == "shovel")
+			{
+				armsList.Add(go.gameObject);
+			}
 			else if(go.tag == "torso"){
 				torsoList.Add (go.gameObject);
 			}
 			else if(go.tag == "leg"){
 				legsList.Add (go.gameObject);
 			}
+			else if(go.tag == "boot"){
+				legsList.Add(go.gameObject);
+			}
 		}
 
 	}
 
-    private void addWeapon()
-    {
-        //GameObject[] armsWithAxe = GameObject.FindGameObjectsWithTag("pickaxe");
-        //foreach(GameObject foundOne in armsWithAxe)
-        //{
-            //GameObject objMain = foundOne.transform.parent.gameObject;
-          //  armsList.Add(foundOne);
-        //}
-
-    }
-
+ 
 	/*
 	 * 
 	 * This is attaching the limb.
@@ -338,13 +344,13 @@ public class MergeAttachDetach : MonoBehaviour
 			if (!hasArm)
 			{
 				arm.SetActive (false);
-				Debug.Log (arm + "1");
+				//Debug.Log (arm + "1");
 				hasArm = true;
 
 			}
 			else if (hasArm && !hasSecondArm)
 			{
-				Debug.Log (twoArms + "2" );
+				//Debug.Log (twoArms + "2" );
 				hasSecondArm = true;
 				twoArms.SetActive(false);
 			}
@@ -387,7 +393,6 @@ public class MergeAttachDetach : MonoBehaviour
 			checkForDifferentLimbs();
 			instantiateBodyParts(torso);
 			hasTorso = false;
-			//detachWeaponLimbs ();
 			assignState();
 			detachWeaponLimbs();
 		}
@@ -395,7 +400,6 @@ public class MergeAttachDetach : MonoBehaviour
 		{
 			arm.SetActive(true);
 			instantiateBodyParts(arm);
-			//detachWeaponLimbs ();
 			hasArm = false;
 			assignState();
 			detachWeaponLimbs();
@@ -404,7 +408,6 @@ public class MergeAttachDetach : MonoBehaviour
 		{
 			twoArms.SetActive(true);
 			instantiateBodyParts(twoArms);
-			//detachWeaponLimbs ();
 			hasSecondArm = false;
 			assignState();
 			detachWeaponLimbs();
@@ -414,7 +417,6 @@ public class MergeAttachDetach : MonoBehaviour
 			leg.SetActive(true);
 			hasLeg = false;
 			instantiateBodyParts(leg);
-			//detachWeaponLimbs ();
 			assignState();
 			detachWeaponLimbs();
 		}
@@ -422,14 +424,11 @@ public class MergeAttachDetach : MonoBehaviour
 		{
 			twoLegs.SetActive(true);
 			hasSecondLeg = false;
-			instantiateBodyParts(leg);
-			//detachWeaponLimbs ();
+			//instantiateBodyParts(leg);
 			instantiateBodyParts(twoLegs);
 			assignState();
 			detachWeaponLimbs();
 		}
-		//detachWeaponLimbs();
-
 	}
 
 	/*
@@ -473,6 +472,7 @@ public class MergeAttachDetach : MonoBehaviour
 		hasSecondArm = false;
 		hasSecondLeg = false;
 	}
+	
 	public void instantiateBodyParts(GameObject limbs)
 	{
 		pos = player.transform.position;
@@ -490,10 +490,13 @@ public class MergeAttachDetach : MonoBehaviour
 		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
 			hasShovel = true;
 		}
+		if(leg.tag == "boot" || twoLegs.tag == "boot"){
+			hasBoot = true;
+		}
 		
 	}
 
-	//if players detach the limbs with weapons, set it to false.
+	//Checking if players detach any of the weapons. Set them to false 
 	private void detachWeaponLimbs(){
 		if (arm.tag == "pickaxe" || twoArms.tag == "pickaxe") {
 			hasPickaxe = false;
@@ -504,7 +507,8 @@ public class MergeAttachDetach : MonoBehaviour
 		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
 			hasShovel = false;
 		}
-	}
-
-	
+		if(leg.tag == "boot" || twoLegs.tag == "boot"){
+			hasBoot = true;
+		}
+	}	
 }
