@@ -14,8 +14,10 @@ public class Player : MonoBehaviour
 
     private float moveSpeed;
     private bool facingRight;
+	private bool jumpFacing;
     private float gravity;
 
+	private float oldMoveSpeed;
 
     private float minJumpVelocity;
 	private float maxJumpVelocity;
@@ -34,6 +36,9 @@ public class Player : MonoBehaviour
     private GameObject myGO;
     private Boolean canBump1;
     private Boolean canBump2;
+
+	public bool isJumping;
+
 
 
 
@@ -83,9 +88,13 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && myController.collisions.below && myAnimator.GetInteger("state") != 0)  //if spacebar is pressed, jump
         {
+			isJumping = true;
+			jumpFacing = facingRight;
             velocity.y = maxJumpVelocity;
+
         }
 		if(Input.GetKeyUp(KeyCode.Space)){
+			isJumping = false;
 			if(velocity.y > minJumpVelocity){
 				velocity.y = minJumpVelocity;
 			}
@@ -121,8 +130,11 @@ public class Player : MonoBehaviour
 
     private void handleBuffsDebuffs()
     {
-    
-        if (state == 1 || state == 2 || state == 3)
+		if (isJumping && (jumpFacing != facingRight)) {
+			moveSpeed = 4f;
+
+		}
+        else if (state == 1 || state == 2 || state == 3)
         {
             moveSpeed = 5f;
           //  jumpHeight = 3f;
@@ -148,10 +160,15 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         if (horizontal > 0 && !facingRight || horizontal<0 && facingRight)
          {
-                facingRight = !facingRight;
-                Vector3 theScale = transform.localScale;
-                theScale.x *= -1;
-                transform.localScale = theScale;
+			if (isJumping) {
+				jumpFacing = !facingRight;
+			}
+			if (!isJumping) {
+				facingRight = !facingRight;
+				Vector3 theScale = transform.localScale;
+				theScale.x *= -1;
+				transform.localScale = theScale;
+			}
           }
         }
 
