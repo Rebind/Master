@@ -25,7 +25,6 @@ public class PlatformController : RaycastController {
 
 	public override void Start () {
 		base.Start ();
-		moving = true;
 
 		globalWaypoints = new Vector3[localWaypoints.Length];
 		for (int i =0; i < localWaypoints.Length; i++) {
@@ -34,6 +33,7 @@ public class PlatformController : RaycastController {
 	}
 
 	void Update () {
+		if (moving) {
 
 		UpdateRaycastOrigins ();
 
@@ -42,10 +42,15 @@ public class PlatformController : RaycastController {
 		CalculatePassengerMovement(velocity);
 
 		MovePassengers (true);
-		if (moving) {
+
 			transform.Translate (velocity);
+		
+			MovePassengers (false);
 		}
-		MovePassengers (false);
+	}
+
+	public void toggle(){
+		moving = !moving;
 	}
 
 	float Ease(float x) {
