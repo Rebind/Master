@@ -34,7 +34,6 @@ public class Player : MonoBehaviour
     private GameObject myGO;
     private Boolean canBump1;
     private Boolean canBump2;
-    private Boolean canBump3;
 
 
 
