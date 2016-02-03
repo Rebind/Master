@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     private Animator myAnimator;
     private bool canJump;
     private int state;
+	private Sound sounds;
+	private bool playSound;
 	public LayerMask layer;
 
     void Start()
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
 		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 		minJumpVelocity = Mathf.Sqrt (2 * Mathf.Abs (gravity) * minJumpHeight);
 		print ("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+		sounds = GetComponent<Sound>();
     }
 
     void Update()
@@ -63,7 +66,24 @@ public class Player : MonoBehaviour
         }
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
-
+		Debug.Log("Test input " + Input.GetAxisRaw("Horizontal"));
+		if(Input.GetAxisRaw("Horizontal") == 1){
+			sounds.audioHeadRoll.Play();
+		}
+		else if (Input.GetAxisRaw("Horizontal") == 0){
+			sounds.audioHeadRoll.Stop();
+		}
+		/*else if (Input.GetAxisRaw("Horizontal") == -1){
+			sounds.audioHeadRoll.Play();
+		}*/
+		
+		/*if(Input.GetKeyDown(KeyCode.H)){
+			sounds.audioHeadRoll.Play();
+		}
+		else if(Input.GetKeyUp(KeyCode.H)){
+			sounds.audioHeadRoll.Stop();
+		}*/
+			
         if (Input.GetKeyDown(KeyCode.Space) && myController.collisions.below && myAnimator.GetInteger("state") != 0)  //if spacebar is pressed, jump
         {
             velocity.y = maxJumpVelocity;
@@ -241,6 +261,12 @@ public class Player : MonoBehaviour
 		{
 			myController.collisionMask.value = -1592;
 		}
+	}
+	
+	private void playSoundSteps(){
+		if(playSound) return;
+		sounds.audioHeadRoll.Play();
+		playSound = false;
 	}
 
 }

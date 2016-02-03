@@ -15,7 +15,7 @@ public class MergeAttachDetach : MonoBehaviour
 	List<GameObject> legsList;
 	
 	public AudioClip attachSound;
-	public AudioClip detachSound;
+	
 
 	string objectTag;
 
@@ -41,6 +41,7 @@ public class MergeAttachDetach : MonoBehaviour
 	private Player player;
 	private float minimumDistance = 2.5f;
 	private Vector3 pos;
+	private Sound audioPlay;
 
 
 	bool armt;
@@ -63,6 +64,7 @@ public class MergeAttachDetach : MonoBehaviour
 		leg = GameObject.Find("leg");
 		twoArms = GameObject.Find("Arm");
 		twoLegs = GameObject.Find("leg");
+		audioPlay = player.GetComponent<Sound>();
 		assignState();
 		
 	}
@@ -74,12 +76,13 @@ public class MergeAttachDetach : MonoBehaviour
         //Debug.Log(arm);
 		if (Input.GetKeyDown(KeyCode.X))
 		{
-			 GetComponent<AudioSource>().PlayOneShot(attachSound);
+			 
 			//Debug.Log("X Pressed");
 			whichLimb();
 		}
-		else
+		else if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
 		{
+			audioPlay.audioDetach.Play();
 			detach();
 		}
         
@@ -171,20 +174,22 @@ public class MergeAttachDetach : MonoBehaviour
 	{
 		if (nearbyLimbOfType("arm") )//&& canAttach(arm))
 		{
-			
+			audioPlay.audioAttach.Play();
 			attachLimb(armsList);	
 		}
 		else if  ((nearbyLimbOfType("pickaxe")))
 		{
-			//Debug.Log("In here for testing");
+			audioPlay.audioAttach.Play();
 			attachLimb(armsList);
 		}
 		else if (nearbyLimbOfType("leg") )//&& canAttach(leg))
 		{
+			audioPlay.audioAttach.Play();
 			attachLimb(legsList);
 		}
 		else if (nearbyLimbOfType("torso") )//&& canAttach(torso))
 		{
+			audioPlay.audioAttach.Play();
 			attachLimb(torsoList);
 		}
 
