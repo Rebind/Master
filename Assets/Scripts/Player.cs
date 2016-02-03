@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     private float timeToJumpApex = .4f;
 
-    private float moveSpeed;
+    public float moveSpeed;
     private bool facingRight;
 	private bool jumpFacing;
     private float gravity;
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private float minJumpVelocity;
 	private float maxJumpVelocity;
 
-    private Vector3 velocity;
+    public Vector3 velocity;
     private BoxCollider2D myBoxcollider;
     private Controller2D myController;
     private Animator myAnimator;
