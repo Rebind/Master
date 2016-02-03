@@ -9,19 +9,21 @@ public class PushBox : MonoBehaviour
     private Animator myAnimator;
 	private Vector3 addGap = new Vector3(.3f,0,0);
 	private Vector3 temPosition;
+	public Player playerScript;
 
     void Start()
     {
         Player = GameObject.Find("Player");
         arm = Player.GetComponent<MergeAttachDetach>();
         rgbd = GetComponent<Rigidbody2D>();
+
+		playerScript = Player.GetComponent<Player>();
     }
 
     void Update()
     {
         //Debug.Log(gameObject.transform.position.x);
 		pushController();
-        
     }
 
 	private void pushController(){
@@ -59,7 +61,15 @@ public class PushBox : MonoBehaviour
 		}
 	}
 
-
-
+	void OnCollisionEnter2D (Collision2D col){
+		if (col.gameObject.tag == "wall") {
+			gameObject.layer = 8;
+			//print (playerScript.velocity.x);
+			playerScript.moveSpeed = -20;
+			//playerScript.velocity.x =-20;
+			//print (playerScript.moveSpeed);
+			Destroy(GetComponent<Rigidbody2D>());
+		}
+	}
 }
 

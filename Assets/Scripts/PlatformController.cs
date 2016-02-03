@@ -5,48 +5,88 @@ using System.Collections.Generic;
 public class PlatformController : RaycastController {
 
 	public LayerMask passengerMask;
-	public Vector3 move;
+
+	public Vector3[] localWaypoints;
+	Vector3[] globalWaypoints;
+
+	public float speed;
+	public bool cyclic;
+	public float waitTime;
+	[Range(0,2)]
+	public float easeAmount;
+
+	int fromWaypointIndex;
+	float percentBetweenWaypoints;
+	float nextMoveTime;
+	public bool moving;
 
 	List<PassengerMovement> passengerMovement;
 	Dictionary<Transform,Controller2D> passengerDictionary = new Dictionary<Transform, Controller2D>();
 
-	private Vector3 velocity;
-
-	private float reversalTime;
-	public float period = 1f;
-
-	private GameObject pp; //This is the pressure plate
-	private pressureplates moveP;
-
 	public override void Start () {
 		base.Start ();
-		pp = GameObject.Find("PPPlatform");
-		moveP  = pp.GetComponent<pressureplates>();
+
+		globalWaypoints = new Vector3[localWaypoints.Length];
+		for (int i =0; i < localWaypoints.Length; i++) {
+			globalWaypoints[i] = localWaypoints[i] + transform.position;
+		}
 	}
 
 	void Update () {
+		if (moving) {
 
 		UpdateRaycastOrigins ();
 
-		if (Time.fixedTime > reversalTime) {
-			reversalTime += period;
-			move = -move;
-
-		} 
-
-
-
-		velocity = move * Time.deltaTime;
-		if (moveP.movePlatform && this.name == "TriggerPlatformTest") {
-			transform.Translate (velocity);
-			Debug.Log ("Checking if player on top: " + moveP.movePlatform);
-		}
-		else if(this.name != "TriggerPlatformTest") transform.Translate (velocity);
+		Vector3 velocity = CalculatePlatformMovement();
 
 		CalculatePassengerMovement(velocity);
 
 		MovePassengers (true);
-		MovePassengers (false);
+
+			transform.Translate (velocity);
+		
+			MovePassengers (false);
+		}
+	}
+
+	public void toggle(){
+		moving = !moving;
+	}
+
+	float Ease(float x) {
+		float a = easeAmount + 1;
+		return Mathf.Pow(x,a) / (Mathf.Pow(x,a) + Mathf.Pow(1-x,a));
+	}
+
+	Vector3 CalculatePlatformMovement() {
+
+		if (Time.time < nextMoveTime) {
+			return Vector3.zero;
+		}
+
+		fromWaypointIndex %= globalWaypoints.Length;
+		int toWaypointIndex = (fromWaypointIndex + 1) % globalWaypoints.Length;
+		float distanceBetweenWaypoints = Vector3.Distance (globalWaypoints [fromWaypointIndex], globalWaypoints [toWaypointIndex]);
+		percentBetweenWaypoints += Time.deltaTime * speed/distanceBetweenWaypoints;
+		percentBetweenWaypoints = Mathf.Clamp01 (percentBetweenWaypoints);
+		float easedPercentBetweenWaypoints = Ease (percentBetweenWaypoints);
+
+		Vector3 newPos = Vector3.Lerp (globalWaypoints [fromWaypointIndex], globalWaypoints [toWaypointIndex], easedPercentBetweenWaypoints);
+
+		if (percentBetweenWaypoints >= 1) {
+			percentBetweenWaypoints = 0;
+			fromWaypointIndex ++;
+
+			if (!cyclic) {
+				if (fromWaypointIndex >= globalWaypoints.Length-1) {
+					fromWaypointIndex = 0;
+					System.Array.Reverse(globalWaypoints);
+				}
+			}
+			nextMoveTime = Time.time + waitTime;
+		}
+
+		return newPos - transform.position;
 	}
 
 	void MovePassengers(bool beforeMovePlatform) {
@@ -142,6 +182,19 @@ public class PlatformController : RaycastController {
 			velocity = _velocity;
 			standingOnPlatform = _standingOnPlatform;
 			moveBeforePlatform = _moveBeforePlatform;
+		}
+	}
+
+	void OnDrawGizmos() {
+		if (localWaypoints != null) {
+			Gizmos.color = Color.red;
+			float size = .3f;
+
+			for (int i =0; i < localWaypoints.Length; i ++) {
+				Vector3 globalWaypointPos = (Application.isPlaying)?globalWaypoints[i] : localWaypoints[i] + transform.position;
+				Gizmos.DrawLine(globalWaypointPos - Vector3.up * size, globalWaypointPos + Vector3.up * size);
+				Gizmos.DrawLine(globalWaypointPos - Vector3.left * size, globalWaypointPos + Vector3.left * size);
+			}
 		}
 	}
 
