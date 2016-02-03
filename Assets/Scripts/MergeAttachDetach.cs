@@ -43,16 +43,10 @@ public class MergeAttachDetach : MonoBehaviour
 	private Vector3 pos;
 	private Sound audioPlay;
 
-
-	bool armt;
-	bool legt;
-	bool torsot;
 	// Use this for initialization
 	void Start()
 	{
 		objectTag = "";
-		twoArms = null;
-		twoLegs = null;
 		armsList = new List<GameObject> ();
 		legsList = new List<GameObject> ();
 		torsoList = new List<GameObject> ();

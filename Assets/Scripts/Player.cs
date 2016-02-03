@@ -28,11 +28,13 @@ public class Player : MonoBehaviour
 	private Sound sounds;
 	private bool playSound;
 	public LayerMask layer;
+	private MergeAttachDetach checkLimbs;
 
     void Start()
     {
         moveSpeed = 10f;
         facingRight = true;
+		playSound = false;
         myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
         myAnimator = GetComponent<Animator>();
         myController = GetComponent<Controller2D>();
@@ -43,6 +45,7 @@ public class Player : MonoBehaviour
 		minJumpVelocity = Mathf.Sqrt (2 * Mathf.Abs (gravity) * minJumpHeight);
 		print ("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
 		sounds = GetComponent<Sound>();
+		checkLimbs = GetComponent<MergeAttachDetach>();
     }
 
     void Update()
@@ -67,15 +70,22 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
 		Debug.Log("Test input " + Input.GetAxisRaw("Horizontal"));
-		if(Input.GetAxisRaw("Horizontal") == 1){
-			sounds.audioHeadRoll.Play();
+		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound){
+			playSoundDifferentLimbs();
+			//sounds.audioHeadRoll.Play();
+			playSound = !playSound;
 		}
 		else if (Input.GetAxisRaw("Horizontal") == 0){
-			sounds.audioHeadRoll.Stop();
+			
+			playSound = false;
+			stopSound();
+			//sounds.audioHeadRoll.Stop();
 		}
-		/*else if (Input.GetAxisRaw("Horizontal") == -1){
-			sounds.audioHeadRoll.Play();
-		}*/
+		else if (Input.GetAxisRaw("Horizontal") == -1 && !playSound){
+			playSoundDifferentLimbs();
+			//sounds.audioHeadRoll.Play();
+			playSound = !playSound;
+		}
 		
 		/*if(Input.GetKeyDown(KeyCode.H)){
 			sounds.audioHeadRoll.Play();
@@ -267,6 +277,28 @@ public class Player : MonoBehaviour
 		if(playSound) return;
 		sounds.audioHeadRoll.Play();
 		playSound = false;
+	}
+	
+	private void playSoundDifferentLimbs(){
+		if(!checkLimbs.hasTorso){
+			sounds.audioHeadRoll.Play();
+		}
+		/*else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg || !checkLimbs.hasSecondLeg)){
+			sounds.audioTorso.Play();
+		}*/
+		else if(checkLimbs.hasLeg || checkLimbs.hasSecondLeg){
+			sounds.audioFoot.Play();
+		}
+		
+	}
+	
+	private void stopSound(){
+		if(!checkLimbs.hasTorso){
+			sounds.audioHeadRoll.Stop();
+		}
+		else if(checkLimbs.hasLeg || checkLimbs.hasSecondLeg){
+			sounds.audioFoot.Stop();
+		}
 	}
 
 }
