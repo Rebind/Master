@@ -13,25 +13,25 @@ public class PressurePlateController : MonoBehaviour {
 	public GameObject[] affectedPlatforms;
 
 
-	bool onPlate;
-	bool oneTime;
 
 
 
 	// Use this for initialization
 	public void Start () {
-		oneTime = false;
-		onPlate = false;
 		myCollider = GetComponent<BoxCollider2D>();
 	}
 
 
+	bool playerNearLever(){
+		
+
+	}
 
 	void OnTriggerStay2D(Collider2D other)
 	{
 		if (!oneTime) {
 			if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
-			
+
 				onPlate = true;
 				Debug.Log ("onplate");
 				//Destroy (this.gameObject);
