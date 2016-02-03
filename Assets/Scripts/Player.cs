@@ -48,11 +48,6 @@ public class Player : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         //limbAnimator = GetComponent<Animator>("Arm");
         myController = GetComponent<Controller2D>();
-
-
-		gravity = -(2 * maxJumpHeight) / Mathf.Pow (timeToJumpApex, 2);
-		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
-		minJumpVelocity = Mathf.Sqrt (2 * Mathf.Abs (gravity) * minJumpHeight);
 		print ("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
     }
 
@@ -65,7 +60,7 @@ public class Player : MonoBehaviour
         state = myAnimator.GetInteger("state");
         HandleMovments();
         Flip();
-        HandleInputs();
+        HandleJumps();
         handleBodyCollisions();
         handleBuffsDebuffs();
 		//pushBox ();
@@ -155,9 +150,27 @@ public class Player : MonoBehaviour
           }
         }
 
-    private void HandleInputs()
+    private void HandleJumps()
     {
-
+        if (state == 0)
+        {
+            maxJumpHeight = 1;
+        }
+        else if (state == 1 || state == 2 || state == 3)
+        {
+            maxJumpHeight = 2;
+        }
+        else if (state == 4 || state == 6 || state == 8)
+        {
+            maxJumpHeight = 4;
+        }
+        else if (state == 5 || state == 7 || state == 9)
+        {
+            maxJumpHeight = 7;
+        }
+        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
     }
 
     private void handleBodyCollisions()
