@@ -35,8 +35,6 @@ public class Player : MonoBehaviour
     private Boolean canBump1;
     private Boolean canBump2;
 
-	private bool isJumping;
-
 
 
 
@@ -100,12 +98,14 @@ public class Player : MonoBehaviour
         //Debug.Log("gameobject = " + gameObject.name);
         if (myTarget.name == this.gameObject.name)
         {
-			
+
+            //Debug.Log("lol");
 
             myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
         }
         else
         {
+            //Debug.Log("gg");
             myAnimator.SetFloat("speed", 0);
         }
         //myAnimator.SetFloat("sppeed", Mathf.Abs(Input.GetAxis("Horizontal")));

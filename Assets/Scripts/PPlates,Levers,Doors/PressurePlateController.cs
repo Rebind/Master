@@ -9,8 +9,7 @@ public class PressurePlateController : MonoBehaviour {
 	public bool moveDoor;
 	public bool movePlatform;
 
-	public GameObject[] affectedDoors;
-	public GameObject[] affectedPlatforms;
+	public GameObject[] affectedObjects;
 
 
 	bool onPlate;
@@ -37,20 +36,18 @@ public class PressurePlateController : MonoBehaviour {
 				//Destroy (this.gameObject);
 
 				if (moveDoor) { //toggles the door(s) states
-					foreach (GameObject door in affectedDoors) {
+					foreach (GameObject door in affectedObjects) {
 
 						door.GetComponent<DoorController> ().toggle ();
 					}
 
 				}
 				if (movePlatform) { //toggles the state of the platform(s)
-					foreach (GameObject platform in affectedPlatforms) {
 
-						platform.GetComponent<PlatformController> ().toggle ();
-					}
 
-				} oneTime = true;
-			} 
+				}
+			}
+			oneTime = true;
 		}
 	}
 
@@ -63,16 +60,13 @@ public class PressurePlateController : MonoBehaviour {
 			//Destroy (this.gameObject);
 
 			if (moveDoor) { //toggles the door(s) states
-				foreach (GameObject door in affectedDoors) {
+				foreach (GameObject door in affectedObjects) {
 
 					door.GetComponent<DoorController> ().toggle ();
 				}
 
 			} if (movePlatform) { //toggles the state of the platform(s)
-				foreach (GameObject platform in affectedPlatforms) {
 
-					platform.GetComponent<PlatformController> ().toggle ();
-				}
 
 			}
 		} oneTime = false;
