@@ -39,7 +39,7 @@ public class PlatformController : RaycastController {
 		velocity = move * Time.deltaTime;
 		if (moveP.movePlatform && this.name == "TriggerPlatformTest") {
 			transform.Translate (velocity);
-			Debug.Log ("Checking if player on top: " + moveP.movePlatform);
+			//Debug.Log ("Checking if player on top: " + moveP.movePlatform);
 		}
 		else if(this.name != "TriggerPlatformTest") transform.Translate (velocity);
 

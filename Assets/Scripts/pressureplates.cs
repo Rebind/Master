@@ -17,11 +17,38 @@ public class pressureplates : MonoBehaviour {
 		checking ();
 	}
 
-	void checking(){
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        
+            if (this.name == "TriggerDoor")
+            {
+                moveDoor = true;
+                //Destroy (this.gameObject);
+            }
+            else if (this.name == "PPPlatform")
+            {
+                movePlatform = true;
+            }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (this.name == "TriggerDoor")
+        {
+            moveDoor = false;
+            //Destroy (this.gameObject);
+        }
+        else if (this.name == "PPPlatform")
+        {
+            movePlatform = false;
+        }
+    }
+
+    void checking(){
 		// Find all colliders that overlap
 		BoxCollider2D myCollider = GetComponent<BoxCollider2D>();
 		Collider2D[] otherColliders = Physics2D.OverlapAreaAll(myCollider.bounds.min, myCollider.bounds.max);
-
+        /*
 		// Check for any colliders that are on top
 		bool isUnderneath = false;
 		foreach (var otherCollider in otherColliders)
@@ -57,7 +84,7 @@ public class pressureplates : MonoBehaviour {
 			//have boolean that triggers the whatever pressure plate is doing
 			Debug.Log("On top of box" + movePlatform);
 			Debug.Log (col);
-		}
+		}*/
 
 	}
 }

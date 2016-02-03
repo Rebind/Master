@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
         myController.Move(velocity * Time.deltaTime);
         //Debug.Log("target = "+ myTarget.name);
         //Debug.Log("gameobject = " + gameObject.name);
-        if (myTarget.name == gameObject.name)
+        if (myTarget.name == this.gameObject.name)
         {
 
             //Debug.Log("lol");
