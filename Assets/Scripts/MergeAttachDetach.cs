@@ -74,6 +74,7 @@ public class MergeAttachDetach : MonoBehaviour
         //Debug.Log(arm);
 		if (Input.GetKeyDown(KeyCode.X))
 		{
+			 GetComponent<AudioSource>().PlayOneShot(attachSound);
 			//Debug.Log("X Pressed");
 			whichLimb();
 		}
