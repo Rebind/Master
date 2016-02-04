@@ -38,7 +38,9 @@ public class Player : MonoBehaviour
     private Boolean canBump2;
 
 	public bool isJumping;
-
+	private bool playSound;
+	private MergeAttachDetach checkLimbs;
+	private Sound sounds;
 
 
 
@@ -47,13 +49,17 @@ public class Player : MonoBehaviour
     {
         myGO = GameObject.FindGameObjectWithTag("MainCamera");
         camScript = myGO.GetComponent<CameraFollow>();
+		checkLimbs = GetComponent<MergeAttachDetach>();
+		sounds = GetComponent<Sound>();
         moveSpeed = 10f;
         facingRight = true;
+		playSound = false;
         myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
         myAnimator = GetComponent<Animator>();
         //limbAnimator = GetComponent<Animator>("Arm");
         myController = GetComponent<Controller2D>();
 		print ("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+		
     }
 
    
@@ -63,6 +69,8 @@ public class Player : MonoBehaviour
         myTarget = camScript.target;
 		if(enabled){
         state = myAnimator.GetInteger("state");
+		
+		handleSounds();
         HandleMovments();
         Flip();
         HandleJumps();
@@ -74,13 +82,16 @@ public class Player : MonoBehaviour
 
     private void HandleMovments()
     {
+		//handleSounds();
         if (myController.collisions.above || myController.collisions.below)
         {
             velocity.y = 0;
         }
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
-
+		
+		
+		//sounds.audioTorso.Play();
         if (Input.GetKeyDown(KeyCode.Space) && myController.collisions.below && myAnimator.GetInteger("state") != 0)  //if spacebar is pressed, jump
         {
 			isJumping = true;
@@ -166,6 +177,59 @@ public class Player : MonoBehaviour
 			}
           }
         }
+		
+	private void handleSounds()
+	{
+		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound)
+		{
+			playSoundDifferentLimbs();
+			//playSoundDifferentLimbs();
+			playSound = true;
+		}
+		else if (Input.GetAxisRaw("Horizontal") == 0)
+		{
+			
+			playSound = false;
+			stopSound();
+		}
+		else if (Input.GetAxisRaw("Horizontal") == -1 && !playSound)
+		{
+			playSoundDifferentLimbs();
+			playSound = true;
+		}	
+		
+	}
+	
+	private void playSoundDifferentLimbs()
+	{
+		if(!checkLimbs.hasTorso)
+		{
+			sounds.audioHeadRoll.Play();
+		}
+		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
+			sounds.audioTorso.Play();
+		}
+		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
+		{
+			sounds.audioFoot.Play();
+		}
+		
+	}
+	
+	private void stopSound()
+	{
+		if(!checkLimbs.hasTorso)
+		{
+			sounds.audioHeadRoll.Stop();
+		}
+		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
+			sounds.audioTorso.Stop();
+		}
+		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
+		{
+			sounds.audioFoot.Stop();
+		}
+	}
 
     private void HandleJumps()
     {
