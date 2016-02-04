@@ -65,7 +65,11 @@ public class PushBox : MonoBehaviour
 		if (col.gameObject.tag == "wall") {
 			gameObject.layer = 8;
 			//print (playerScript.velocity.x);
-			playerScript.moveSpeed = -20;
+			if (playerScript.moveSpeed > 0) {
+				playerScript.moveSpeed = -(playerScript.moveSpeed + 7);
+			} else if (playerScript.moveSpeed < 0) {
+				playerScript.moveSpeed = -(playerScript.moveSpeed - 7);
+			}
 			//playerScript.velocity.x =-20;
 			//print (playerScript.moveSpeed);
 			Destroy(GetComponent<Rigidbody2D>());
