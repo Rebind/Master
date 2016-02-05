@@ -23,7 +23,7 @@ public class pickaxeHit : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (pickaxe.hasPickaxe && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance && Input.GetKeyDown(KeyCode.X)) {
+		if (pickaxe.hasPickaxe && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance && (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_XButton"))) {
 			//Debug.Log ("testing in here now");
 			Destroy (this.gameObject);
 		}

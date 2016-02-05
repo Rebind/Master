@@ -68,13 +68,13 @@ public class MergeAttachDetach : MonoBehaviour
 
 		multipleLimbs ();
 		//Debug.Log(arm);
-		if (Input.GetKeyDown(KeyCode.X))
+		if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_LeftButton"))
 		{
 
 			//Debug.Log("X Pressed");
 			whichLimb();
 		}
-		else if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
+		else if(Input.GetButtonDown("Xbox_RightButton") || Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
 		{
 			
 			detach();

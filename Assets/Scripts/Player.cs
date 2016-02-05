@@ -88,14 +88,14 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
 
-        if (Input.GetKeyDown(KeyCode.Space) && myController.collisions.below && myAnimator.GetInteger("state") != 0)  //if spacebar is pressed, jump
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && myController.collisions.below && myAnimator.GetInteger("state") != 0)  //if spacebar is pressed, jump
         {
 			isJumping = true;
 			jumpFacing = facingRight;
             velocity.y = maxJumpVelocity;
 			sounds.audioJump.PlayOneShot(sounds.jump);
         }
-		if(Input.GetKeyUp(KeyCode.Space)){
+		if(Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("Xbox_AButton")){
 			isJumping = false;
 			
 			if(velocity.y > minJumpVelocity){
