@@ -93,16 +93,17 @@ public class Player : MonoBehaviour
 			isJumping = true;
 			jumpFacing = facingRight;
             velocity.y = maxJumpVelocity;
-			sounds.audioJump.Play ();
-
+			sounds.audioJump.PlayOneShot(sounds.jump);
         }
 		if(Input.GetKeyUp(KeyCode.Space)){
 			isJumping = false;
-			sounds.audioJump.Stop ();
+			
 			if(velocity.y > minJumpVelocity){
 				velocity.y = minJumpVelocity;
 			}
 		}
+		
+		
         velocity.x = input.x * moveSpeed;
 
         velocity.y += gravity * Time.deltaTime;
