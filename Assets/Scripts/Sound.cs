@@ -9,6 +9,7 @@ public class Sound : MonoBehaviour {
 	public AudioClip torsoWalk;
 	public AudioClip footsteps;
 	public AudioClip feet;
+	public AudioClip jump;
 
 	public AudioSource audioAttach;
 	public AudioSource audioDetach;
@@ -16,6 +17,7 @@ public class Sound : MonoBehaviour {
 	public AudioSource audioTorso;
 	public AudioSource audioFoot;
 	public AudioSource audioFeet;
+	public AudioSource audioJump;
 
 	public AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol) { 
 		AudioSource newAudio = gameObject.AddComponent<AudioSource>();
@@ -35,5 +37,6 @@ public class Sound : MonoBehaviour {
 		audioFoot = AddAudio(footsteps, true, true, 8.0f);
 		audioFoot.pitch = 0.35f;
 		audioFeet = AddAudio(feet, true, true, 5.0f);
+		audioJump = AddAudio(jump, true, true, 5.0f);
 	} 
 }
