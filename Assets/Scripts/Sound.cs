@@ -32,7 +32,7 @@ public class Sound : MonoBehaviour {
 		audioDetach = AddAudio(detachSound, false, true, 0.2f);
 		audioHeadRoll = AddAudio(headRoll, false, true, 10.0f); 
 		audioTorso = AddAudio(torsoWalk, false, true, 0.2f); 
-		audioFoot = AddAudio(footsteps, true, true, 5.0f);
+		audioFoot = AddAudio(footsteps, true, true, 8.0f);
 		audioFoot.pitch = 0.35f;
 		audioFeet = AddAudio(feet, true, true, 5.0f);
 	} 

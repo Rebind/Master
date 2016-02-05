@@ -393,17 +393,14 @@ public class Player : MonoBehaviour
 		{
 			sounds.audioHeadRoll.Play();
 		}
-		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg || !checkLimbs.hasSecondLeg)){
+		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
 			sounds.audioTorso.Play();
 		}
-		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg && !checkLimbs.hasSecondLeg))
+		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
 		{
 			sounds.audioFoot.Play();
 		}
-		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg && checkLimbs.hasSecondLeg))
-		{
-			sounds.audioFeet.Play();
-		}
+
 
 	}
 
@@ -418,16 +415,13 @@ public class Player : MonoBehaviour
 		{
 			sounds.audioHeadRoll.Stop();
 		}
-		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg || !checkLimbs.hasSecondLeg)){
+		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
 			sounds.audioTorso.Stop();
 		}
-		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg && !checkLimbs.hasSecondLeg))
+		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
 		{
 			sounds.audioFoot.Stop();
 		}
-		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg && checkLimbs.hasSecondLeg))
-		{
-			sounds.audioFeet.Stop();
-		}
+
 	}
 }
