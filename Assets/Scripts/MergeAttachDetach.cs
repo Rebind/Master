@@ -41,7 +41,10 @@ public class MergeAttachDetach : MonoBehaviour
 	private Player player;
 	private float minimumDistance = 2.5f;
 	private Vector3 pos;
-	private Sound audioPlay;
+	private Sound sounds;
+	private bool playSound;
+	private MergeAttachDetach checkLimbs;
+	//private Sound sounds;
 
 	// Use this for initialization
 	void Start()
@@ -58,7 +61,7 @@ public class MergeAttachDetach : MonoBehaviour
 		leg = GameObject.Find("leg");
 		twoArms = GameObject.Find("Arm");
 		twoLegs = GameObject.Find("leg");
-		audioPlay = player.GetComponent<Sound>();
+		sounds = player.GetComponent<Sound>();
 		assignState();
 
 	}
@@ -82,6 +85,7 @@ public class MergeAttachDetach : MonoBehaviour
 
 		if (!hasArm && !hasSecondArm)
 			hasPickaxe = false;
+		handleSounds();
 
 	}
 
@@ -171,49 +175,26 @@ public class MergeAttachDetach : MonoBehaviour
 	{
 		if (nearbyLimbOfType("arm") )//&& canAttach(arm))
 		{
-			audioPlay.audioAttach.Play();
+			sounds.audioAttach.Play();
 			attachLimb(armsList);	
 		}
 		else if  ((nearbyLimbOfType("pickaxe")))
 		{
-			audioPlay.audioAttach.Play();
+			sounds.audioAttach.Play();
 			attachLimb(armsList);
 		}
 		else if (nearbyLimbOfType("leg") )//&& canAttach(leg))
 		{
-			audioPlay.audioAttach.Play();
+			sounds.audioAttach.Play();
 			attachLimb(legsList);
 		}
 		else if (nearbyLimbOfType("torso") )//&& canAttach(torso))
 		{
-			audioPlay.audioAttach.Play();
+			sounds.audioAttach.Play();
 			attachLimb(torsoList);
 		}
 
 	}
-
-	/*
-	 * 
-	 * This is to test if players have necessary limbs to attach itself
-	 * 
-	 * 
-	private bool canAttach(GameObject limb)
-	{
-		if ((!hasSecondArm) && (hasTorso))
-		{
-			return true;
-		}
-		else if ( !hasSecondLeg && hasTorso)
-		{
-			return true;
-		}
-		else if ( !hasTorso)
-		{
-			return true;
-		}
-		else
-			return false;
-	}*/
 
 	/*
 	* 
@@ -397,7 +378,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(torso);
 			hasTorso = false;
 			assignState();
-			audioPlay.audioDetach.Play();
+			sounds.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2) && hasArm && !hasSecondArm)
@@ -406,7 +387,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(arm);
 			hasArm = false;
 			assignState();
-			audioPlay.audioDetach.Play();
+			sounds.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
 		else if (Input.GetKey(KeyCode.Alpha2) && hasArm && hasSecondArm)
@@ -415,7 +396,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(twoArms);
 			hasSecondArm = false;
 			assignState();
-			audioPlay.audioDetach.Play();
+			sounds.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasLeg && !hasSecondLeg)
@@ -424,14 +405,14 @@ public class MergeAttachDetach : MonoBehaviour
 			hasLeg = false;
 			instantiateBodyParts(leg);
 			assignState();
-			audioPlay.audioDetach.Play();
+			sounds.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasSecondLeg)
 		{
 			twoLegs.SetActive(true);
 			hasSecondLeg = false;
-			audioPlay.audioDetach.Play();
+			sounds.audioDetach.Play();
 			//instantiateBodyParts(leg);
 			instantiateBodyParts(twoLegs);
 			assignState();
@@ -486,37 +467,77 @@ public class MergeAttachDetach : MonoBehaviour
 		pos = player.transform.position;
 		limbs.transform.position = pos;
 	}
+	
+	/*
+	 *
+	 * Handle sound effects here. Play the sound when players go left or right. Stop the sound when 
+	 * players are not moving or pressing the arrow key
+	 * 
+	 * 
+	 * */
+	private void handleSounds()
+	{
+		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound)
+		{
+			playSoundDifferentLimbs();
+			playSound = true;
+		}
+		else if (Input.GetAxisRaw("Horizontal") == 0)
+		{
 
-	/*Check if players have a weapon in their hands
-	private void checkForWeapon(){
-		if (arm.tag == "pickaxe" || twoArms.tag == "pickaxe") {
-			hasPickaxe = true;
+			playSound = false;
+			stopSound();
 		}
-		if (arm.tag == "torch" || twoArms.tag == "torch") {
-			hasTorch = true;
+		else if (Input.GetAxisRaw("Horizontal") == -1 && !playSound)
+		{
+			playSoundDifferentLimbs();
+			playSound = true;
+		}	
+
+
+	}
+
+	/*
+	 * Checking for the different limbs in order to play some sounds according to 
+	 * the respective body states
+	 * 
+	 * */
+	private void playSoundDifferentLimbs()
+	{
+		if(!hasTorso)
+		{
+			sounds.audioHeadRoll.Play();
 		}
-		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
-			hasShovel = true;
+		else if(hasTorso && (!hasLeg && !hasSecondLeg)){
+			sounds.audioTorso.Play();
 		}
-		if(leg.tag == "boot" || twoLegs.tag == "boot"){
-			hasBoot = true;
+		else if(hasTorso && (hasLeg || hasSecondLeg))
+		{
+			sounds.audioFoot.Play();
+		}
+
+
+	}
+
+	/*
+	 * This is to stop the sound from playing when players release the key
+	 * 
+	 * 
+	 * */
+	private void stopSound()
+	{
+		if(!hasTorso)
+		{
+			sounds.audioHeadRoll.Stop();
+		}
+		else if(hasTorso && (!hasLeg && !hasSecondLeg)){
+			sounds.audioTorso.Stop();
+		}
+		else if(hasTorso && (hasLeg || hasSecondLeg))
+		{
+			sounds.audioFoot.Stop();
 		}
 
 	}
 
-	//Checking if players detach any of the weapons. Set them to false 
-	private void detachWeaponLimbs(){
-		if (arm.tag == "pickaxe" || twoArms.tag == "pickaxe") {
-			hasPickaxe = false;
-		}
-		if (arm.tag == "torch" || twoArms.tag == "torch") {
-			hasTorch = false;
-		}
-		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
-			hasShovel = false;
-		}
-		if(leg.tag == "boot" || twoLegs.tag == "boot"){
-			hasBoot = true;
-		}
-	}	*/
 }
