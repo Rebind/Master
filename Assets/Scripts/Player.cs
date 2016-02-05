@@ -38,6 +38,9 @@ public class Player : MonoBehaviour
     private Boolean canBump2;
 
 	public bool isJumping;
+	private bool playSound;
+	private MergeAttachDetach checkLimbs;
+	private Sound sounds;
 
 
 
@@ -54,6 +57,9 @@ public class Player : MonoBehaviour
         //limbAnimator = GetComponent<Animator>("Arm");
         myController = GetComponent<Controller2D>();
 		print ("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+		checkLimbs = GetComponent<MergeAttachDetach>();
+		sounds = GetComponent<Sound>();
+		playSound = false;
     }
 
    
@@ -69,6 +75,7 @@ public class Player : MonoBehaviour
         handleBodyCollisions();
         handleBuffsDebuffs();
 		//pushBox ();
+		handleSounds();
 		}
     }
 
@@ -347,4 +354,74 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	/*
+	 *
+	 * Handle sound effects here. Play the sound when players go left or right. Stop the sound when 
+	 * players are not moving or pressing the arrow key
+	 * 
+	 * 
+	 * */
+	private void handleSounds()
+	{
+		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound)
+		{
+			playSoundDifferentLimbs();
+			playSound = true;
+		}
+		else if (Input.GetAxisRaw("Horizontal") == 0)
+		{
+
+			playSound = false;
+			stopSound();
+		}
+		else if (Input.GetAxisRaw("Horizontal") == -1 && !playSound)
+		{
+			playSoundDifferentLimbs();
+			playSound = true;
+		}	
+
+	}
+
+	/*
+	 * Checking for the different limbs in order to play some sounds according to 
+	 * the respective body states
+	 * 
+	 * */
+	private void playSoundDifferentLimbs()
+	{
+		if(!checkLimbs.hasTorso)
+		{
+			sounds.audioHeadRoll.Play();
+		}
+		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
+			sounds.audioTorso.Play();
+		}
+		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
+		{
+			sounds.audioFoot.Play();
+		}
+
+
+	}
+
+	/*
+	 * This is to stop the sound from playing when players release the key
+	 * 
+	 * 
+	 * */
+	private void stopSound()
+	{
+		if(!checkLimbs.hasTorso)
+		{
+			sounds.audioHeadRoll.Stop();
+		}
+		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
+			sounds.audioTorso.Stop();
+		}
+		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
+		{
+			sounds.audioFoot.Stop();
+		}
+
+	}
 }
