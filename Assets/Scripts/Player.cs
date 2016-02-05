@@ -75,6 +75,12 @@ public class Player : MonoBehaviour
         handleBodyCollisions();
         handleBuffsDebuffs();
 		//pushBox ();
+		if(isJumping){
+			stopSound();
+		}
+		else {
+			handleSounds();
+		}
 		handleSounds();
 		}
     }
@@ -369,7 +375,8 @@ public class Player : MonoBehaviour
 			playSoundDifferentLimbs();
 			playSound = true;
 		}
-		else if (Input.GetAxisRaw("Horizontal") == 0)
+		else if (Input.GetAxisRaw("Horizontal") == 0 || (Input.GetAxisRaw("Horizontal") == 1 && (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_LeftButton"))) ||
+				(Input.GetAxisRaw("Horizontal") == -1 && (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_LeftButton"))))
 		{
 
 			playSound = false;
@@ -380,6 +387,8 @@ public class Player : MonoBehaviour
 			playSoundDifferentLimbs();
 			playSound = true;
 		}	
+		
+		
 
 
 	}
@@ -407,7 +416,7 @@ public class Player : MonoBehaviour
 	}
 
 	/*
-	 * This is to stop the sound from playing when players release the key
+	 * This is to stop the sound from playing when players release the keya
 	 * 
 	 * 
 	 * */

@@ -298,26 +298,11 @@ public class MergeAttachDetach : MonoBehaviour
 			if(go.tag == "arm"){
 				armsList.Add(go.gameObject);
 			}
-			else if(go.tag == "pickaxe")
-			{
-				armsList.Add(go.gameObject);
-			}
-			else if(go.tag == "torch")
-			{
-				armsList.Add(go.gameObject);
-			}
-			else if(go.tag == "shovel")
-			{
-				armsList.Add(go.gameObject);
-			}
 			else if(go.tag == "torso"){
 				torsoList.Add (go.gameObject);
 			}
 			else if(go.tag == "leg"){
 				legsList.Add (go.gameObject);
-			}
-			else if(go.tag == "boot"){
-				legsList.Add(go.gameObject);
 			}
 		}
 
@@ -487,36 +472,4 @@ public class MergeAttachDetach : MonoBehaviour
 		limbs.transform.position = pos;
 	}
 
-	/*Check if players have a weapon in their hands
-	private void checkForWeapon(){
-		if (arm.tag == "pickaxe" || twoArms.tag == "pickaxe") {
-			hasPickaxe = true;
-		}
-		if (arm.tag == "torch" || twoArms.tag == "torch") {
-			hasTorch = true;
-		}
-		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
-			hasShovel = true;
-		}
-		if(leg.tag == "boot" || twoLegs.tag == "boot"){
-			hasBoot = true;
-		}
-
-	}
-
-	//Checking if players detach any of the weapons. Set them to false 
-	private void detachWeaponLimbs(){
-		if (arm.tag == "pickaxe" || twoArms.tag == "pickaxe") {
-			hasPickaxe = false;
-		}
-		if (arm.tag == "torch" || twoArms.tag == "torch") {
-			hasTorch = false;
-		}
-		if (arm.tag == "shovel" || twoArms.tag == "shovel") {
-			hasShovel = false;
-		}
-		if(leg.tag == "boot" || twoLegs.tag == "boot"){
-			hasBoot = true;
-		}
-	}	*/
 }
