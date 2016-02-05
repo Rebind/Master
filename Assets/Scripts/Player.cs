@@ -71,12 +71,11 @@ public class Player : MonoBehaviour
         state = myAnimator.GetInteger("state");
         HandleMovments();
         Flip();
-		//handleSounds ();
         HandleJumps();
         handleBodyCollisions();
         handleBuffsDebuffs();
 		//pushBox ();
-			handleSounds();
+		handleSounds();
 		}
     }
 
@@ -356,6 +355,7 @@ public class Player : MonoBehaviour
 	}
 
 	/*
+	 *
 	 * Handle sound effects here. Play the sound when players go left or right. Stop the sound when 
 	 * players are not moving or pressing the arrow key
 	 * 
@@ -366,7 +366,6 @@ public class Player : MonoBehaviour
 		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound)
 		{
 			playSoundDifferentLimbs();
-			//playSoundDifferentLimbs();
 			playSound = true;
 		}
 		else if (Input.GetAxisRaw("Horizontal") == 0)
@@ -409,7 +408,7 @@ public class Player : MonoBehaviour
 	}
 
 	/*
-	 * This is to stop the sound from playing when players release the buttons
+	 * This is to stop the sound from playing when players release the key
 	 * 
 	 * 
 	 * */
@@ -431,5 +430,4 @@ public class Player : MonoBehaviour
 			sounds.audioFeet.Stop();
 		}
 	}
-
 }

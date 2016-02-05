@@ -76,7 +76,7 @@ public class MergeAttachDetach : MonoBehaviour
 		}
 		else if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
 		{
-			audioPlay.audioDetach.Play();
+			
 			detach();
 		}
 
@@ -397,6 +397,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(torso);
 			hasTorso = false;
 			assignState();
+			audioPlay.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2) && hasArm && !hasSecondArm)
@@ -405,6 +406,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(arm);
 			hasArm = false;
 			assignState();
+			audioPlay.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
 		else if (Input.GetKey(KeyCode.Alpha2) && hasArm && hasSecondArm)
@@ -413,6 +415,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(twoArms);
 			hasSecondArm = false;
 			assignState();
+			audioPlay.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasLeg && !hasSecondLeg)
@@ -421,12 +424,14 @@ public class MergeAttachDetach : MonoBehaviour
 			hasLeg = false;
 			instantiateBodyParts(leg);
 			assignState();
+			audioPlay.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasSecondLeg)
 		{
 			twoLegs.SetActive(true);
 			hasSecondLeg = false;
+			audioPlay.audioDetach.Play();
 			//instantiateBodyParts(leg);
 			instantiateBodyParts(twoLegs);
 			assignState();
