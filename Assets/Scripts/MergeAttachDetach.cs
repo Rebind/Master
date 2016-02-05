@@ -377,7 +377,7 @@ public class MergeAttachDetach : MonoBehaviour
 
 
 		}
-		checkForWeapon ();
+		//checkForWeapon ();
 	}
 
 	/*
@@ -397,7 +397,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(torso);
 			hasTorso = false;
 			assignState();
-			detachWeaponLimbs();
+			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2) && hasArm && !hasSecondArm)
 		{
@@ -405,7 +405,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(arm);
 			hasArm = false;
 			assignState();
-			detachWeaponLimbs();
+			//detachWeaponLimbs();
 		}
 		else if (Input.GetKey(KeyCode.Alpha2) && hasArm && hasSecondArm)
 		{
@@ -413,7 +413,7 @@ public class MergeAttachDetach : MonoBehaviour
 			instantiateBodyParts(twoArms);
 			hasSecondArm = false;
 			assignState();
-			detachWeaponLimbs();
+			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasLeg && !hasSecondLeg)
 		{
@@ -421,7 +421,7 @@ public class MergeAttachDetach : MonoBehaviour
 			hasLeg = false;
 			instantiateBodyParts(leg);
 			assignState();
-			detachWeaponLimbs();
+			//detachWeaponLimbs();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasSecondLeg)
 		{
@@ -430,7 +430,7 @@ public class MergeAttachDetach : MonoBehaviour
 			//instantiateBodyParts(leg);
 			instantiateBodyParts(twoLegs);
 			assignState();
-			detachWeaponLimbs();
+			//detachWeaponLimbs();
 		}
 	}
 
@@ -482,7 +482,7 @@ public class MergeAttachDetach : MonoBehaviour
 		limbs.transform.position = pos;
 	}
 
-	//Check if players have a weapon in their hands
+	/*Check if players have a weapon in their hands
 	private void checkForWeapon(){
 		if (arm.tag == "pickaxe" || twoArms.tag == "pickaxe") {
 			hasPickaxe = true;
@@ -513,5 +513,5 @@ public class MergeAttachDetach : MonoBehaviour
 		if(leg.tag == "boot" || twoLegs.tag == "boot"){
 			hasBoot = true;
 		}
-	}	
+	}	*/
 }
