@@ -75,13 +75,6 @@ public class Player : MonoBehaviour
         handleBodyCollisions();
         handleBuffsDebuffs();
 		//pushBox ();
-		if(isJumping){
-			stopSound();
-		}
-		else {
-			handleSounds();
-		}
-		handleSounds();
 		}
     }
 
