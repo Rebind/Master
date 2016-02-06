@@ -18,21 +18,6 @@ public class MergeAttachDetach : MonoBehaviour
 
 
 	string objectTag;
-
-	/*
-	 * 0 -  just the head
-	 * 1 - head and torso
-	 * 2 - head torso and one arm
-	 * 3 - head torso and both arms
-	 * 4 - head torso, both arms and one leg
-	 * 5 - full body
-	 * 6 - head, torso and one leg
-	 * 7 - head, torso and both legs
-	 * 8 - head, torso, leg and one arm
-	 * 9 - head, torso, arm and two legs
-	 */
-
-
 	private Sprite currentBodyState; //stores the current state of the body, gets from the array
 	private Animator myAnimator; //Animator for the different states
 	private GameObject[] nearbyLimbsofType;
@@ -68,13 +53,14 @@ public class MergeAttachDetach : MonoBehaviour
 
 		multipleLimbs ();
 		//Debug.Log(arm);
-		if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_LeftButton"))
+		if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_BButton"))
 		{
 
 			//Debug.Log("X Pressed");
 			whichLimb();
 		}
-		else if(Input.GetButtonDown("Xbox_RightButton") || Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
+		else if(Input.GetButtonDown("Xbox_LeftButton")|| Input.GetButtonDown("Xbox_RightButton") || Input.GetButtonDown("Xbox_YButton") ||
+				Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
 		{
 			
 			detach();
@@ -375,7 +361,8 @@ public class MergeAttachDetach : MonoBehaviour
 	 * */
 	public void detach()
 	{
-		if (Input.GetKeyDown(KeyCode.Alpha1) && hasTorso)
+		
+		if ((Input.GetKeyDown(KeyCode.Alpha1) || Input.GetButtonDown("Xbox_YButton")) && hasTorso)
 		{
 			torso.SetActive(true); 
 			checkForDifferentLimbs();
@@ -385,25 +372,28 @@ public class MergeAttachDetach : MonoBehaviour
 			audioPlay.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
-		else if (Input.GetKeyDown(KeyCode.Alpha2) && hasArm && !hasSecondArm)
+		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetButtonDown("Xbox_LeftButton"))   && hasArm && !hasSecondArm)
 		{
-			arm.SetActive(true);
-			instantiateBodyParts(arm);
-			hasArm = false;
-			assignState();
-			audioPlay.audioDetach.Play();
-			//detachWeaponLimbs();
+
+				arm.SetActive(true);
+				instantiateBodyParts(arm);
+				hasArm = false;
+				assignState();
+				audioPlay.audioDetach.Play();
+			
 		}
-		else if (Input.GetKey(KeyCode.Alpha2) && hasArm && hasSecondArm)
+		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetButtonDown("Xbox_LeftButton")) && hasArm && hasSecondArm)
 		{
-			twoArms.SetActive(true);
-			instantiateBodyParts(twoArms);
-			hasSecondArm = false;
-			assignState();
-			audioPlay.audioDetach.Play();
-			//detachWeaponLimbs();
+			
+				twoArms.SetActive(true);
+				instantiateBodyParts(twoArms);
+				hasSecondArm = false;
+				assignState();
+				audioPlay.audioDetach.Play();
+			
+			
 		}
-		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasLeg && !hasSecondLeg)
+		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetButtonDown("Xbox_RightButton")) && hasLeg && !hasSecondLeg)
 		{
 			leg.SetActive(true);
 			hasLeg = false;
@@ -412,7 +402,7 @@ public class MergeAttachDetach : MonoBehaviour
 			audioPlay.audioDetach.Play();
 			//detachWeaponLimbs();
 		}
-		else if (Input.GetKeyDown(KeyCode.Alpha3) && hasSecondLeg)
+		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetButtonDown("Xbox_RightButton")) && hasSecondLeg)
 		{
 			twoLegs.SetActive(true);
 			hasSecondLeg = false;
@@ -422,7 +412,10 @@ public class MergeAttachDetach : MonoBehaviour
 			assignState();
 			//detachWeaponLimbs();
 		}
+		
+		
 	}
+	
 
 	/*
 	 * 
