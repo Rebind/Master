@@ -35,7 +35,7 @@ public class LeverController : MonoBehaviour {
 	}
 
 	void Update(){
-		if((Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Xbox_Xbutton")) && nearLever()){
+		if((Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Xbox_XButton")) && nearLever()){
 			toggleLever ();
 		}
 

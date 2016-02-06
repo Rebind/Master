@@ -54,6 +54,7 @@ public class MergeAttachDetach : MonoBehaviour
 	void Update()
 	{
 
+		
 		multipleLimbs ();
 		//Debug.Log(arm);
 		if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_BButton"))
@@ -71,7 +72,9 @@ public class MergeAttachDetach : MonoBehaviour
 
 		if (!hasArm && !hasSecondArm)
 			hasPickaxe = false;
+			
 		handleSounds();
+		
 
 	}
 
@@ -508,16 +511,18 @@ public class MergeAttachDetach : MonoBehaviour
 	 * */
 	private void playSoundDifferentLimbs()
 	{
-		if(!checkLimbs.hasTorso)
+		if(!hasTorso)
 		{
 			sounds.audioHeadRoll.Play();
 		}
-		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
+		else if(hasTorso && (!hasLeg && !hasSecondLeg)){
 			sounds.audioFoot.Stop();
+			sounds.audioHeadRoll.Stop();
 			sounds.audioTorso.Play();
 		}
-		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
+		else if(hasTorso && (hasLeg || hasSecondLeg))
 		{
+			sounds.audioHeadRoll.Stop();
 			sounds.audioTorso.Stop();
 			sounds.audioFoot.Play();
 		}
@@ -532,14 +537,14 @@ public class MergeAttachDetach : MonoBehaviour
 	 * */
 	private void stopSound()
 	{
-		if(!checkLimbs.hasTorso)
+		if(!hasTorso)
 		{
 			sounds.audioHeadRoll.Stop();
 		}
-		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
+		else if(hasTorso && (!hasLeg && !hasSecondLeg)){
 			sounds.audioTorso.Stop();
 		}
-		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
+		else if(hasTorso && (hasLeg || hasSecondLeg))
 		{
 			sounds.audioFoot.Stop();
 		}
