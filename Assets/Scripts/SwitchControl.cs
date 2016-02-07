@@ -15,6 +15,8 @@ public class SwitchControl : MonoBehaviour {
 	public GameObject newTarget;
 	public string newTargetName;
 	public float setDistance = 10f;
+	private bool axisLeft = false;
+	private bool axisRight = false;
 	// Use this for initialization
 	void Start () {
 		cameraObject = GameObject.Find("Main Camera");
@@ -38,27 +40,40 @@ public class SwitchControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//Switch to nearest limb
-		if (Input.GetKeyUp(KeyCode.E) || Input.GetAxisRaw("Xbox_LeftTrigger"))
+		if (Input.GetKeyUp(KeyCode.E) || Input.GetAxisRaw("Xbox_LeftTrigger") != 0)
 		{
 			//Debug.Log("E is pressed");
-			newTarget = FindClosestLimb();
-			if (newTarget != null) {
-				newTargetName = newTarget.name;
-				toggleScript (newTarget, true);
-				toggleScript (inControl, false);
-				inControl = newTarget;
+			if(axisLeft == false){
+				newTarget = FindClosestLimb();
+				if (newTarget != null) {
+					newTargetName = newTarget.name;
+					toggleScript (newTarget, true);
+					toggleScript (inControl, false);
+					inControl = newTarget;
+				}
+				axisLeft = true;
 			}
 		}
 		//Return to head
-		if (Input.GetKeyUp(KeyCode.Q) || Input.GetAxisRaw("Xbox_RightTrigger"))
+		else if (Input.GetKeyUp(KeyCode.Q) || Input.GetAxisRaw("Xbox_RightTrigger") != 0)
 		{
 			//Debug.Log("Q is pressed");
-			GameObject PlayerObj = GameObject.Find("Player");
-			toggleScript (PlayerObj, true);
-			toggleScript (inControl, false);
-			inControl = PlayerObj;
+			if(axisRight == false){
+				GameObject PlayerObj = GameObject.Find("Player");
+				toggleScript (PlayerObj, true);
+				toggleScript (inControl, false);
+				inControl = PlayerObj;
+				axisRight = true;
+			}
 		}
-	
+		//This is to make sure the axis is pressed only once. Without this, then, the changed player
+		//won't move. 
+		if(Input.GetAxisRaw("Xbox_LeftTrigger") == 0){
+			axisLeft = false;
+		}
+		if(Input.GetAxisRaw("Xbox_RightTrigger") == 0){
+			axisRight = false;
+		}
 	}
 
 	private void toggleScript (GameObject target, bool OnOff) 
