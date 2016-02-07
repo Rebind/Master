@@ -66,7 +66,7 @@ public class SwitchControl : MonoBehaviour {
 				axisRight = true;
 			}
 		}
-		//This is to make sure the axis is pressed only once. Without this, then, the changed player
+		//This is to make sure the axis on the xbox is pressed only once. Without this, then, the changed player
 		//won't move. 
 		if(Input.GetAxisRaw("Xbox_LeftTrigger") == 0){
 			axisLeft = false;
