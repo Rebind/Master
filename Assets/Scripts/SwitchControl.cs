@@ -38,7 +38,7 @@ public class SwitchControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//Switch to nearest limb
-		if (Input.GetKeyUp(KeyCode.E))
+		if (Input.GetKeyUp(KeyCode.E) || Input.GetAxisRaw("Xbox_LeftTrigger"))
 		{
 			//Debug.Log("E is pressed");
 			newTarget = FindClosestLimb();
@@ -50,7 +50,7 @@ public class SwitchControl : MonoBehaviour {
 			}
 		}
 		//Return to head
-		if (Input.GetKeyUp(KeyCode.Q))
+		if (Input.GetKeyUp(KeyCode.Q) || Input.GetAxisRaw("Xbox_RightTrigger"))
 		{
 			//Debug.Log("Q is pressed");
 			GameObject PlayerObj = GameObject.Find("Player");
