@@ -66,9 +66,10 @@ public class PushBox : MonoBehaviour
 			gameObject.layer = 8;
 			//print (playerScript.velocity.x);
 			if (playerScript.moveSpeed > 0) {
-				playerScript.moveSpeed = -(playerScript.moveSpeed + 7);
+				playerScript.moveSpeed = -(playerScript.moveSpeed + 100);			
+				playerScript.velocity.x =-100;
 			} else if (playerScript.moveSpeed < 0) {
-				playerScript.moveSpeed = -(playerScript.moveSpeed - 7);
+				playerScript.moveSpeed = -(playerScript.moveSpeed - 8);
 			}
 			//playerScript.velocity.x =-20;
 			//print (playerScript.moveSpeed);
