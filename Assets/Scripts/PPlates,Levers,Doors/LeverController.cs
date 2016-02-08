@@ -28,7 +28,7 @@ public class LeverController : MonoBehaviour {
 
 	// Use this for initialization
 	public void Start () {
-		maximumActivationDistance = 1;
+		maximumActivationDistance = 1.5f;
 		myCamera = camera.GetComponent<CameraFollow> ();
 		oneTime = false;
 		onPlate = false;

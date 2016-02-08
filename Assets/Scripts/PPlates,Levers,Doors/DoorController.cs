@@ -22,10 +22,12 @@ public class DoorController : MonoBehaviour {
 		if (open) {
 			Debug.Log ("open");
 
+			gameObject.GetComponent<MeshRenderer> ().enabled = false;
 			myCollider.size = new Vector2(0,0);
 
 		} else if (!open) {
 			Debug.Log ("closed");
+			gameObject.GetComponent<MeshRenderer> ().enabled = true;
 
 			myCollider.size = new Vector2(1,1);
 		}
