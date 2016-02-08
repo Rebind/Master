@@ -66,8 +66,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+
         myTarget = camScript.target;
 		if(enabled){
+
         state = myAnimator.GetInteger("state");
         HandleMovments();
         Flip();
@@ -110,14 +112,12 @@ public class Player : MonoBehaviour
         myController.Move(velocity * Time.deltaTime);
         if (myTarget.name == this.gameObject.name)
         {
-
-            //Debug.Log("lol");
+			
 
             myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
         }
         else
         {
-            //Debug.Log("gg");
             myAnimator.SetFloat("speed", 0);
         }
         //myAnimator.SetFloat("sppeed", Mathf.Abs(Input.GetAxis("Horizontal")));
@@ -312,35 +312,7 @@ public class Player : MonoBehaviour
 
 	}
 
-    private void helperBoxCollider(float someFloat, string type, string var)
-    {
-        if (type.Equals("size"))
-        {
-            Vector3 size = myBoxcollider.size;
-            if (var.Equals("x"))
-            {
-                size.x = someFloat;
-            }
-            else if (var.Equals("y"))
-            {
-                size.y = someFloat;
-            }
-            myBoxcollider.size = size;
-        }
-        else if (type.Equals("offset"))
-        {
-            Vector3 offset = myBoxcollider.offset;
-            if (var.Equals("x"))
-            {
-                offset.x = someFloat;
-            }
-            else if (var.Equals("y"))
-            {
-                offset.y = someFloat;
-            }
-            myBoxcollider.offset = offset;
-        }
-    }
+
 
 	//control the collision mask
 	private void pushBox(){
@@ -364,12 +336,12 @@ public class Player : MonoBehaviour
 	 * */
 	private void handleSounds()
 	{
-		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound)
+		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound && myController.collisions.below)
 		{
 			playSoundDifferentLimbs();
 			playSound = true;
 		}
-		else if (Input.GetAxisRaw("Horizontal") == 0)
+		else if (Input.GetAxisRaw("Horizontal") == 0 || !myController.collisions.below)
 		{
 
 			playSound = false;
@@ -394,13 +366,18 @@ public class Player : MonoBehaviour
 		if(!checkLimbs.hasTorso)
 		{
 			sounds.audioHeadRoll.Play();
+			Debug.Log ("head roll");
 		}
 		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
 			sounds.audioTorso.Play();
+			Debug.Log ("torso");
+
 		}
 		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
 		{
 			sounds.audioFoot.Play();
+			Debug.Log ("foot");
+
 		}
 
 
@@ -413,6 +390,15 @@ public class Player : MonoBehaviour
 	 * */
 	private void stopSound()
 	{
+		
+		foreach (AudioSource audioS in sounds.playerMovementAudioSources) {
+			audioS.Stop ();
+		}
+	}
+		
+
+	/*
+	}
 		if(!checkLimbs.hasTorso)
 		{
 			sounds.audioHeadRoll.Stop();
@@ -426,4 +412,6 @@ public class Player : MonoBehaviour
 		}
 
 	}
+
+*/
 }
