@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
 	public bool enabled;
 
+
 	private float maxJumpHeight =4;
 	private float minJumpHeight =0;
 
@@ -38,6 +39,9 @@ public class Player : MonoBehaviour
     private Boolean canBump2;
 
 	public bool isJumping;
+	public bool isClimbing;
+
+
 	private bool playSound;
 	private MergeAttachDetach checkLimbs;
 	private Sound sounds;
@@ -104,9 +108,14 @@ public class Player : MonoBehaviour
 				velocity.y = minJumpVelocity;
 			}
 		}
-		
+
+
 		
         velocity.x = input.x * moveSpeed;
+
+		if (isClimbing) {
+			velocity.y = input.y * moveSpeed;
+		}
 
         velocity.y += gravity * Time.deltaTime;
         myController.Move(velocity * Time.deltaTime);
@@ -366,17 +375,14 @@ public class Player : MonoBehaviour
 		if(!checkLimbs.hasTorso)
 		{
 			sounds.audioHeadRoll.Play();
-			Debug.Log ("head roll");
 		}
 		else if(checkLimbs.hasTorso && (!checkLimbs.hasLeg && !checkLimbs.hasSecondLeg)){
 			sounds.audioTorso.Play();
-			Debug.Log ("torso");
 
 		}
 		else if(checkLimbs.hasTorso && (checkLimbs.hasLeg || checkLimbs.hasSecondLeg))
 		{
 			sounds.audioFoot.Play();
-			Debug.Log ("foot");
 
 		}
 
