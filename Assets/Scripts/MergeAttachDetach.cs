@@ -76,8 +76,9 @@ public class MergeAttachDetach : MonoBehaviour
 		}
 		else if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
 		{
-			
-			detach();
+			if (!player.isClimbing) { //cannot detach while climbing
+				detach ();
+			}
 		}
 
 		if (!hasArm && !hasSecondArm)

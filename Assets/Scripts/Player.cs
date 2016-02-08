@@ -117,7 +117,9 @@ public class Player : MonoBehaviour
 			velocity.y = input.y * moveSpeed;
 		}
 
-        velocity.y += gravity * Time.deltaTime;
+		if (!isClimbing) {
+			velocity.y += gravity * Time.deltaTime;
+		}
         myController.Move(velocity * Time.deltaTime);
         if (myTarget.name == this.gameObject.name)
         {
