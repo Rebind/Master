@@ -27,14 +27,14 @@ public class PushBox : MonoBehaviour
     }
 
 	private void pushController(){
-		if (Input.GetKeyDown(KeyCode.H) && (arm.hasArm || arm.hasSecondArm))
+		if ((Input.GetKeyDown(KeyCode.H) || Input.GetButtonDown("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm))
 		{
 			//get the position when player press "h"
 			temPosition = gameObject.transform.position;
 			rgbd.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
 			gameObject.layer = 11;
 		}
-		if (Input.GetKeyUp(KeyCode.H) && (arm.hasArm || arm.hasSecondArm))
+		if ((Input.GetKeyUp(KeyCode.H) || Input.GetButtonUp("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm))
 		{
 			rgbd.constraints = RigidbodyConstraints2D.FreezeAll;
 			gameObject.layer = 8;
@@ -66,9 +66,10 @@ public class PushBox : MonoBehaviour
 			gameObject.layer = 8;
 			//print (playerScript.velocity.x);
 			if (playerScript.moveSpeed > 0) {
-				playerScript.moveSpeed = -(playerScript.moveSpeed + 7);
+				playerScript.moveSpeed = -(playerScript.moveSpeed + 100);			
+				playerScript.velocity.x =-100;
 			} else if (playerScript.moveSpeed < 0) {
-				playerScript.moveSpeed = -(playerScript.moveSpeed - 7);
+				playerScript.moveSpeed = -(playerScript.moveSpeed - 8);
 			}
 			//playerScript.velocity.x =-20;
 			//print (playerScript.moveSpeed);
