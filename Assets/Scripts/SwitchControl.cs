@@ -2,30 +2,32 @@
 using System.Collections;
 
 public class SwitchControl : MonoBehaviour {
+	//variable to keep track of which object is in controll
 	public GameObject inControl;
+	//local instances of other script objects
 	public CameraFollow CameraScript;
 	public GameObject 	cameraObject;
 	public Player PlayerScript;
-	//public GameObject[] Limbs;
+	//data structures to hold game objects
 	public GameObject[] Legs;
 	public GameObject[] Arms;
 	public ArrayList Limbs = new ArrayList();
-
-	public GameObject Closest;
-	public GameObject newTarget;
-	public string newTargetName;
+	//set the distance at which the control can be switched between limbs
 	public float setDistance = 10f;
 	private bool axisLeft = false;
 	private bool axisRight = false;
 	// Use this for initialization
 	void Start () {
+		//find the camera object and obtain its script
 		cameraObject = GameObject.Find("Main Camera");
 		CameraScript = cameraObject.GetComponent<CameraFollow>();
-		Closest = null;
+		//initialize the object in control to be the head at first
 		inControl = GameObject.Find("Player");
+		//collect all the objects with tags "leg" and "arm" in 
+		//data structures
 		Legs = GameObject.FindGameObjectsWithTag("leg");
 		Arms = GameObject.FindGameObjectsWithTag("arm");
-
+		//merge the two arrays into one
 		for (int i = 0; i < Legs.Length; i++) 
 		{
 			Limbs.Add(Legs[i]);
@@ -44,12 +46,12 @@ public class SwitchControl : MonoBehaviour {
 		{
 			//Debug.Log("E is pressed");
 			if(axisLeft == false){
-				newTarget = FindClosestLimb();
+				GameObject newTarget = FindClosestLimb();
 				if (newTarget != null) {
-					newTargetName = newTarget.name;
 					toggleScript (newTarget, true);
 					toggleScript (inControl, false);
 					inControl = newTarget;
+					CameraScript.ChangeTarget(newTarget.name);
 				}
 				axisLeft = true;
 			}
@@ -59,10 +61,11 @@ public class SwitchControl : MonoBehaviour {
 		{
 			//Debug.Log("Q is pressed");
 			if(axisRight == false){
-				GameObject PlayerObj = GameObject.Find("Player");
-				toggleScript (PlayerObj, true);
+				GameObject newTarget = GameObject.Find("Player");
+				toggleScript (newTarget, true);
 				toggleScript (inControl, false);
-				inControl = PlayerObj;
+				inControl = newTarget;
+				CameraScript.ChangeTarget(newTarget.name);
 				axisRight = true;
 			}
 		}
@@ -84,6 +87,7 @@ public class SwitchControl : MonoBehaviour {
 
 	private GameObject FindClosestLimb () {
 		float distance = Mathf.Infinity;
+		GameObject Closest = null;
 
 		foreach (GameObject tmp in Limbs)
 		{
