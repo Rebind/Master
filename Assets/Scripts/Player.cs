@@ -84,6 +84,14 @@ public class Player : MonoBehaviour
             handleSounds();
             HandleLayers();
         }
+
+		if (!enabled) {
+			velocity.x = 0;
+			//velocity.y = 0;
+			velocity.y += -10 * Time.deltaTime;
+			myController.Move(velocity * Time.deltaTime);
+
+		}
     }
 
     private void HandleMovments()
@@ -118,10 +126,9 @@ public class Player : MonoBehaviour
         {
             myAnimator.SetBool("land", true);
         }
-        Debug.Log(velocity.y);
-
-
-        velocity.x = input.x * moveSpeed;
+	
+			velocity.x = input.x * moveSpeed;
+		
 
         if (isClimbing) {
             velocity.y = input.y * moveSpeed;

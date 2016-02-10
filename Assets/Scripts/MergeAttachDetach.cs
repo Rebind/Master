@@ -53,27 +53,24 @@ public class MergeAttachDetach : MonoBehaviour
 
 	void Update()
 	{
-
+		if (player.enabled) {
 		
-		multipleLimbs ();
-		if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_BButton"))
-		{
-			whichLimb();
-		}
-		else if(Input.GetButtonDown("Xbox_LeftButton")|| Input.GetButtonDown("Xbox_RightButton") || Input.GetButtonDown("Xbox_YButton") ||
-				Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3))
-		{
+			multipleLimbs ();
+			if (Input.GetKeyDown (KeyCode.X) || Input.GetButtonDown ("Xbox_BButton")) {
+				whichLimb ();
+			} else if (Input.GetButtonDown ("Xbox_LeftButton") || Input.GetButtonDown ("Xbox_RightButton") || Input.GetButtonDown ("Xbox_YButton") ||
+			       Input.GetKeyDown (KeyCode.Alpha1) || Input.GetKeyDown (KeyCode.Alpha2) || Input.GetKeyDown (KeyCode.Alpha3)) {
 			
-			detach();
-		}
+				detach ();
+			}
 
-		//Players automatically has a pickaxe if they have an arm
-		if (!hasArm && !hasSecondArm)
-			hasPickaxe = false;
+			//Players automatically has a pickaxe if they have an arm
+			if (!hasArm && !hasSecondArm)
+				hasPickaxe = false;
 			
-		handleSounds();
+			handleSounds ();
 		
-
+		}
 
 	}
 
