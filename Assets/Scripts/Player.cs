@@ -5,32 +5,32 @@ using System;
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
-	public bool enabled;
+    public bool enabled;
 
 
-	private float maxJumpHeight =4;
-	private float minJumpHeight =0;
+    private float maxJumpHeight = 4;
+    private float minJumpHeight = 0;
 
     private float timeToJumpApex = .4f;
 
     public float moveSpeed;
     private bool facingRight;
-	private bool jumpFacing;
+    private bool jumpFacing;
     private float gravity;
 
-	private float oldMoveSpeed;
+    private float oldMoveSpeed;
 
     private float minJumpVelocity;
-	private float maxJumpVelocity;
+    private float maxJumpVelocity;
 
     public Vector3 velocity;
     private BoxCollider2D myBoxcollider;
     private Controller2D myController;
     private Animator myAnimator;
-   // private Animator limbAnimator;
+    // private Animator limbAnimator;
     private bool canJump;
     private int state;
-	public LayerMask layer;
+    public LayerMask layer;
 
     private CameraFollow camScript;
     private Controller2D myTarget;
@@ -38,13 +38,13 @@ public class Player : MonoBehaviour
     private Boolean canBump1;
     private Boolean canBump2;
 
-	public bool isJumping;
-	public bool isClimbing;
+    public bool isJumping;
+    public bool isClimbing;
 
 
-	private bool playSound;
-	private MergeAttachDetach checkLimbs;
-	private Sound sounds;
+    private bool playSound;
+    private MergeAttachDetach checkLimbs;
+    private Sound sounds;
 
 
 
@@ -60,29 +60,30 @@ public class Player : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         //limbAnimator = GetComponent<Animator>("Arm");
         myController = GetComponent<Controller2D>();
-		print ("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
-		checkLimbs = GetComponent<MergeAttachDetach>();
-		sounds = GetComponent<Sound>();
-		playSound = false;
+        print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+        checkLimbs = GetComponent<MergeAttachDetach>();
+        sounds = GetComponent<Sound>();
+        playSound = false;
     }
 
-   
+
 
     void Update()
     {
 
         myTarget = camScript.target;
-		if(enabled){
+        if (enabled) {
 
-        state = myAnimator.GetInteger("state");
-        HandleMovments();
-        Flip();
-        HandleJumps();
-        handleBodyCollisions();
-        handleBuffsDebuffs();
-		//pushBox ();
-		handleSounds();
-		}
+            state = myAnimator.GetInteger("state");
+            HandleMovments();
+            Flip();
+            HandleJumps();
+            handleBodyCollisions();
+            handleBuffsDebuffs();
+            //pushBox ();
+            handleSounds();
+            HandleLayers();
+        }
     }
 
     private void HandleMovments()
@@ -90,40 +91,49 @@ public class Player : MonoBehaviour
         if (myController.collisions.above || myController.collisions.below)
         {
             velocity.y = 0;
+            myAnimator.SetBool("land", false);
+
         }
+
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
 
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && myController.collisions.below && myAnimator.GetInteger("state") != 0)  //if spacebar is pressed, jump
         {
-			isJumping = true;
-			jumpFacing = facingRight;
+            isJumping = true;
+            jumpFacing = facingRight;
             velocity.y = maxJumpVelocity;
-			sounds.audioJump.PlayOneShot(sounds.jump);
+            sounds.audioJump.PlayOneShot(sounds.jump);
+            myAnimator.SetTrigger("jump");
         }
-		if(Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("Xbox_AButton")){
-			isJumping = false;
-			
-			if(velocity.y > minJumpVelocity){
-				velocity.y = minJumpVelocity;
-			}
-		}
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("Xbox_AButton")) {
+            isJumping = false;
+            myAnimator.ResetTrigger("jump");
+            if (velocity.y > minJumpVelocity) {
+                velocity.y = minJumpVelocity;
+            }
+        }
+
+        if (velocity.y < 0)
+        {
+            myAnimator.SetBool("land", true);
+        }
+        Debug.Log(velocity.y);
 
 
-		
         velocity.x = input.x * moveSpeed;
 
-		if (isClimbing) {
-			velocity.y = input.y * moveSpeed;
-		}
+        if (isClimbing) {
+            velocity.y = input.y * moveSpeed;
+        }
 
-		if (!isClimbing) {
-			velocity.y += gravity * Time.deltaTime;
-		}
+        if (!isClimbing) {
+            velocity.y += gravity * Time.deltaTime;
+        }
         myController.Move(velocity * Time.deltaTime);
         if (myTarget.name == this.gameObject.name)
         {
-			
+
 
             myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
         }
@@ -132,36 +142,36 @@ public class Player : MonoBehaviour
             myAnimator.SetFloat("speed", 0);
         }
         //myAnimator.SetFloat("sppeed", Mathf.Abs(Input.GetAxis("Horizontal")));
-       /* if (myAnimator.GetFloat("speed") != 0)
-        {
-            myAnimator.SetBool("isMoving", true);
-        }
-        else
-        {
-            myAnimator.SetBool("isMoving", false);
-        }*/
+        /* if (myAnimator.GetFloat("speed") != 0)
+         {
+             myAnimator.SetBool("isMoving", true);
+         }
+         else
+         {
+             myAnimator.SetBool("isMoving", false);
+         }*/
     }
 
     private void handleBuffsDebuffs()
     {
-		if (isJumping && (jumpFacing != facingRight)) {
-			moveSpeed = 4f;
+        if (isJumping && (jumpFacing != facingRight)) {
+            moveSpeed = 4f;
 
-		}
+        }
         else if (state == 1 || state == 2 || state == 3)
         {
             moveSpeed = 5f;
-          //  jumpHeight = 3f;
+            //  jumpHeight = 3f;
         }
         else if (state == 4 || state == 6 || state == 8)
         {
             moveSpeed = 7.5f;
-           // jumpHeight = 6f;
+            // jumpHeight = 6f;
         }
         else if (state == 7 || state == 5 || state == 9)
         {
             moveSpeed = 12.5f;
-           // jumpHeight = 9f;
+            // jumpHeight = 9f;
         }
         else
         {
@@ -172,19 +182,19 @@ public class Player : MonoBehaviour
     private void Flip()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        if (horizontal > 0 && !facingRight || horizontal<0 && facingRight)
-         {
-			if (isJumping) {
-				jumpFacing = !facingRight;
-			}
-			if (!isJumping) {
-				facingRight = !facingRight;
-				Vector3 theScale = transform.localScale;
-				theScale.x *= -1;
-				transform.localScale = theScale;
-			}
-          }
+        if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
+        {
+            if (isJumping) {
+                jumpFacing = !facingRight;
+            }
+            if (!isJumping) {
+                facingRight = !facingRight;
+                Vector3 theScale = transform.localScale;
+                theScale.x *= -1;
+                transform.localScale = theScale;
+            }
         }
+    }
 
     private void HandleJumps()
     {
@@ -207,6 +217,19 @@ public class Player : MonoBehaviour
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+    }
+
+
+    private void HandleLayers()
+    {
+        if (isJumping)
+        {
+            myAnimator.SetLayerWeight(1, 1);
+        }
+        else
+        {
+            myAnimator.SetLayerWeight(1, 0);
+        }
     }
 
     private void handleBodyCollisions()
