@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
         {
             myAnimator.SetBool("land", true);
         }
-        Debug.Log(velocity.y);
+        
 
 
         velocity.x = input.x * moveSpeed;
@@ -131,16 +131,17 @@ public class Player : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
         }
         myController.Move(velocity * Time.deltaTime);
-        if (myTarget.name == this.gameObject.name)
-        {
+        myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
 
-
-            myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
-        }
-        else
+        if (myTarget.name != "Player")
         {
-            myAnimator.SetFloat("speed", 0);
+            //myAnimator.SetBool("isSleep", true);
+            //myAnimator.SetFloat("spped", 100);
         }
+        /*else
+        {
+            myAnimator.SetBool("isSleep", false);
+        }*/
         //myAnimator.SetFloat("sppeed", Mathf.Abs(Input.GetAxis("Horizontal")));
         /* if (myAnimator.GetFloat("speed") != 0)
          {
