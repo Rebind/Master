@@ -12,6 +12,8 @@ public class PressurePlateController : MonoBehaviour {
 	public GameObject[] affectedDoors;
 	public GameObject[] affectedPlatforms;
 
+	private bool facingRight;
+
 
 	bool onPlate;
 	bool oneTime;
@@ -31,7 +33,9 @@ public class PressurePlateController : MonoBehaviour {
 	{
 		if (!oneTime) {
 			if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
-			
+
+
+				Flip ();
 				onPlate = true;
 				Debug.Log ("onplate");
 				//Destroy (this.gameObject);
@@ -58,6 +62,9 @@ public class PressurePlateController : MonoBehaviour {
 	{
 		if (other.CompareTag("Player")|| other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
 		{
+
+			Flip ();
+
 			onPlate = false;
 			Debug.Log ("Off Plate");
 			//Destroy (this.gameObject);
@@ -82,10 +89,16 @@ public class PressurePlateController : MonoBehaviour {
 	// Update is called once per frame
 
 
-	//handles logic of what to do if plate is pressed
-	void plateLogic(){
 
+	void Flip()
+	{
+		// Switch the way the player is labelled as facing
+		facingRight = !facingRight;
 
+		// Multiply the player's x local scale by -1
+		Vector3 theScale = transform.localScale;
+		theScale.x *= -1;
+		transform.localScale = theScale;
 	}
 
 

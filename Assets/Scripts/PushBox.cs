@@ -9,15 +9,18 @@ public class PushBox : MonoBehaviour
     private Animator myAnimator;
 	private Vector3 addGap = new Vector3(.3f,0,0);
 	private Vector3 temPosition;
+	private float temSpeed;
 	public Player playerScript;
+	
 
     void Start()
     {
         Player = GameObject.Find("Player");
         arm = Player.GetComponent<MergeAttachDetach>();
         rgbd = GetComponent<Rigidbody2D>();
-
 		playerScript = Player.GetComponent<Player>();
+		temSpeed = playerScript.moveSpeed;
+
     }
 
     void Update()
@@ -27,14 +30,14 @@ public class PushBox : MonoBehaviour
     }
 
 	private void pushController(){
-		if (Input.GetKeyDown(KeyCode.H) && (arm.hasArm || arm.hasSecondArm))
+		if ((Input.GetKeyDown(KeyCode.H) || Input.GetButtonDown("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm))
 		{
 			//get the position when player press "h"
 			temPosition = gameObject.transform.position;
 			rgbd.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
 			gameObject.layer = 11;
 		}
-		if (Input.GetKeyUp(KeyCode.H) && (arm.hasArm || arm.hasSecondArm))
+		if ((Input.GetKeyUp(KeyCode.H) || Input.GetButtonUp("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm))
 		{
 			rgbd.constraints = RigidbodyConstraints2D.FreezeAll;
 			gameObject.layer = 8;
@@ -65,10 +68,10 @@ public class PushBox : MonoBehaviour
 		if (col.gameObject.tag == "wall") {
 			gameObject.layer = 8;
 			//print (playerScript.velocity.x);
-			if (playerScript.moveSpeed > 0) {
-				playerScript.moveSpeed = -(playerScript.moveSpeed + 7);
-			} else if (playerScript.moveSpeed < 0) {
-				playerScript.moveSpeed = -(playerScript.moveSpeed - 7);
+			if (temSpeed > 0) {
+				playerScript.moveSpeed = -(temSpeed + 8);
+			} else if (temSpeed < 0) {
+				playerScript.moveSpeed = -(temSpeed - 8);
 			}
 			//playerScript.velocity.x =-20;
 			//print (playerScript.moveSpeed);
