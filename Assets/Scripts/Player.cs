@@ -40,11 +40,12 @@ public class Player : MonoBehaviour
 
     public bool isJumping;
     public bool isClimbing;
-
+	public bool notOnNose;
 
     private bool playSound;
     private MergeAttachDetach checkLimbs;
     private Sound sounds;
+	 
 
 
 
@@ -63,7 +64,7 @@ public class Player : MonoBehaviour
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
         checkLimbs = GetComponent<MergeAttachDetach>();
         sounds = GetComponent<Sound>();
-        playSound = false;
+		notOnNose = true;
     }
 
 
@@ -84,8 +85,7 @@ public class Player : MonoBehaviour
             handleSounds();
             HandleLayers();
         }
-
-		if (!enabled) {
+		if (!enabled && notOnNose) {
 			velocity.x = 0;
 			//velocity.y = 0;
 			velocity.y += -10 * Time.deltaTime;
@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
 
     private void HandleMovments()
     {
-        if (myController.collisions.above || myController.collisions.below)
+		if ((myController.collisions.above || myController.collisions.below) && notOnNose)
         {
             velocity.y = 0;
             myAnimator.SetBool("land", false);
@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
             velocity.y = input.y * moveSpeed;
         }
 
-        if (!isClimbing) {
+		if (!isClimbing && notOnNose) {
             velocity.y += gravity * Time.deltaTime;
         }
         myController.Move(velocity * Time.deltaTime);
