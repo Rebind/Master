@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     private BoxCollider2D myBoxcollider;
     private Controller2D myController;
     private Animator myAnimator;
+    private Animator playerAnimator;
     // private Animator limbAnimator;
     private bool canJump;
     private int state;
@@ -35,6 +36,8 @@ public class Player : MonoBehaviour
     private CameraFollow camScript;
     private Controller2D myTarget;
     private GameObject myGO;
+    private GameObject playerGO;
+
     private Boolean canBump1;
     private Boolean canBump2;
 
@@ -53,11 +56,13 @@ public class Player : MonoBehaviour
     void Start()
     {
         myGO = GameObject.FindGameObjectWithTag("MainCamera");
+        playerGO = GameObject.FindGameObjectWithTag("Player");
         camScript = myGO.GetComponent<CameraFollow>();
         moveSpeed = 10f;
         facingRight = true;
         myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
         myAnimator = GetComponent<Animator>();
+        playerAnimator = playerGO.GetComponent<Animator>();
         //limbAnimator = GetComponent<Animator>("Arm");
         myController = GetComponent<Controller2D>();
         print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
@@ -70,8 +75,19 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-
+        
         myTarget = camScript.target;
+
+        if (myTarget.name != "Player")
+        {
+
+            playerAnimator.SetLayerWeight(2, 1);
+        }
+        else
+        {
+            playerAnimator.SetLayerWeight(2, 0);
+        }
+
         if (enabled) {
 
             state = myAnimator.GetInteger("state");
@@ -133,24 +149,6 @@ public class Player : MonoBehaviour
         myController.Move(velocity * Time.deltaTime);
         myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
 
-        if (myTarget.name != "Player")
-        {
-            //myAnimator.SetBool("isSleep", true);
-            //myAnimator.SetFloat("spped", 100);
-        }
-        /*else
-        {
-            myAnimator.SetBool("isSleep", false);
-        }*/
-        //myAnimator.SetFloat("sppeed", Mathf.Abs(Input.GetAxis("Horizontal")));
-        /* if (myAnimator.GetFloat("speed") != 0)
-         {
-             myAnimator.SetBool("isMoving", true);
-         }
-         else
-         {
-             myAnimator.SetBool("isMoving", false);
-         }*/
     }
 
     private void handleBuffsDebuffs()
@@ -223,6 +221,8 @@ public class Player : MonoBehaviour
 
     private void HandleLayers()
     {
+        Debug.Log(myTarget.name);
+
         if (isJumping)
         {
             myAnimator.SetLayerWeight(1, 1);
@@ -231,6 +231,7 @@ public class Player : MonoBehaviour
         {
             myAnimator.SetLayerWeight(1, 0);
         }
+
     }
 
     private void handleBodyCollisions()
