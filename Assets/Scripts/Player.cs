@@ -48,9 +48,6 @@ public class Player : MonoBehaviour
 	 
 
 
-
-
-
     void Start()
     {
         myGO = GameObject.FindGameObjectWithTag("MainCamera");
