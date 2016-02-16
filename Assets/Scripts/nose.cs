@@ -48,7 +48,7 @@ public class Nose : MonoBehaviour {
 			Debug.Log (playerScript.velocity.y);
 			if (addHigh > 0){
 				playerScript.notOnNose = false;
-			}	
+			}
 			if (playerScript.velocity.y < 0 && addHigh > 0) {
 				playerScript.velocity.y = 0;
 			}
