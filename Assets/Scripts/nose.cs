@@ -30,6 +30,7 @@ public class Nose : MonoBehaviour {
 
 			addHigh = 30f;
 			Particle_water.GetComponent<Renderer>().enabled = true;
+			//playerScript.notOnNose = false;
 			// reset timer
 		} 
 		//stop adding high
@@ -37,6 +38,7 @@ public class Nose : MonoBehaviour {
 			addHigh = 0;
 			timer = 0;
 			Particle_water.GetComponent<Renderer>().enabled = false;
+			//playerScript.notOnNose = true;
 		}
 		//Debug.Log (addHigh);
 	}
@@ -44,7 +46,9 @@ public class Nose : MonoBehaviour {
 
 		if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
 			Debug.Log (playerScript.velocity.y);
-			playerScript.notOnNose = false;
+			if (addHigh > 0){
+				playerScript.notOnNose = false;
+			}	
 			if (playerScript.velocity.y < 0 && addHigh > 0) {
 				playerScript.velocity.y = 0;
 			}
