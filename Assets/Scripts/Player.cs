@@ -80,7 +80,6 @@ public class Player : MonoBehaviour
 
         if (myTarget.name != "Player")
         {
-
             playerAnimator.SetLayerWeight(2, 1);
         }
         else

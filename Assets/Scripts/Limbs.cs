@@ -29,12 +29,15 @@ public class Limbs : MonoBehaviour {
  
         if (limb.name == gameObject.name)
         {
+            myAnim.SetBool("active", true);
             float horizontal = Input.GetAxis("Horizontal");
             myAnim.SetFloat("spped", Mathf.Abs(horizontal));
         }
         else
         {
             myAnim.SetFloat("spped", 0);
+            myAnim.SetBool("active", false);
+
         }
 
     }
