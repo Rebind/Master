@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MergeAttachDetach : MonoBehaviour
+public class LimbController : MonoBehaviour
 {
 
 	[SerializeField]
 	public GameObject leg, arm, torso, twoLegs, twoArms;
 	[SerializeField]
-	public Sprite[] bodyStates;//{head, headTorso, headTorsoArm, headTorsoTwoArms,headTorsoTwoArmsLeg, headTorsoTwoArmsTwoLegs, headTorsoLeg, headTorsoTwoLegs, headTorsoArmLeg, headTorsoArmTwoLegs};
+	public Sprite[] bodyStates;
 
 	List<GameObject> armsList;
 	List<GameObject> torsoList;
@@ -28,7 +28,7 @@ public class MergeAttachDetach : MonoBehaviour
 	private Vector3 pos;
 	private Sound sounds;
 	private bool playSound;
-	private MergeAttachDetach checkLimbs;
+	private LimbController checkLimbs;
 
 	// Use this for initialization
 	void Start()
@@ -55,7 +55,7 @@ public class MergeAttachDetach : MonoBehaviour
 	{
 		if (player.enabled) {
 		
-			multipleLimbs ();
+			addLimbsToLists ();
 			if (Input.GetKeyDown (KeyCode.X) || Input.GetButtonDown ("Xbox_BButton")) {
 				whichLimb ();
 			} else if (Input.GetButtonDown ("Xbox_LeftButton") || Input.GetButtonDown ("Xbox_RightButton") || Input.GetButtonDown ("Xbox_YButton") ||
@@ -152,7 +152,7 @@ public class MergeAttachDetach : MonoBehaviour
 
 	/*
 	 * 
-	 * Which limbs the player are nearby
+	 * finds and attaches the nearest limb
 	 * 
 	 * 
 	 * */
@@ -252,7 +252,7 @@ public class MergeAttachDetach : MonoBehaviour
 	 * 
 	 * */
 
-	void multipleLimbs(){
+	void addLimbsToLists(){
 		Transform[] hinges = GameObject.FindObjectsOfType(typeof(Transform)) as Transform[];
 		foreach (Transform go in hinges) {
 			if(go.tag == "arm"){
@@ -382,6 +382,8 @@ public class MergeAttachDetach : MonoBehaviour
 		
 		
 	}
+
+
 	
 
 	/*
