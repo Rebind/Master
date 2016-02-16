@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
 			velocity.y = input.y * moveSpeed;
 		}
 
-		else if (!isClimbing) {
+		else if (!isClimbing && notOnNose) {
 
 			velocity.y += gravity * Time.deltaTime;
 		}
