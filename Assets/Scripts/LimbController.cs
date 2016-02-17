@@ -43,8 +43,8 @@ public class LimbController : MonoBehaviour
 		torso = GameObject.Find("Torso");
 		arm = GameObject.Find("Arm");
 		leg = GameObject.Find("Leg");
-		twoArms = GameObject.Find("Arm (1)");
-		twoLegs = GameObject.Find("Leg (1)");
+		twoArms = GameObject.Find("Arm");
+		twoLegs = GameObject.Find("Leg");
 		sounds = player.GetComponent<Sound>();
 		playSound = false;
 		assignState();

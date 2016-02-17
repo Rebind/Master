@@ -103,11 +103,10 @@ public class Player : MonoBehaviour
         {
             oldFacing = facingRight;
             velocity.y = maxJumpVelocity;
-            //sounds.audioJump.PlayOneShot(sounds.jump);
-            //myAnimator.SetTrigger("jump");
-			if (!myController.collisions.below) {
-				isJumping = true;
-			}
+ //           sounds.audioJump.PlayOneShot(sounds.jump);
+            myAnimator.SetTrigger("jump");
+			isJumping = true;
+			
         }
 
 
@@ -120,9 +119,7 @@ public class Player : MonoBehaviour
             }
         }
 
-		while (isJumping) {
-
-		}
+	
 
         if (velocity.y < 0)
         {
