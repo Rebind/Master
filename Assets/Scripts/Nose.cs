@@ -18,7 +18,7 @@ public class Nose : MonoBehaviour {
 		playerScript = Player.GetComponent<Player>();
 		addHigh = 20f;
 		timer = 0;
-		timerMax = 8;//time for adding high to the player
+		timerMax = 5;//time for adding high to the player
 		Particle_air = GameObject.Find("Particle_air");
 
 	}
