@@ -17,6 +17,9 @@ public class SwitchControl : MonoBehaviour {
 	private bool axisLeft = false;
 	private bool axisRight = false;
 	// Use this for initialization
+
+	GameObject player;
+
 	void Start () {
 		//find the camera object and obtain its script
 		cameraObject = GameObject.Find("Main Camera");
@@ -28,6 +31,8 @@ public class SwitchControl : MonoBehaviour {
 		Legs = GameObject.FindGameObjectsWithTag("leg");
 		Arms = GameObject.FindGameObjectsWithTag("arm");
 		//merge the two arrays into one
+
+		player = GameObject.FindGameObjectWithTag("Player");
 		for (int i = 0; i < Legs.Length; i++) 
 		{
 			Limbs.Add(Legs[i]);
@@ -41,6 +46,8 @@ public class SwitchControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		updateLists ();
 		//Switch to nearest limb
 		if (Input.GetKeyUp(KeyCode.E) || Input.GetAxisRaw("Xbox_LeftTrigger") != 0)
 		{
@@ -57,10 +64,10 @@ public class SwitchControl : MonoBehaviour {
 			}
 		}
 		//Return to head
-		else if (Input.GetKeyUp(KeyCode.Q) || Input.GetAxisRaw("Xbox_RightTrigger") != 0)
+		if (Input.GetKeyUp(KeyCode.Q) || Input.GetAxisRaw("Xbox_RightTrigger") != 0)
 		{
 			//Debug.Log("Q is pressed");
-			if(axisRight == false){
+			if(axisRight == false && inControl != player){
 				GameObject newTarget = GameObject.Find("Player");
 				toggleScript (newTarget, true);
 				toggleScript (inControl, false);
@@ -100,6 +107,23 @@ public class SwitchControl : MonoBehaviour {
 			}
 		}
 		return Closest;
+	}
+
+	private void updateLists(){
+		Legs = GameObject.FindGameObjectsWithTag("leg");
+		Arms = GameObject.FindGameObjectsWithTag("arm");
+		//merge the two arrays into one
+		Limbs.Clear();
+		for (int i = 0; i < Legs.Length; i++) 
+		{
+			Limbs.Add(Legs[i]);
+		}
+
+		for (int i = 0; i < Arms.Length; i++) 
+		{
+			Limbs.Add(Arms[i]);
+		}
+
 	}
 
 	private float calcDistance(GameObject tmp1, GameObject tmp2)
