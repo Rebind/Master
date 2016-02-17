@@ -5,7 +5,7 @@ public class Nose : MonoBehaviour {
 
 	public Player playerScript;
 	private GameObject Player;
-	private GameObject Particle_air;
+	private GameObject Particle_water;
 	//private Vector3 addHigh = new Vector3(0,20.0f,0);
 	private float addHigh;
 	private float timer;
@@ -19,7 +19,7 @@ public class Nose : MonoBehaviour {
 		addHigh = 20f;
 		timer = 0;
 		timerMax = 5;//time for adding high to the player
-		Particle_air = GameObject.Find("Particle_air");
+		Particle_water = GameObject.Find("Particle_water");
 
 	}
 
@@ -28,14 +28,14 @@ public class Nose : MonoBehaviour {
 		if (timer >= timerMax) {
 			//Debug.Log ("timerMax reached !");
 			addHigh = 20f;
-			Particle_air.GetComponent<Renderer>().enabled = true;
+			Particle_water.GetComponent<Renderer>().enabled = true;
 			// reset timer
 		} 
 		//stop adding high
 		if (timer > timerMax+5) {
 			addHigh = 0;
 			timer = 0;
-			Particle_air.GetComponent<Renderer>().enabled = false;
+			Particle_water.GetComponent<Renderer>().enabled = false;
 		}
 		//Debug.Log (addHigh);
 	}
