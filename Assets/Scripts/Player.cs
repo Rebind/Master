@@ -24,8 +24,6 @@ public class Player : MonoBehaviour
     private bool oldFacing;
 	public bool isJumping;
 	public bool isClimbing;
-	public bool isFalling;
-	public bool isLimb;
 	private bool playSound;
 	private Boolean canBump1;
 	private Boolean canBump2;
@@ -38,6 +36,7 @@ public class Player : MonoBehaviour
 	private Controller2D myController;
 	private Animator myAnimator;
     private Sound sounds;
+	private Animator playerAnim;
 
 
 
@@ -45,7 +44,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+		//switchControl = GameObject.FindGameObjectWithTag("Player").GetComponent<SwitchControl>();
 		moveSpeed = 10f;
+		playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
 		camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
         facingRight = true;
         myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
@@ -56,7 +57,6 @@ public class Player : MonoBehaviour
         sounds = GetComponent<Sound>();
         playSound = false;
 		myTarget = camScript.target;
-		isLimb = false;
 
     }
 
@@ -64,23 +64,26 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+		
         if (enabled) {
             state = myAnimator.GetInteger("state");
             handleMovements();
             handleSpriteFacing();
             handleJumpHeight();
-			handleBuffsDebuffs ();
+			handlePlayerMovementSpeed ();
 			handleBodyCollisions();
-            handleSounds();
             handleLayers();
         }
 
-		if (!enabled && !myController.collisions.below) {
+		if (!enabled) {
 			velocity.x = 0;
 			velocity.y += -10 * Time.deltaTime;
 			myController.Move(velocity * Time.deltaTime);
 		}
     }
+
+
+
 
 
 	//Handles player movement taking input from the user
@@ -96,31 +99,36 @@ public class Player : MonoBehaviour
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
 
-		if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing && Input.GetAxisRaw("Horizontal") != 0)) && myAnimator.GetInteger("state") != 0)  //if spacebar is pressed, jump
+		if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing && Input.GetAxisRaw("Horizontal") != 0)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")))  //if spacebar is pressed, jump
         {
             oldFacing = facingRight;
             velocity.y = maxJumpVelocity;
-            sounds.audioJump.PlayOneShot(sounds.jump);
-            myAnimator.SetTrigger("jump");
-			isJumping = true;
-
-
+            //sounds.audioJump.PlayOneShot(sounds.jump);
+            //myAnimator.SetTrigger("jump");
+			if (!myController.collisions.below) {
+				isJumping = true;
+			}
         }
+
+
+			
         if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("Xbox_AButton")) {
             myAnimator.ResetTrigger("jump");
-			//isJumping = false;
+			isJumping = false;
             if (velocity.y > minJumpVelocity) {
                 velocity.y = minJumpVelocity;
             }
         }
 
+		while (isJumping) {
+
+		}
 
         if (velocity.y < 0)
         {
-			isJumping = false;
-			isFalling = true;
+			//isJumping = false;
             myAnimator.SetBool("land", true);
-		} else {isFalling = false;}
+		} 
 
 
 	    velocity.x = input.x * moveSpeed;
@@ -157,9 +165,9 @@ public class Player : MonoBehaviour
 
 
 	//changes the movement speed of the player charachter based on current limb state
-    private void handleBuffsDebuffs()
+    private void handlePlayerMovementSpeed()
     {
-		if ((isJumping || isFalling) && (oldFacing != facingRight)) {
+		if ((isJumping) && (oldFacing != facingRight)) {
             moveSpeed = 4f;
         }
         else if (state == 1 || state == 2 || state == 3)
@@ -186,10 +194,10 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
         {
-			if (isJumping || isFalling) {
+			if (isJumping) {
                 oldFacing = !facingRight;
             }
-			if (!isJumping && !isFalling) {
+			if (!isJumping) {
                 facingRight = !facingRight;
                 Vector3 theScale = transform.localScale;
                 theScale.x *= -1;
@@ -202,7 +210,11 @@ public class Player : MonoBehaviour
 	//changes the player's jump height based on limb state
     private void handleJumpHeight()
     {
-        if (state == 0)
+		if (this.tag.Equals("leg")){
+
+			maxJumpHeight = 10;
+		}
+        else if (state == 0)
         {
             maxJumpHeight = 1;
         }
@@ -370,27 +382,7 @@ public class Player : MonoBehaviour
 	 * 
 	 * 
 	 * */
-	private void handleSounds()
-	{
-		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound && myController.collisions.below)
-		{
-			playSoundDifferentLimbs();
-			playSound = true;
-		}
-		else if (Input.GetAxisRaw("Horizontal") == 0 || !myController.collisions.below)
-		{
 
-			playSound = false;
-			stopSound();
-		}
-		else if (Input.GetAxisRaw("Horizontal") == -1 && !playSound)
-		{
-			playSoundDifferentLimbs();
-			playSound = true;
-		}	
-
-
-	}
 
 	/*
 	 * Checking for the different limbs in order to play some sounds according to 

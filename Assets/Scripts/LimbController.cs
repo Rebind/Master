@@ -42,9 +42,9 @@ public class LimbController : MonoBehaviour
 		bodyStates = new Sprite[10];
 		torso = GameObject.Find("Torso");
 		arm = GameObject.Find("Arm");
-		leg = GameObject.Find("leg");
-		twoArms = GameObject.Find("Arm");
-		twoLegs = GameObject.Find("leg");
+		leg = GameObject.Find("Leg");
+		twoArms = GameObject.Find("Arm (1)");
+		twoLegs = GameObject.Find("Leg (1)");
 		sounds = player.GetComponent<Sound>();
 		playSound = false;
 		assignState();
@@ -434,10 +434,10 @@ public class LimbController : MonoBehaviour
 		and it will detach near the player. 
 	
 	*/
-	private void instantiateBodyParts(GameObject limbs)
+	private void instantiateBodyParts(GameObject limb)
 	{
 		pos = player.transform.position;
-		limbs.transform.position = pos;
+		limb.transform.position = pos;
 	}
 	
 	/*
