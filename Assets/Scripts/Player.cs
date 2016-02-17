@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
 	public bool isJumping;
 	public bool isClimbing;
 	public bool isFalling;
+	public bool isLimb;
 	private bool playSound;
 	private Boolean canBump1;
 	private Boolean canBump2;
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour
         sounds = GetComponent<Sound>();
         playSound = false;
 		myTarget = camScript.target;
+		isLimb = false;
 
     }
 
@@ -63,19 +65,17 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (enabled) {
-			Debug.Log ("Jumping: " + isJumping);
-			Debug.Log ("Falling: " + isFalling);
             state = myAnimator.GetInteger("state");
             handleMovements();
             handleSpriteFacing();
             handleJumpHeight();
-            handleBodyCollisions();
-            handleBuffsDebuffs();
+			handleBuffsDebuffs ();
+			handleBodyCollisions();
             handleSounds();
             handleLayers();
         }
 
-		if (!enabled) {
+		if (!enabled && !myController.collisions.below) {
 			velocity.x = 0;
 			velocity.y += -10 * Time.deltaTime;
 			myController.Move(velocity * Time.deltaTime);
@@ -243,6 +243,10 @@ public class Player : MonoBehaviour
     {
         //Debug.Log(myTarget.name);
 
+		if (this.tag.Equals("leg") || this.tag.Equals("arm")) {
+			return;
+		}
+
         if (state == 1 || state == 2 || state == 3)
         {
             canBump1 = true;
@@ -332,16 +336,7 @@ public class Player : MonoBehaviour
             changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
             myController.CalculateRaySpacing ();
         }
-        if (myTarget.name == "Arm" || myTarget.name == "Arm (1)")
-        {
-            changeBoxCollider(1.53f, 0.49f, -0.02f, -.2f);
-            myController.CalculateRaySpacing();
-        }
-        if (myTarget.name == "Leg" || myTarget.name == "Leg (1)")
-        {
-            changeBoxCollider(0.61f, 1.21f, 0.16f, -0.65f);
-            myController.CalculateRaySpacing();
-        }
+
     }
 
 
