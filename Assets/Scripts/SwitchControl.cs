@@ -55,6 +55,7 @@ public class SwitchControl : MonoBehaviour {
 			if(axisLeft == false){
 				GameObject newTarget = FindClosestLimb();
 				if (newTarget != null) {
+					this.gameObject.GetComponent<Animator>().SetLayerWeight(2, 1);
 					toggleScript (newTarget, true);
 					toggleScript (inControl, false);
 					inControl = newTarget;
@@ -68,6 +69,7 @@ public class SwitchControl : MonoBehaviour {
 		{
 			//Debug.Log("Q is pressed");
 			if(axisRight == false && inControl != player){
+				this.gameObject.GetComponent<Animator>().SetLayerWeight(2, 0);
 				GameObject newTarget = GameObject.Find("Player");
 				toggleScript (newTarget, true);
 				toggleScript (inControl, false);

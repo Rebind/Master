@@ -11,12 +11,12 @@ using System.Collections;
 
 public class pickaxeHit : MonoBehaviour {
 	GameObject Player;
-	MergeAttachDetach pickaxe;
+	LimbController pickaxe;
 	float minimumDistance = 10.5f;
 	// Use this for initialization
 	void Start () {
 		Player = GameObject.Find ("Player");
-		pickaxe = Player.GetComponent<MergeAttachDetach> ();
+		pickaxe = Player.GetComponent<LimbController> ();
 	
 	}
 	

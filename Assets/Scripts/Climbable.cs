@@ -13,8 +13,10 @@ public class Climbable : MonoBehaviour {
 	
 	void OnTriggerStay2D(Collider2D other)
 	{
-		if (other.CompareTag ("Player") && other.GetComponent<MergeAttachDetach>().hasSecondArm) {
-			other.GetComponent<Player> ().isClimbing = true;
+		if (other.CompareTag ("Player") && other.GetComponent<LimbController>().hasSecondArm) {
+			
+				other.GetComponent<Player> ().isClimbing = true;
+			
 		}
 
 		Debug.Log ("on ladder");
@@ -23,7 +25,7 @@ public class Climbable : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		if (other.CompareTag ("Player") && other.GetComponent<MergeAttachDetach>().hasSecondArm) {
+		if (other.CompareTag ("Player") && other.GetComponent<LimbController>().hasSecondArm) {
 			other.GetComponent<Player> ().isClimbing = false;
 		}
 

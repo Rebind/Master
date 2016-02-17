@@ -4,7 +4,7 @@ using System.Collections;
 public class PushBox : MonoBehaviour
 {
     private GameObject Player;
-    private MergeAttachDetach arm;
+    private LimbController arm;
     private Rigidbody2D rgbd;
     private Animator myAnimator;
 	private Vector3 addGap = new Vector3(.3f,0,0);
@@ -16,7 +16,7 @@ public class PushBox : MonoBehaviour
     void Start()
     {
         Player = GameObject.Find("Player");
-        arm = Player.GetComponent<MergeAttachDetach>();
+        arm = Player.GetComponent<LimbController>();
         rgbd = GetComponent<Rigidbody2D>();
 		playerScript = Player.GetComponent<Player>();
 		temSpeed = playerScript.moveSpeed;
