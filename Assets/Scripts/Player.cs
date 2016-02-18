@@ -5,152 +5,151 @@ using System;
 [RequireComponent(typeof(Controller2D))]
 public class Player : MonoBehaviour
 {
-    public bool enabled;
+	public bool enabled;
 
 	public Vector3 velocity;
 
 	private float minJumpVelocity;
 	private float maxJumpVelocity;
-    private float maxJumpHeight = 4;
-    private float minJumpHeight = 0;
-    private float timeToJumpApex = .4f;
+	private float maxJumpHeight = 4;
+	private float minJumpHeight = 0;
+	private float timeToJumpApex = .4f;
+
 	private float oldMoveSpeed;
-    public float moveSpeed;
+	public float moveSpeed;
 	private float gravity;
 
 	private int state;
 
-    private bool facingRight;
-    private bool oldFacing;
+	private bool facingRight;
+	private bool oldFacing;
 	public bool isJumping;
 	public bool isClimbing;
+	public bool notOnNose;
 	private bool playSound;
 	private Boolean canBump1;
 	private Boolean canBump2;
 
-    public LayerMask layer;
-    private CameraFollow camScript;
-    private Controller2D myTarget;
+
+	public LayerMask layer;
+	private CameraFollow camScript;
+	private Controller2D myTarget;
 	private BoxCollider2D myBoxcollider;
 	private LimbController limbController;
 	private Controller2D myController;
 	private Animator myAnimator;
-    private Sound sounds;
+	private Sound sounds;
 	private Animator playerAnim;
 
-
-
-
-
-    void Start()
-    {
+	void Start()
+	{
 		//switchControl = GameObject.FindGameObjectWithTag("Player").GetComponent<SwitchControl>();
 		moveSpeed = 10f;
 		playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
 		camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
-        facingRight = true;
-        myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
-        myAnimator = GetComponent<Animator>();
-        myController = GetComponent<Controller2D>();
-        print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
-        limbController = GetComponent<LimbController>();
-        sounds = GetComponent<Sound>();
-        playSound = false;
+		facingRight = true;
+		myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
+		myAnimator = GetComponent<Animator>();
+		myController = GetComponent<Controller2D>();
+		print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+		limbController = GetComponent<LimbController>();
+		sounds = GetComponent<Sound>();
+		playSound = false;
 		myTarget = camScript.target;
+		notOnNose = true;
+	}
 
-    }
 
 
-
-    void Update()
-    {
-		
-        if (enabled) {
-            state = myAnimator.GetInteger("state");
-            handleMovements();
-            handleSpriteFacing();
-            handleJumpHeight();
+	void Update()
+	{
+		if (enabled) {
+			state = myAnimator.GetInteger("state");
+			handleMovements();
+			handleSpriteFacing();
+			handleJumpHeight();
 			handlePlayerMovementSpeed ();
 			handleBodyCollisions();
-            handleLayers();
-        }
+			handleLayers();
+		}
 
-		if (!enabled) {
+		if (!enabled && notOnNose) {
 			velocity.x = 0;
 			velocity.y += -10 * Time.deltaTime;
 			myController.Move(velocity * Time.deltaTime);
+
 		}
-    }
+	}
 
 
 
 
 
 	//Handles player movement taking input from the user
-    private void handleMovements()
-    {
-        if (myController.collisions.above || myController.collisions.below)
-        {
-            velocity.y = 0;
-            myAnimator.SetBool("land", false);
+	private void handleMovements()
+	{
+		if ((myController.collisions.above || myController.collisions.below) && notOnNose)
+		{
+			velocity.y = 0;
+			myAnimator.SetBool("land", false);
 
-        }
+		}
 
 
-        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
+		Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
 
-		if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing && Input.GetAxisRaw("Horizontal") != 0)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")))  //if spacebar is pressed, jump
-        {
-            oldFacing = facingRight;
-            velocity.y = maxJumpVelocity;
- //           sounds.audioJump.PlayOneShot(sounds.jump);
-            myAnimator.SetTrigger("jump");
+		if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing && Input.GetAxisRaw("Horizontal") != 0)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")) && notOnNose)  //if spacebar is pressed, jump
+		{
+			oldFacing = facingRight;
+			velocity.y = maxJumpVelocity;
+			//           sounds.audioJump.PlayOneShot(sounds.jump);
+			myAnimator.SetTrigger("jump");
 			isJumping = true;
-			
-        }
+
+		}
 
 
-			
-        if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("Xbox_AButton")) {
-            myAnimator.ResetTrigger("jump");
+
+		if ((Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("Xbox_AButton")) && notOnNose) {
+			myAnimator.ResetTrigger("jump");
 			isJumping = false;
-            if (velocity.y > minJumpVelocity) {
-                velocity.y = minJumpVelocity;
-            }
-        }
+			if (velocity.y > minJumpVelocity) {
+				velocity.y = minJumpVelocity;
+			}
+		}
 
-	
 
-        if (velocity.y < 0)
-        {
+		if (velocity.y < 0)
+		{
 			//isJumping = false;
-            myAnimator.SetBool("land", true);
+			myAnimator.SetBool("land", true);
 		} 
 
 
-	    velocity.x = input.x * moveSpeed;
-		
-
-		if (isClimbing && !isJumping) {
-            velocity.y = input.y * moveSpeed;
-        }
-
-        else if (!isClimbing) {
-            velocity.y += gravity * Time.deltaTime;
-        }
-        myController.Move(velocity * Time.deltaTime);
-        if (myTarget.name == this.gameObject.name)
-        {
+		velocity.x = input.x * moveSpeed;
 
 
-            myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
-        }
-        else
-        {
-            myAnimator.SetFloat("speed", 0);
-        }
-        //myAnimator.SetFloat("sppeed", Mathf.Abs(Input.GetAxis("Horizontal")));
-        /* if (myAnimator.GetFloat("speed") != 0)
+		if (isClimbing && !isJumping && notOnNose) {
+			velocity.y = input.y * moveSpeed;
+		}
+
+		else if (!isClimbing && notOnNose) {
+
+			velocity.y += gravity * Time.deltaTime;
+		}
+		myController.Move(velocity * Time.deltaTime);
+		if (myTarget.name == this.gameObject.name)
+		{
+
+
+			myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+		}
+		else
+		{
+			myAnimator.SetFloat("speed", 0);
+		}
+		//myAnimator.SetFloat("sppeed", Mathf.Abs(Input.GetAxis("Horizontal")));
+		/* if (myAnimator.GetFloat("speed") != 0)
          {
              myAnimator.SetBool("isMoving", true);
          }
@@ -158,195 +157,196 @@ public class Player : MonoBehaviour
          {
              myAnimator.SetBool("isMoving", false);
          }*/
-    }
+	}
 
 
 	//changes the movement speed of the player charachter based on current limb state
-    private void handlePlayerMovementSpeed()
-    {
+	private void handlePlayerMovementSpeed()
+	{
 		if ((isJumping) && (oldFacing != facingRight)) {
-            moveSpeed = 4f;
-        }
-        else if (state == 1 || state == 2 || state == 3)
-        {
-            moveSpeed = 5f;
-        }
-        else if (state == 4 || state == 6 || state == 8)
-        {
-            moveSpeed = 7.5f;
-        }
-        else if (state == 7 || state == 5 || state == 9)
-        {
-            moveSpeed = 12.5f;
-        }
-        else
-        {
-            moveSpeed = 10f;
-        }
-    }
+			moveSpeed = 4f;
+		}
+		else if (state == 1 || state == 2 || state == 3)
+		{
+			moveSpeed = 5f;
+		}
+		else if (state == 4 || state == 6 || state == 8)
+		{
+			moveSpeed = 7.5f;
+		}
+		else if (state == 7 || state == 5 || state == 9)
+		{
+			moveSpeed = 12.5f;
+		}
+		else
+		{
+			moveSpeed = 10f;
+		}
+	}
 
 	//flips the player sprite based on its facing
-    private void handleSpriteFacing()
-    {
-        float horizontal = Input.GetAxis("Horizontal");
-        if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
-        {
+	private void handleSpriteFacing()
+	{
+		float horizontal = Input.GetAxis("Horizontal");
+		if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
+		{
+
 			if (isJumping) {
-                oldFacing = !facingRight;
-            }
+				oldFacing = !facingRight;
+			}
 			if (!isJumping) {
-                facingRight = !facingRight;
-                Vector3 theScale = transform.localScale;
-                theScale.x *= -1;
-                transform.localScale = theScale;
-            }
-        }
-    }
+
+				facingRight = !facingRight;
+				Vector3 theScale = transform.localScale;
+				theScale.x *= -1;
+				transform.localScale = theScale;
+			}
+		}
+	}
 
 
 	//changes the player's jump height based on limb state
-    private void handleJumpHeight()
-    {
+	private void handleJumpHeight()
+	{
 		if (this.tag.Equals("leg")){
 
 			maxJumpHeight = 10;
 		}
-        else if (state == 0)
-        {
-            maxJumpHeight = 1;
-        }
-        else if (state == 1 || state == 2 || state == 3)
-        {
-            maxJumpHeight = 2;
-        }
-        else if (state == 4 || state == 6 || state == 8)
-        {
-            maxJumpHeight = 4;
-        }
-        else if (state == 5 || state == 7 || state == 9)
-        {
-            maxJumpHeight = 7;
-        }
-        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-        maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
-        minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
-    }
+		else if (state == 0)
+		{
+			maxJumpHeight = 1;
+		}
+		else if (state == 1 || state == 2 || state == 3)
+		{
+			maxJumpHeight = 2;
+		}
+		else if (state == 4 || state == 6 || state == 8)
+		{
+			maxJumpHeight = 4;
+		}
+		else if (state == 5 || state == 7 || state == 9)
+		{
+			maxJumpHeight = 7;
+		}
+		gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+		minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+	}
+
 
 
 	//changes the way the player is animated based on state
-    private void handleLayers()
-    {
-        if (isJumping)
-        {
-            myAnimator.SetLayerWeight(1, 1);
-        }
-        else
-        {
-            myAnimator.SetLayerWeight(1, 0);
-        }
-    }
+	private void handleLayers()
+	{
+		if (isJumping)
+		{
+			myAnimator.SetLayerWeight(1, 1);
+		}
+		else
+		{
+			myAnimator.SetLayerWeight(1, 0);
+		}
+	}
 
-
-	//changes the players collider based on state (among other things)
-    private void handleBodyCollisions()
-    {
-        //Debug.Log(myTarget.name);
+	private void handleBodyCollisions()
+	{
+		//Debug.Log(myTarget.name);
 
 		if (this.tag.Equals("leg") || this.tag.Equals("arm")) {
 			return;
 		}
 
-        if (state == 1 || state == 2 || state == 3)
-        {
-            canBump1 = true;
-        }
-        if (state == 1)
-        {
-            canBump2 = true;
-        }
+		if (state == 1 || state == 2 || state == 3)
+		{
+			canBump1 = true;
+		}
+		if (state == 1)
+		{
+			canBump2 = true;
+		}
 
-        if (myAnimator.GetInteger("state") == 0)
-        {
+		if (myAnimator.GetInteger("state") == 0)
+		{
 			changeBoxCollider (2.2f, 2.1f, 0f, 1f);
 			myController.CalculateRaySpacing ();
 
-        }
-        else if(myAnimator.GetInteger("state") == 1)
-        {
+		}
+		else if(myAnimator.GetInteger("state") == 1)
+		{
 			changeBoxCollider (2.2f, 3.32f, -0.09f, 1.49f);
 			myController.CalculateRaySpacing ();
-        }
-         else if (myAnimator.GetInteger("state") == 2)
-         {
-            if (canBump2)
-            {
-                Vector3 temp = new Vector3(0, 1f, 0);
-                gameObject.transform.position += temp;
-                canBump2 = false;
-            }
-            changeBoxCollider (3.45f, 2.27f, 0.48f, 0.07f);
+		}
+		else if (myAnimator.GetInteger("state") == 2)
+		{
+			if (canBump2)
+			{
+				Vector3 temp = new Vector3(0, 1f, 0);
+				gameObject.transform.position += temp;
+				canBump2 = false;
+			}
+			changeBoxCollider (3.45f, 2.27f, 0.48f, 0.07f);
 			myController.CalculateRaySpacing ();
 
-        }
-         else if (myAnimator.GetInteger("state") == 3)
-         {
+		}
+		else if (myAnimator.GetInteger("state") == 3)
+		{
 
-            changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
-            myController.CalculateRaySpacing ();
-
-        }
-         else if (myAnimator.GetInteger("state") == 4)
-         {
-            if (canBump1)
-            {
-                Vector3 temp = new Vector3(0, 2f, 0);
-                gameObject.transform.position += temp;
-                canBump1 = false;
-            }
-            changeBoxCollider (2.22f,4.25f, -0.08f, 0f);
+			changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
 			myController.CalculateRaySpacing ();
 
-        }
-         else if (myAnimator.GetInteger("state") == 5)
-         {
-            changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
-            myController.CalculateRaySpacing ();
-        }
-         else if (myAnimator.GetInteger("state") == 6)
-         {
-            if (canBump1)
-            {
-                Vector3 temp = new Vector3(0, 2f, 0);
-                gameObject.transform.position += temp;
-                canBump1 = false;
-            }
-            changeBoxCollider(2.22f, 4.25f, -0.09f, 0f);
-            myController.CalculateRaySpacing ();
-        }
-         else if (myAnimator.GetInteger("state") == 7)
-         {
+		}
+		else if (myAnimator.GetInteger("state") == 4)
+		{
+			if (canBump1)
+			{
+				Vector3 temp = new Vector3(0, 2f, 0);
+				gameObject.transform.position += temp;
+				canBump1 = false;
+			}
+			changeBoxCollider (2.22f,4.25f, -0.08f, 0f);
+			myController.CalculateRaySpacing ();
 
-            changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
-            myController.CalculateRaySpacing ();
-        }
-        else if (myAnimator.GetInteger("state") == 8)
-         {
-            if (canBump1)
-            {
-                Vector3 temp = new Vector3(0, 2f, 0);
-                gameObject.transform.position += temp;
-                canBump1 = false;
-            }
-            changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
-            myController.CalculateRaySpacing ();
-        }
-        else if (myAnimator.GetInteger("state") == 9)
-         {
-            changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
-            myController.CalculateRaySpacing ();
-        }
+		}
+		else if (myAnimator.GetInteger("state") == 5)
+		{
+			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+			myController.CalculateRaySpacing ();
+		}
+		else if (myAnimator.GetInteger("state") == 6)
+		{
+			if (canBump1)
+			{
+				Vector3 temp = new Vector3(0, 2f, 0);
+				gameObject.transform.position += temp;
+				canBump1 = false;
+			}
+			changeBoxCollider(2.22f, 4.25f, -0.09f, 0f);
+			myController.CalculateRaySpacing ();
+		}
+		else if (myAnimator.GetInteger("state") == 7)
+		{
 
-    }
+			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+			myController.CalculateRaySpacing ();
+		}
+		else if (myAnimator.GetInteger("state") == 8)
+		{
+			if (canBump1)
+			{
+				Vector3 temp = new Vector3(0, 2f, 0);
+				gameObject.transform.position += temp;
+				canBump1 = false;
+			}
+			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+			myController.CalculateRaySpacing ();
+		}
+		else if (myAnimator.GetInteger("state") == 9)
+		{
+			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+			myController.CalculateRaySpacing ();
+		}
+
+	}
 
 
 	//helper function for easy access to box collider size and offset
@@ -382,11 +382,11 @@ public class Player : MonoBehaviour
 
 
 	/*
-	 * Checking for the different limbs in order to play some sounds according to 
-	 * the respective body states
-	 * 
-	 * */
-	private void playSoundDifferentLimbs()
+	* Checking for the different limbs in order to play some sounds according to 
+		* the respective body states
+		* 
+		* */
+		private void playSoundDifferentLimbs()
 	{
 		if(!limbController.hasTorso)
 		{
@@ -412,12 +412,12 @@ public class Player : MonoBehaviour
 	 * */
 	private void stopSound()
 	{
-		
+
 		foreach (AudioSource audioS in sounds.playerMovementAudioSources) {
 			audioS.Stop ();
 		}
 	}
-		
+
 
 	/*
 	}

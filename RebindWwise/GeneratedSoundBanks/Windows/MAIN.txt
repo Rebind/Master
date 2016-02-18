@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1244594577	Level_Music			\Default Work Unit\Level_Music	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	124218936	Level_Loop_0	C:\Users\Johnny\Documents\GitHub\Master\RebindWwise\.cache\Windows\SFX\Level_Loop_0_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Level_Loop_0		13549120
+
