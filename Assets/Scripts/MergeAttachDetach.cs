@@ -40,11 +40,11 @@ public class MergeAttachDetach : MonoBehaviour
 		myAnimator = GetComponent<Animator>();
 		player = GetComponent<Player>();
 		bodyStates = new Sprite[10];
-		torso = GameObject.Find("Torso");
+		/*torso = GameObject.Find("Torso");
 		arm = GameObject.Find("Arm");
 		leg = GameObject.Find("leg");
 		twoArms = GameObject.Find("Arm");
-		twoLegs = GameObject.Find("leg");
+		twoLegs = GameObject.Find("leg");*/
 		sounds = player.GetComponent<Sound>();
 		playSound = false;
 		assignState();
