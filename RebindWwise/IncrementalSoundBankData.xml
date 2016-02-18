@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<IncrementalBankBuild Version="4" Flags="878078161">
-	<Platform GUID="{A92D7F7C-0D06-4C30-A719-7BDD1F0CA45B}">
-		<Language ID="0">
-			<Bank Name="Init" Hash="3958984000" StreamHash="157587662" Timestamp="131002216436654667"/>
-			<Bank Name="MAIN" Hash="3215189178" StreamHash="157587662" Timestamp="131003047799194197"/>
-		</Language>
-	</Platform>
-</IncrementalBankBuild>
