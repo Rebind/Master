@@ -29,6 +29,8 @@ public class LimbController : MonoBehaviour
 	private Sound sounds;
 	private bool playSound;
 	private LimbController checkLimbs;
+	private bool dpadY = false;
+	private bool dpadX = false;
 
 	// Use this for initialization
 	void Start()
@@ -58,7 +60,7 @@ public class LimbController : MonoBehaviour
 			addLimbsToLists ();
 			if (Input.GetKeyDown (KeyCode.X) || Input.GetButtonDown ("Xbox_BButton")) {
 				whichLimb ();
-			} else if (Input.GetButtonDown ("Xbox_LeftButton") || Input.GetButtonDown ("Xbox_RightButton") || Input.GetButtonDown ("Xbox_YButton") ||
+			} else if (Input.GetAxisRaw ("XBox_DPadX") != 0 || Input.GetAxisRaw ("XBox_DPadY") != 0 || 
 			       Input.GetKeyDown (KeyCode.Alpha1) || Input.GetKeyDown (KeyCode.Alpha2) || Input.GetKeyDown (KeyCode.Alpha3)) {
 			
 				detach ();
@@ -67,8 +69,15 @@ public class LimbController : MonoBehaviour
 			//Players automatically has a pickaxe if they have an arm
 			if (!hasArm && !hasSecondArm)
 				hasPickaxe = false;
-			
-			handleSounds ();
+			//This is to make sure the axis on the xbox is pressed only once. 
+			if(Input.GetAxisRaw("XBox_DPadY") == 0){
+				dpadY = false;
+			}
+			if(Input.GetAxisRaw("XBox_DPadX") == 0){
+				dpadX = false;
+			}
+
+			//handleSounds ();
 		
 		}
 
@@ -333,54 +342,67 @@ public class LimbController : MonoBehaviour
 	public void detach()
 	{
 		
-		if ((Input.GetKeyDown(KeyCode.Alpha1) || Input.GetButtonDown("Xbox_YButton")) && hasTorso)
+		if ((Input.GetKeyDown(KeyCode.Alpha1) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
 		{
-			torso.SetActive(true); 
-			checkForDifferentLimbs();
-			instantiateBodyParts(torso);
-			hasTorso = false;
-			assignState();
-			sounds.audioDetach.Play();
+			if (dpadY == false) {
+				torso.SetActive (true); 
+				checkForDifferentLimbs ();
+				instantiateBodyParts (torso);
+				hasTorso = false;
+				assignState ();
+				sounds.audioDetach.Play ();
+				dpadY = true;
+			}
 		}
-		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetButtonDown("Xbox_LeftButton"))   && hasArm && !hasSecondArm)
+		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1)   && hasArm && !hasSecondArm)
 		{
-
-				arm.SetActive(true);
-				instantiateBodyParts(arm);
+			if (dpadX == false) {
+				arm.SetActive (true);
+				instantiateBodyParts (arm);
 				hasArm = false;
-				assignState();
-				sounds.audioDetach.Play();
+				assignState ();
+				sounds.audioDetach.Play ();
+				dpadX = true;
+			}
 			
 		}
-		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetButtonDown("Xbox_LeftButton")) && hasArm && hasSecondArm)
+		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1) && hasArm && hasSecondArm)
 		{
-			
-				twoArms.SetActive(true);
-				instantiateBodyParts(twoArms);
+			if (dpadX == false) {
+				twoArms.SetActive (true);
+				instantiateBodyParts (twoArms);
 				hasSecondArm = false;
-				assignState();
-				sounds.audioDetach.Play();
+				assignState ();
+				sounds.audioDetach.Play ();
+				dpadX = true;
+			}
 			
 			
 		}
-		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetButtonDown("Xbox_RightButton")) && hasLeg && !hasSecondLeg)
+		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasLeg && !hasSecondLeg)
 		{
-			leg.SetActive(true);
-			hasLeg = false;
-			instantiateBodyParts(leg);
-			assignState();
-			sounds.audioDetach.Play();
+			if (dpadY == false) {
+				leg.SetActive (true);
+				hasLeg = false;
+				instantiateBodyParts (leg);
+				assignState ();
+				sounds.audioDetach.Play ();
+				dpadY = true;
+			}
 		}
-		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetButtonDown("Xbox_RightButton")) && hasSecondLeg)
+		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasSecondLeg)
 		{
-			twoLegs.SetActive(true);
-			hasSecondLeg = false;
-			sounds.audioDetach.Play();
-			instantiateBodyParts(twoLegs);
-			assignState();
+			if (dpadY == false) {
+				twoLegs.SetActive (true);
+				hasSecondLeg = false;
+				sounds.audioDetach.Play ();
+				instantiateBodyParts (twoLegs);
+				assignState ();
+				dpadY = true;
+			}
 		}
-		
-		
+
+
 	}
 
 
@@ -446,7 +468,7 @@ public class LimbController : MonoBehaviour
 	 * players are not moving or pressing the arrow key
 	 * 
 	 * 
-	 * */
+	 * 
 	private void handleSounds()
 	{
 		if(Input.GetAxisRaw("Horizontal") == 1 && !playSound)
@@ -476,7 +498,7 @@ public class LimbController : MonoBehaviour
 	 * Checking for the different limbs in order to play some sounds according to 
 	 * the respective body states
 	 * 
-	 * */
+	 * 
 	private void playSoundDifferentLimbs()
 	{
 		if(!hasTorso)
@@ -496,13 +518,13 @@ public class LimbController : MonoBehaviour
 		}
 
 
-	}
+	}*/
 
 	/*
 	 * This is to stop the sound from playing when players release the keya
 	 * 
 	 * 
-	 * */
+	 * 
 	private void stopSound()
 	{
 		if(!hasTorso)
@@ -517,6 +539,6 @@ public class LimbController : MonoBehaviour
 			sounds.audioFoot.Stop();
 		}
 
-	}
+	}*/
 
 }
