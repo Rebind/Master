@@ -37,4 +37,16 @@ public class DoorController : MonoBehaviour {
 		open = !open;
 		assignState ();
 	}
+
+    public void turnOn()
+    {
+        open = true;
+        assignState();
+    }
+
+    public void turnOff()
+    {
+        open = false;
+        assignState();
+    }
 }
