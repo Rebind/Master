@@ -1,4 +1,10 @@
-﻿ using UnityEngine;
+﻿ /**
+ This is for the projectile object itself. It shoots at the player,
+ but doesn't follow the player. 
+ **/
+ 
+ 
+ using UnityEngine;
  using System.Collections;
      
 public class PickAxeProjectile : MonoBehaviour {
@@ -32,6 +38,7 @@ public class PickAxeProjectile : MonoBehaviour {
 			
 			Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1,1));
 			
+			//This is to check if the projectile goes off the screen, destroy it. 
 			if((transform.position.x < min.x) || (transform.position.x > max.x)
 				|| (transform.position.y < min.y) || (transform.position.y > max.y)){
 				
