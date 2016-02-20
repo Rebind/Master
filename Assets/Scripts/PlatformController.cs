@@ -18,6 +18,7 @@ public class PlatformController : RaycastController {
 	int fromWaypointIndex;
 	float percentBetweenWaypoints;
 	float nextMoveTime;
+    public bool startState;
 	public bool moving;
 
 	List<PassengerMovement> passengerMovement;
@@ -25,7 +26,7 @@ public class PlatformController : RaycastController {
 
 	public override void Start () {
 		base.Start ();
-
+        startState = !moving;
 		globalWaypoints = new Vector3[localWaypoints.Length];
 		for (int i =0; i < localWaypoints.Length; i++) {
 			globalWaypoints[i] = localWaypoints[i] + transform.position;
@@ -53,7 +54,20 @@ public class PlatformController : RaycastController {
 		moving = !moving;
 	}
 
-	float Ease(float x) {
+
+    public void turnOn()
+    {
+        moving = startState;
+        
+    }
+
+    public void turnOff()
+    {
+        moving = !startState;
+        
+    }
+
+    float Ease(float x) {
 		float a = easeAmount + 1;
 		return Mathf.Pow(x,a) / (Mathf.Pow(x,a) + Mathf.Pow(1-x,a));
 	}
