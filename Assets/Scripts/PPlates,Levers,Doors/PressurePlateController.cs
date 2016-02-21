@@ -13,6 +13,8 @@ public class PressurePlateController : MonoBehaviour {
 	public GameObject[] affectedPlatforms;
 
 	private bool facingRight;
+	private GameObject PressurePlate;
+	private SpriteRenderer sr;
 
 
 	bool onPlate;
@@ -24,7 +26,8 @@ public class PressurePlateController : MonoBehaviour {
 	public void Start () {
 		oneTime = false;
 		onPlate = false;
-		myCollider = GetComponent<BoxCollider2D>();
+		PressurePlate = GameObject.Find("Pressure Plate");
+		sr = PressurePlate.GetComponent<SpriteRenderer>(); 
 	}
 
 
@@ -34,7 +37,7 @@ public class PressurePlateController : MonoBehaviour {
 		if (!oneTime) {
 			if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
 
-
+				sr.color = new Color(0f, 1f, 0f, 1f);
 				Flip ();
 				onPlate = true;
 				Debug.Log ("onplate");
@@ -62,7 +65,7 @@ public class PressurePlateController : MonoBehaviour {
 	{
 		if (other.CompareTag("Player")|| other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
 		{
-
+			sr.color = new Color(01f, 0f, 0f, 1f);
 			Flip ();
 
 			onPlate = false;
