@@ -11,6 +11,8 @@ public class PressurePlateController : MonoBehaviour {
 	public bool twoTriggers;
 	public bool plateOne;
 	public bool plateTwo;
+    public Sprite activeSprite;
+    public Sprite inactiveSprite;
 
 	public GameObject[] affectedDoors;
 	public GameObject[] affectedPlatforms;
@@ -38,7 +40,8 @@ public class PressurePlateController : MonoBehaviour {
 		if (!oneTime) {
 			if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
 
-				spriteRenderer.color = new Color(0f, 1f, 0f, 1f);
+				//spriteRenderer.color = new Color(0f, 1f, 0f, 1f);
+                spriteRenderer.sprite = activeSprite;
 				onPlate = true;
 
 				if (moveDoor) { //toggles the door(s) states
@@ -78,9 +81,10 @@ public class PressurePlateController : MonoBehaviour {
 	{
 		if (other.CompareTag("Player")|| other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
 		{
-			spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+			//spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+            spriteRenderer.sprite = inactiveSprite;
 
-			onPlate = false;
+            onPlate = false;
 			Debug.Log ("Off Plate");
 			//Destroy (this.gameObject);
 

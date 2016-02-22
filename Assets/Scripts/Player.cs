@@ -210,7 +210,7 @@ public class Player : MonoBehaviour
 	{
 		if (this.tag.Equals("leg")){
 
-			maxJumpHeight = 10;
+			maxJumpHeight = 4;
 		}
 		else if (state == 0)
 		{
