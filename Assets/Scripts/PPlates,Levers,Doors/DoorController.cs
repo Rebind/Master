@@ -10,6 +10,7 @@ public class DoorController : MonoBehaviour {
 	public bool requireTwoPlates;
 	private bool startState;
 	private BoxCollider2D myCollider;
+    private Rigidbody2D myRigidBody;
 
 	public bool plateOne;
 	public bool plateTwo;
@@ -17,7 +18,8 @@ public class DoorController : MonoBehaviour {
 	void Start () {
 		assignState ();		
 		myCollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
-		startState = open;
+        myRigidBody = gameObject.GetComponent<Rigidbody2D>() as Rigidbody2D;
+        startState = open;
 
 	}
 	
@@ -29,14 +31,16 @@ public class DoorController : MonoBehaviour {
 		if (open) {
 			Debug.Log ("open");
 
-			gameObject.GetComponent<MeshRenderer> ().enabled = false;
-			myCollider.size = new Vector2(0,0);
+			//gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			//myCollider.size = new Vector2(0,0);
+            myRigidBody.gravityScale = 1;
+
 
 		} else if (!open) {
 			Debug.Log ("closed");
-			gameObject.GetComponent<MeshRenderer> ().enabled = true;
+			//gameObject.GetComponent<MeshRenderer> ().enabled = true;
 
-			myCollider.size = new Vector2(1,1);
+			//myCollider.size = new Vector2(1,1);
 		}
 	}
 
