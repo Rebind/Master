@@ -131,11 +131,12 @@ public class Player : MonoBehaviour
 
 		if (isClimbing && !isJumping && notOnNose) {
 			velocity.y = input.y * moveSpeed;
-		}
+            myAnimator.SetLayerWeight(3, 1);
+        }
 
 		else if (!isClimbing && notOnNose) {
-
-			velocity.y += gravity * Time.deltaTime;
+            myAnimator.SetLayerWeight(3, 0);
+            velocity.y += gravity * Time.deltaTime;
 		}
 		myController.Move(velocity * Time.deltaTime);
 		if (myTarget.name == this.gameObject.name)
@@ -290,9 +291,17 @@ public class Player : MonoBehaviour
 		}
 		else if (myAnimator.GetInteger("state") == 3)
 		{
-
-			changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
-			myController.CalculateRaySpacing ();
+            if (isClimbing)
+            {
+                //  changeBoxCollider(1.68f, 3.15f, 0f, 0.4f);
+                changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
+                myController.CalculateRaySpacing();
+            }
+            else
+            {
+                changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
+                myController.CalculateRaySpacing();
+            }
 
 		}
 		else if (myAnimator.GetInteger("state") == 4)
@@ -303,14 +312,30 @@ public class Player : MonoBehaviour
 				gameObject.transform.position += temp;
 				canBump1 = false;
 			}
-			changeBoxCollider (2.22f,4.25f, -0.08f, 0f);
-			myController.CalculateRaySpacing ();
+            if (isClimbing)
+            {
+                changeBoxCollider(1.43f, 3.64f, 0.17f, 0f);
+                myController.CalculateRaySpacing();
+            }
+            else
+            {
+                changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+                myController.CalculateRaySpacing();
+            }
 
 		}
 		else if (myAnimator.GetInteger("state") == 5)
 		{
-			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
-			myController.CalculateRaySpacing ();
+            if (isClimbing)
+            {
+                changeBoxCollider(1.43f, 3.64f, 0.17f, 0f);
+                myController.CalculateRaySpacing();
+            }
+            else
+            {
+                changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+                myController.CalculateRaySpacing();
+            }
 		}
 		else if (myAnimator.GetInteger("state") == 6)
 		{
