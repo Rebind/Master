@@ -20,10 +20,13 @@ public class KillPlayer : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "Player")
+        if (other.tag == "Player")
         {
-            Debug.Log("player respwan here");
+            Debug.Log("player respawn here");
             mylevelmanager.respawnPlayer();
+        } 
+        if (other.tag == "leg" || other.tag == "arm") {
+            mylevelmanager.respawnLimb(other.name);
         }
 
     }

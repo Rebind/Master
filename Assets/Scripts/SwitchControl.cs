@@ -4,14 +4,21 @@ using System.Collections;
 public class SwitchControl : MonoBehaviour {
 	//variable to keep track of which object is in controll
 	public GameObject inControl;
+	public GameObject ClosestLimb;
+	public int inControlTag;
+	/*
+	0 = player
+	1 = arm
+	2 = leg
+	*/
 	//local instances of other script objects
-	public CameraFollow CameraScript;
-	public GameObject 	cameraObject;
-	public Player PlayerScript;
+	private CameraFollow CameraScript;
+	private GameObject 	cameraObject;
+	private Player PlayerScript;
 	//data structures to hold game objects
-	public GameObject[] Legs;
-	public GameObject[] Arms;
-	public ArrayList Limbs = new ArrayList();
+	private GameObject[] Legs;
+	private GameObject[] Arms;
+	private ArrayList Limbs = new ArrayList();
 	//set the distance at which the control can be switched between limbs
 	public float setDistance = 10f;
 	private bool axisLeft = false;
@@ -26,6 +33,7 @@ public class SwitchControl : MonoBehaviour {
 		CameraScript = cameraObject.GetComponent<CameraFollow>();
 		//initialize the object in control to be the head at first
 		inControl = GameObject.Find("Player");
+		ClosestLimb = FindClosestLimb();
 		//collect all the objects with tags "leg" and "arm" in 
 		//data structures
 		Legs = GameObject.FindGameObjectsWithTag("leg");
@@ -46,7 +54,7 @@ public class SwitchControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		ClosestLimb = FindClosestLimb();
 		updateLists ();
 		//Switch to nearest limb
 		if (Input.GetKeyUp(KeyCode.E) || Input.GetAxisRaw("Xbox_LeftTrigger") != 0)
@@ -55,10 +63,16 @@ public class SwitchControl : MonoBehaviour {
 			if(axisLeft == false){
 				GameObject newTarget = FindClosestLimb();
 				if (newTarget != null) {
-					this.gameObject.GetComponent<Animator>().SetLayerWeight(2, 1);
 					toggleScript (newTarget, true);
 					toggleScript (inControl, false);
 					inControl = newTarget;
+					if (inControl.tag == "leg")
+					{
+						inControlTag = 2;
+					} else 
+					{
+						inControlTag = 1;
+					}
 					CameraScript.ChangeTarget(newTarget.name);
 				}
 				axisLeft = true;
@@ -69,12 +83,15 @@ public class SwitchControl : MonoBehaviour {
 		{
 			//Debug.Log("Q is pressed");
 			if(axisRight == false && inControl != player){
-				this.gameObject.GetComponent<Animator>().SetLayerWeight(2, 0);
+				/*
 				GameObject newTarget = GameObject.Find("Player");
 				toggleScript (newTarget, true);
 				toggleScript (inControl, false);
 				inControl = newTarget;
+				inControlTag = 0;
 				CameraScript.ChangeTarget(newTarget.name);
+				*/
+				switchToHead();
 				axisRight = true;
 			}
 		}
@@ -86,6 +103,16 @@ public class SwitchControl : MonoBehaviour {
 		if(Input.GetAxisRaw("Xbox_RightTrigger") == 0){
 			axisRight = false;
 		}
+	}
+
+	public void switchToHead ()
+	{
+		GameObject newTarget = GameObject.Find("Player");
+		toggleScript (newTarget, true);
+		toggleScript (inControl, false);
+		inControl = newTarget;
+		inControlTag = 0;
+		CameraScript.ChangeTarget(newTarget.name);
 	}
 
 	private void toggleScript (GameObject target, bool OnOff) 
@@ -108,6 +135,7 @@ public class SwitchControl : MonoBehaviour {
 				Closest = tmp;
 			}
 		}
+		//ClosestLimb = Closest;
 		return Closest;
 	}
 
