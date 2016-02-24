@@ -8,12 +8,14 @@ public class PressurePlateController : MonoBehaviour {
 
 	public bool moveDoor;
 	public bool movePlatform;
+	public bool triggerProjectileAtPlayer;
 	public bool twoTriggers;
 	public bool plateOne;
 	public bool plateTwo;
 
 	public GameObject[] affectedDoors;
 	public GameObject[] affectedPlatforms;
+	public GameObject[] affectedProjectileAtPlayer;
 	SpriteRenderer spriteRenderer;
 
 
@@ -55,18 +57,20 @@ public class PressurePlateController : MonoBehaviour {
 									door.GetComponent<DoorController> ().plateTwo = true;
 									door.GetComponent<DoorController> ().turnOn ();
 								}
-
 							}
 						}
-
-
-					
-
 				}
 				if (movePlatform) { //toggles the state of the platform(s)
 					foreach (GameObject platform in affectedPlatforms) {
-
+						Debug.Log("in here");
 						platform.GetComponent<PlatformController> ().turnOn ();
+					}
+				}
+				
+				if (triggerProjectileAtPlayer) { //toggles the state of the platform(s)
+					foreach (GameObject projectile in affectedProjectileAtPlayer) {
+						Debug.Log(onPlate + "Are you on plate");
+						projectile.GetComponent<FiringPoint> ().toggleFireAtPlayer();
 					}
 				}
 			}
@@ -112,16 +116,18 @@ public class PressurePlateController : MonoBehaviour {
 				}
 
 			}
+			
+			if (triggerProjectileAtPlayer) { //toggles the state of the platform(s)
+					foreach (GameObject projectile in affectedProjectileAtPlayer) {
+
+						projectile.GetComponent<FiringPoint> ().turnOffFireAtPlayer();
+					}
+				}
 		} oneTime = false;
 	}
 
 
 	// Update is called once per frame
-
-
-
-
-
 
 	//returns true or false if plate is colliding with an object
 

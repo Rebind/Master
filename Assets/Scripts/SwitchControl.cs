@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class SwitchControl : MonoBehaviour {
-	//variable to keep track of which object is in controll
+	//variable to keep track of which object is in control
 	public GameObject inControl;
 	//local instances of other script objects
 	public CameraFollow CameraScript;

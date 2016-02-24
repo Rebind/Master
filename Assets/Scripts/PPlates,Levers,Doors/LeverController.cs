@@ -13,6 +13,10 @@ public class LeverController : MonoBehaviour {
 
 	public GameObject[] affectedDoors;
 	public GameObject[] affectedPlatforms;
+	public GameObject head;
+	public SwitchControl inControl;
+	public GameObject control;
+	public LimbController Arm;
 
 	[SerializeField]
 	public GameObject camera;
@@ -29,16 +33,25 @@ public class LeverController : MonoBehaviour {
 	// Use this for initialization
 	public void Start () {
 		maximumActivationDistance = 1.5f;
+		camera = GameObject.Find("Main Camera");
 		myCamera = camera.GetComponent<CameraFollow> ();
+		
+		head = GameObject.Find("Player");
+		inControl = head.GetComponent<SwitchControl>();
+		Arm = head.GetComponent<LimbController>();
+		
+		
+		
 		oneTime = false;
 		onPlate = false;
 	}
 
 	void Update(){
-		if(Input.GetKeyDown(KeyCode.Z) && nearLever()){
+		control = inControl.inControl;
+		if(Input.GetKeyDown(KeyCode.Z) && (control.tag == "arm" || Arm.hasArm || Arm.hasSecondArm) && nearLever()){
+			Debug.Log("LEVER WORKS!");
 			toggleLever ();
 		}
-
 	}
 
 

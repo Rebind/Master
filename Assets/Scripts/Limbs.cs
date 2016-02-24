@@ -12,7 +12,7 @@ public class Limbs : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        myGO = GameObject.FindGameObjectWithTag("MainCamera");
+        myGO = GameObject.FindGameObjectWithTag("Main Camera");
         camScript = myGO.GetComponent<CameraFollow>();
         myRigidLimb = GetComponent<Rigidbody2D>();
         myAnim = GetComponent<Animator>();
