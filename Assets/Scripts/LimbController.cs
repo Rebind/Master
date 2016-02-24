@@ -345,16 +345,20 @@ public class LimbController : MonoBehaviour
 		if ((Input.GetKeyDown(KeyCode.Alpha1) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
 		{
 			if (dpadY == false) {
+				if(player.isClimbing){
+					player.isClimbing = false;
+				}
 				torso.SetActive (true); 
 				checkForDifferentLimbs ();
 				instantiateBodyParts (torso);
 				hasTorso = false;
 				assignState ();
 				sounds.audioDetach.Play ();
+				player.isClimbing = false;
 				dpadY = true;
 			}
 		}
-		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1)   && hasArm && !hasSecondArm)
+		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1)   && hasArm && !hasSecondArm )
 		{
 			if (dpadX == false) {
 				arm.SetActive (true);
@@ -362,6 +366,8 @@ public class LimbController : MonoBehaviour
 				hasArm = false;
 				assignState ();
 				sounds.audioDetach.Play ();
+				
+				//Change animations?
 				dpadX = true;
 			}
 			
@@ -369,13 +375,19 @@ public class LimbController : MonoBehaviour
 		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1) && hasArm && hasSecondArm)
 		{
 			if (dpadX == false) {
+				if(player.isClimbing){
+					player.isClimbing = false;
+				}
 				twoArms.SetActive (true);
 				instantiateBodyParts (twoArms);
 				hasSecondArm = false;
 				assignState ();
 				sounds.audioDetach.Play ();
+				//Change animations here?
+				
 				dpadX = true;
 			}
+			
 			
 			
 		}
