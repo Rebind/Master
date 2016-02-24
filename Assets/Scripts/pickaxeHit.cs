@@ -10,6 +10,8 @@ using UnityEngine;
 using System.Collections;
 
 public class pickaxeHit : MonoBehaviour {
+	public LevelManager mylevelmanager;
+
 	GameObject Player;
 	LimbController pickaxe;
 	float minimumDistance = 10.5f;
@@ -24,8 +26,8 @@ public class pickaxeHit : MonoBehaviour {
 	void Update () {
 		
 		if (pickaxe.hasPickaxe && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance && Input.GetKeyDown(KeyCode.X)) {
-			//Debug.Log ("testing in here now");
-			Destroy (this.gameObject);
+			Debug.Log ("testing in here now");
+			mylevelmanager.destroyWall();
 		}
 	
 	}
