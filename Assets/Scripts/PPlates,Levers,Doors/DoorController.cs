@@ -8,17 +8,34 @@ public class DoorController : MonoBehaviour
 
     public bool open;
 
+<<<<<<< HEAD
     public bool requireMultiplePlates;
     private bool startState;
     private BoxCollider2D myCollider;
+=======
+	public bool requireMultiplePlates;
+	public bool requireTwoPlates;
+    public Animator mouth;
+	private bool startState;
+	private BoxCollider2D myCollider;
+>>>>>>> refs/remotes/origin/master
     private Rigidbody2D myRigidBody;
     public Animator mouthDoorAnimator;
 
+<<<<<<< HEAD
 
     public int neededToOpen;
 
     [HideInInspector]
     public int platesActivated;
+=======
+	public int neededToOpen;
+
+	[HideInInspector]
+	public int platesActivated;
+	public bool plateOne;
+	public bool plateTwo;
+>>>>>>> refs/remotes/origin/master
 
     void Start()
     {
@@ -31,6 +48,7 @@ public class DoorController : MonoBehaviour
 
 
 
+<<<<<<< HEAD
     void assignState()
     {
         myCollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
@@ -63,6 +81,30 @@ public class DoorController : MonoBehaviour
         }
     }
 
+=======
+    void assignState(){
+		myCollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
+
+		if (open) {
+			Debug.Log ("open");
+            mouth.SetBool("open", true);		//gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			myCollider.size = new Vector2(0,0);
+           // myRigidBody.gravityScale = 1;
+		} else if (!open) {
+			Debug.Log ("closed");
+            //gameObject.GetComponent<MeshRenderer> ().enabled = true;
+            mouth.SetBool("open", false);
+            if (gameObject.name == "mouth_door")
+            {
+                myCollider.size = new Vector2(1.5f, 0.8f);
+            }
+            else
+            {
+                myCollider.size = new Vector2(1, 1);
+            }
+        }
+    }
+>>>>>>> refs/remotes/origin/master
 
     public void toggle()
     {
