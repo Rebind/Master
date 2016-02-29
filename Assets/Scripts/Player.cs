@@ -39,13 +39,13 @@ public class Player : MonoBehaviour
 	private Controller2D myController;
 	private Animator myAnimator;
 	private Sound sounds;
-	private Animator playerAnim;
+	public Animator playerAnim;
 
 	void Start()
 	{
 		//switchControl = GameObject.FindGameObjectWithTag("Player").GetComponent<SwitchControl>();
 		moveSpeed = 10f;
-		playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+		//playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>() as Animator;
 		camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
 		facingRight = true;
 		myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
@@ -63,7 +63,8 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
-		if (enabled) {
+        myTarget = camScript.target;
+        if (enabled) {
 			state = myAnimator.GetInteger("state");
 			handleMovements();
 			handleSpriteFacing();
@@ -79,7 +80,19 @@ public class Player : MonoBehaviour
 			myController.Move(velocity * Time.deltaTime);
 
 		}
-	}
+
+        if (myTarget.name == "Player")
+        {
+            
+            playerAnim.SetLayerWeight(2, 0);
+        }
+        else
+        {
+           
+            playerAnim.SetLayerWeight(2, 1);
+        }
+
+    }
 
 
 
@@ -142,8 +155,8 @@ public class Player : MonoBehaviour
 		if (myTarget.name == this.gameObject.name)
 		{
 
-
-			myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+            myAnimator.SetFloat("speedVert", Mathf.Abs(Input.GetAxis("Vertical")));
+            myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
 		}
 		else
 		{

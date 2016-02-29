@@ -11,6 +11,7 @@ public class PushBox : MonoBehaviour
 	private Vector3 temPosition;
 	private float temSpeed;
 	public Player playerScript;
+    private Animator playerAnimator;
 	
 
     void Start()
@@ -20,7 +21,7 @@ public class PushBox : MonoBehaviour
         rgbd = GetComponent<Rigidbody2D>();
 		playerScript = Player.GetComponent<Player>();
 		temSpeed = playerScript.moveSpeed;
-
+        playerAnimator = Player.GetComponent<Animator>();
     }
 
     void Update()
@@ -30,17 +31,22 @@ public class PushBox : MonoBehaviour
     }
 
 	private void pushController(){
-		if ((Input.GetKeyDown(KeyCode.H) || Input.GetButtonDown("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm))
+		if ((Input.GetKeyDown(KeyCode.H) || Input.GetButtonDown("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat("speed") > 0.1)
 		{
 			//get the position when player press "h"
 			temPosition = gameObject.transform.position;
 			rgbd.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
-			gameObject.layer = 11;
+            /*if (playerAnimator.GetFloat("speed") > 0.1)
+            {*/
+                playerAnimator.SetLayerWeight(4, 1);
+           // }
+                gameObject.layer = 11;
 		}
 		if ((Input.GetKeyUp(KeyCode.H) || Input.GetButtonUp("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm))
 		{
 			rgbd.constraints = RigidbodyConstraints2D.FreezeAll;
-			gameObject.layer = 8;
+                playerAnimator.SetLayerWeight(4, 0);
+                gameObject.layer = 8;
 			//make a gap 
 			if (gameObject.transform.position.x > temPosition.x) {
 				gameObject.transform.position += addGap;
@@ -67,8 +73,9 @@ public class PushBox : MonoBehaviour
 	void OnCollisionEnter2D (Collision2D col){
 		if (col.gameObject.tag == "wall") {
 			gameObject.layer = 8;
-			//print (playerScript.velocity.x);
-			if (temSpeed > 0) {
+            playerAnimator.SetLayerWeight(4, 0);
+            //print (playerScript.velocity.x);
+            if (temSpeed > 0) {
 				playerScript.moveSpeed = -(temSpeed + 8);
 			} else if (temSpeed < 0) {
 				playerScript.moveSpeed = -(temSpeed - 8);

@@ -9,13 +9,15 @@ public class LevelManager : MonoBehaviour
 
     private GameObject player;
     private GameObject Wreck;
+    private GameObject breakable;
 
     public GameObject deathParticle;
 
     public GameObject WreckParticle;
     private GameObject[] Legs;
     private GameObject[] Arms;
-
+    Animator playerAnimator;
+    float minimumDistance = 10.5f;
     private LinkedList Limbs;
 
     public class Node {
@@ -68,10 +70,12 @@ public class LevelManager : MonoBehaviour
 
         player = GameObject.Find("Player");
         Wreck = GameObject.Find("BreakTerrain");
+        breakable = GameObject.FindGameObjectWithTag("breakable");
         ControlScript = player.GetComponent<SwitchControl>();
         //find all objects with tags "leg" and "arm"
         Legs = GameObject.FindGameObjectsWithTag("leg");
         Arms = GameObject.FindGameObjectsWithTag("arm");
+        playerAnimator = player.GetComponent<Animator>();
 
         for (int i = 0; i < Legs.Length; i++) 
         {
@@ -87,7 +91,18 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            playerAnimator.SetTrigger("attack");
+        }
+        if(Vector3.Distance(breakable.transform.position, player.transform.position) <= minimumDistance)
+        {
+            playerAnimator.SetLayerWeight(5, 1);
+        }
+        else
+        {
+            playerAnimator.SetLayerWeight(5, 0);
+        }
     }
 
     public void respawnPlayer()
