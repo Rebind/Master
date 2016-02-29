@@ -27,22 +27,11 @@ public class pickaxeHit : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.X)){
-            playerAnimator.SetTrigger("attack");
             if (pickaxe.hasPickaxe && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance) {
-            
-            
                 Debug.Log("testing in here now");
-                mylevelmanager.destroyWall();
-                //playerAnimator.SetLayerWeight(5, 1);
+                mylevelmanager.destroyWall();;
                
             }
-          
-		}
-       /* else
-        {
-            playerAnimator.SetLayerWeight(5, 0);
-        }*/
-
+         
     }
 }
