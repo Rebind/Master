@@ -80,7 +80,6 @@ public class Player : MonoBehaviour
 			myController.Move(velocity * Time.deltaTime);
 
 		}
-        playerAnim.SetLayerWeight(5, 1);
 
         if (myTarget.name == "Player")
         {
