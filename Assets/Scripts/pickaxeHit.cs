@@ -27,8 +27,13 @@ public class pickaxeHit : MonoBehaviour {
 		
 		if (pickaxe.hasPickaxe && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance && Input.GetKeyDown(KeyCode.X)) {
 			Debug.Log ("testing in here now");
+            Player.GetComponent<Animator>().SetLayerWeight(4, 1);
+            Player.GetComponent<Animator>().SetTrigger("attack");
 			mylevelmanager.destroyWall();
 		}
-	
-	}
+        else
+        {
+            Player.GetComponent<Animator>().SetLayerWeight(4, 0);
+        }
+    }
 }

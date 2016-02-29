@@ -32,52 +32,53 @@ public class PressurePlateController : MonoBehaviour
 
     }
 
+    void Update() { 
+}
 
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (!oneTime)
+        if (!oneTime) {
+        if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
         {
-            if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
-            {
 
-                spriteRenderer.color = new Color(0f, 1f, 0f, 1f);
-                //spriteRenderer.sprite = activeSprite;
-                onPlate = true;
+            spriteRenderer.color = new Color(0f, 1f, 0f, 1f);
+            //spriteRenderer.sprite = activeSprite;
+            onPlate = true;
 
-                if (moveDoor)
-                { //toggles the door(s) states
+            if (moveDoor)
+            { ///toggles the door(s) states
 
-                    foreach (GameObject door in affectedDoors)
+                foreach (GameObject door in affectedDoors)
+                {
+
+                    if (!door.GetComponent<DoorController>().requireMultiplePlates)
                     {
-
-                        if (!door.GetComponent<DoorController>().requireMultiplePlates)
-                        {
-                            door.GetComponent<DoorController>().turnOn();
-                        }
-                        else if (door.GetComponent<DoorController>().requireMultiplePlates)
-                        {
-                            door.GetComponent<DoorController>().platesActivated++;
-                            door.GetComponent<DoorController>().turnOn();
-
-
-                        }
+                        door.GetComponent<DoorController>().turnOn();
                     }
+                    else if (door.GetComponent<DoorController>().requireMultiplePlates)
+                    {
+                        door.GetComponent<DoorController>().platesActivated++;
+                        door.GetComponent<DoorController>().turnOn();
 
 
-
-
+                    }
                 }
-                if (movePlatform)
-                { //toggles the state of the platform(s)
-                    foreach (GameObject platform in affectedPlatforms)
-                    {
 
-                        platform.GetComponent<PlatformController>().turnOn();
-                    }
+
+
+
+            }
+            if (movePlatform)
+            { //toggles the state of the platform(s)
+                foreach (GameObject platform in affectedPlatforms)
+                {
+
+                    platform.GetComponent<PlatformController>().turnOn();
                 }
             }
-            oneTime = true;
+        }
+        oneTime = true;
         }
     }
 
@@ -123,8 +124,7 @@ public class PressurePlateController : MonoBehaviour
                 }
 
             }
-        }
-        oneTime = false;
+        } oneTime = false;
     }
 
 
