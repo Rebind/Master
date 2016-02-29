@@ -14,21 +14,35 @@ public class pickaxeHit : MonoBehaviour {
 
 	GameObject Player;
 	LimbController pickaxe;
+    public Animator playerAnimator;
+    bool canDestroy;
 	float minimumDistance = 10.5f;
 	// Use this for initialization
 	void Start () {
 		Player = GameObject.Find ("Player");
 		pickaxe = Player.GetComponent<LimbController> ();
+        playerAnimator = Player.GetComponent<Animator>();
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-		if (pickaxe.hasPickaxe && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance && Input.GetKeyDown(KeyCode.X)) {
-			Debug.Log ("testing in here now");
-			mylevelmanager.destroyWall();
+        if (Input.GetKeyDown(KeyCode.X)){
+            playerAnimator.SetTrigger("attack");
+            if (pickaxe.hasPickaxe && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance) {
+            
+            
+                Debug.Log("testing in here now");
+                mylevelmanager.destroyWall();
+                //playerAnimator.SetLayerWeight(5, 1);
+               
+            }
+          
 		}
-	
-	}
+       /* else
+        {
+            playerAnimator.SetLayerWeight(5, 0);
+        }*/
+
+    }
 }
