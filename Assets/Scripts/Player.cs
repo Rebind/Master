@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
 	{
 		//switchControl = GameObject.FindGameObjectWithTag("Player").GetComponent<SwitchControl>();
 		moveSpeed = 10f;
-		//playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>() as Animator;
+		playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>() as Animator;
 		camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
 		facingRight = true;
 		myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
@@ -77,11 +77,13 @@ public class Player : MonoBehaviour
 		if (!enabled && notOnNose) {
 			velocity.x = 0;
 			velocity.y += -10 * Time.deltaTime;
-			myController.Move(velocity * Time.deltaTime);
+			myController.Move (velocity * Time.deltaTime);
+			
+
 
 		}
 
-        if (myTarget.name == "Player")
+        if (myTarget.tag == "Player")
         {
             
             playerAnim.SetLayerWeight(2, 0);
