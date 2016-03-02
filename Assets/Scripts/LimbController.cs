@@ -345,16 +345,30 @@ public class LimbController : MonoBehaviour
 		if ((Input.GetKeyDown(KeyCode.Alpha1) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
 		{
 			if (dpadY == false) {
+<<<<<<< HEAD:Assets/Scripts/LimbController.cs
+=======
+				if(player.isClimbing){
+					player.isClimbing = false;
+				}
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/LimbController.cs
 				torso.SetActive (true); 
 				checkForDifferentLimbs ();
 				instantiateBodyParts (torso);
 				hasTorso = false;
 				assignState ();
 				sounds.audioDetach.Play ();
+<<<<<<< HEAD:Assets/Scripts/LimbController.cs
 				dpadY = true;
 			}
 		}
 		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1)   && hasArm && !hasSecondArm)
+=======
+				player.isClimbing = false;
+				dpadY = true;
+			}
+		}
+		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1)   && hasArm && !hasSecondArm )
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/LimbController.cs
 		{
 			if (dpadX == false) {
 				arm.SetActive (true);
@@ -362,6 +376,11 @@ public class LimbController : MonoBehaviour
 				hasArm = false;
 				assignState ();
 				sounds.audioDetach.Play ();
+<<<<<<< HEAD:Assets/Scripts/LimbController.cs
+=======
+				
+				//Change animations?
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/LimbController.cs
 				dpadX = true;
 			}
 			
@@ -369,15 +388,30 @@ public class LimbController : MonoBehaviour
 		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1) && hasArm && hasSecondArm)
 		{
 			if (dpadX == false) {
+<<<<<<< HEAD:Assets/Scripts/LimbController.cs
+=======
+				if(player.isClimbing){
+					player.isClimbing = false;
+				}
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/LimbController.cs
 				twoArms.SetActive (true);
 				instantiateBodyParts (twoArms);
 				hasSecondArm = false;
 				assignState ();
 				sounds.audioDetach.Play ();
+<<<<<<< HEAD:Assets/Scripts/LimbController.cs
+=======
+				//Change animations here?
+				
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/LimbController.cs
 				dpadX = true;
 			}
 			
 			
+<<<<<<< HEAD:Assets/Scripts/LimbController.cs
+=======
+			
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/LimbController.cs
 		}
 		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasLeg && !hasSecondLeg)
 		{
@@ -460,6 +494,12 @@ public class LimbController : MonoBehaviour
 	{
 		pos = player.transform.position;
 		limb.transform.position = pos;
+<<<<<<< HEAD:Assets/Scripts/LimbController.cs
+=======
+		if (limb.tag != "torso") {
+			limb.GetComponent<Controller2D> ().collisions.below = false;
+		}
+>>>>>>> refs/remotes/origin/master:Assets/Scripts/LimbController.cs
 	}
 	
 	/*

@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
 	private bool playSound;
 	private Boolean canBump1;
 	private Boolean canBump2;
+<<<<<<< HEAD
 
 
 	public LayerMask layer;
@@ -80,6 +81,74 @@ public class Player : MonoBehaviour
 
 		}
 	}
+=======
+
+
+	public LayerMask layer;
+	private CameraFollow camScript;
+	private Controller2D myTarget;
+	private BoxCollider2D myBoxcollider;
+	private LimbController limbController;
+	private Controller2D myController;
+	private Animator myAnimator;
+	private Sound sounds;
+	public Animator playerAnim;
+
+	void Start()
+	{
+		//switchControl = GameObject.FindGameObjectWithTag("Player").GetComponent<SwitchControl>();
+		moveSpeed = 10f;
+		playerAnim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>() as Animator;
+		camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
+		facingRight = true;
+		myBoxcollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
+		myAnimator = GetComponent<Animator>();
+		myController = GetComponent<Controller2D>();
+		print("Gravity: " + gravity + "  Jump Velocity: " + maxJumpVelocity);
+		limbController = GetComponent<LimbController>();
+		sounds = GetComponent<Sound>();
+		playSound = false;
+		myTarget = camScript.target;
+		notOnNose = true;
+	}
+
+
+
+	void Update()
+	{
+        myTarget = camScript.target;
+        if (enabled) {
+			state = myAnimator.GetInteger("state");
+			handleMovements();
+			handleSpriteFacing();
+			handleJumpHeight();
+			handlePlayerMovementSpeed ();
+			handleBodyCollisions();
+			handleLayers();
+		}
+
+		if (!enabled && notOnNose) {
+			velocity.x = 0;
+			velocity.y += -10 * Time.deltaTime;
+			myController.Move (velocity * Time.deltaTime);
+			
+
+
+		}
+
+        if (myTarget.tag == "Player")
+        {
+            
+            playerAnim.SetLayerWeight(2, 0);
+        }
+        else
+        {
+           
+            playerAnim.SetLayerWeight(2, 1);
+        }
+
+    }
+>>>>>>> refs/remotes/origin/master
 
 
 
@@ -127,6 +196,7 @@ public class Player : MonoBehaviour
 
 
 		velocity.x = input.x * moveSpeed;
+<<<<<<< HEAD
 
 
 		if (isClimbing && !isJumping && notOnNose) {
@@ -144,6 +214,25 @@ public class Player : MonoBehaviour
 
 
 			myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+=======
+
+
+		if (isClimbing && !isJumping && notOnNose) {
+			velocity.y = input.y * moveSpeed;
+            myAnimator.SetLayerWeight(3, 1);
+        }
+
+		else if (!isClimbing && notOnNose) {
+            myAnimator.SetLayerWeight(3, 0);
+            velocity.y += gravity * Time.deltaTime;
+		}
+		myController.Move(velocity * Time.deltaTime);
+		if (myTarget.name == this.gameObject.name)
+		{
+
+            myAnimator.SetFloat("speedVert", Mathf.Abs(Input.GetAxis("Vertical")));
+            myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+>>>>>>> refs/remotes/origin/master
 		}
 		else
 		{
@@ -205,6 +294,7 @@ public class Player : MonoBehaviour
 		}
 	}
 
+<<<<<<< HEAD
 
 	//changes the player's jump height based on limb state
 	private void handleJumpHeight()
@@ -234,6 +324,37 @@ public class Player : MonoBehaviour
 		minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
 	}
 
+=======
+
+	//changes the player's jump height based on limb state
+	private void handleJumpHeight()
+	{
+		if (this.tag.Equals("leg")){
+
+			maxJumpHeight = 4;
+		}
+		else if (state == 0)
+		{
+			maxJumpHeight = 1;
+		}
+		else if (state == 1 || state == 2 || state == 3)
+		{
+			maxJumpHeight = 2;
+		}
+		else if (state == 4 || state == 6 || state == 8)
+		{
+			maxJumpHeight = 4;
+		}
+		else if (state == 5 || state == 7 || state == 9)
+		{
+			maxJumpHeight = 7;
+		}
+		gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+		minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+	}
+
+>>>>>>> refs/remotes/origin/master
 
 
 	//changes the way the player is animated based on state
@@ -350,6 +471,7 @@ public class Player : MonoBehaviour
 		}
 		else if (myAnimator.GetInteger("state") == 7)
 		{
+<<<<<<< HEAD
 
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
@@ -371,6 +493,29 @@ public class Player : MonoBehaviour
 			myController.CalculateRaySpacing ();
 		}
 
+=======
+
+			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+			myController.CalculateRaySpacing ();
+		}
+		else if (myAnimator.GetInteger("state") == 8)
+		{
+			if (canBump1)
+			{
+				Vector3 temp = new Vector3(0, 2f, 0);
+				gameObject.transform.position += temp;
+				canBump1 = false;
+			}
+			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+			myController.CalculateRaySpacing ();
+		}
+		else if (myAnimator.GetInteger("state") == 9)
+		{
+			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
+			myController.CalculateRaySpacing ();
+		}
+
+>>>>>>> refs/remotes/origin/master
 	}
 
 

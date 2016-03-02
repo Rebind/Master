@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
 
     private GameObject player;
     private GameObject Wreck;
+<<<<<<< HEAD
 
     public GameObject deathParticle;
 
@@ -18,6 +19,22 @@ public class LevelManager : MonoBehaviour
 
     private LinkedList Limbs;
 
+=======
+    private GameObject breakable;
+
+    public GameObject deathParticle;
+	public GameObject exit;
+    public GameObject WreckParticle;
+    private GameObject[] Legs;
+    private GameObject[] Arms;
+    Animator playerAnimator;
+    float minimumDistance = 10.5f;
+    private LinkedList Limbs;
+	private PressurePlateController pp;
+	public string [] Levels;
+	private Loading loading;
+	
+>>>>>>> refs/remotes/origin/master
     public class Node {
         public Node next;
         public Node last;
@@ -68,11 +85,22 @@ public class LevelManager : MonoBehaviour
 
         player = GameObject.Find("Player");
         Wreck = GameObject.Find("BreakTerrain");
+<<<<<<< HEAD
+=======
+		exit = GameObject.Find("Exit");
+        breakable = GameObject.FindGameObjectWithTag("breakable");
+>>>>>>> refs/remotes/origin/master
         ControlScript = player.GetComponent<SwitchControl>();
         //find all objects with tags "leg" and "arm"
         Legs = GameObject.FindGameObjectsWithTag("leg");
         Arms = GameObject.FindGameObjectsWithTag("arm");
+<<<<<<< HEAD
 
+=======
+        playerAnimator = player.GetComponent<Animator>();
+
+		Levels = new string[]{"AlexFerr2DLevel", "Showcase"};
+>>>>>>> refs/remotes/origin/master
         for (int i = 0; i < Legs.Length; i++) 
         {
             Limbs.append(Legs[i]);
@@ -87,7 +115,20 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+		
+        if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_XButton"))
+        {
+            playerAnimator.SetTrigger("attack");
+        }
+        if(Vector3.Distance(breakable.transform.position, player.transform.position) <= minimumDistance)
+        {
+            playerAnimator.SetLayerWeight(5, 1);
+        }
+        else{
+            playerAnimator.SetLayerWeight(5, 0);
+        }
+		
+		
     }
 
     public void respawnPlayer()
@@ -125,5 +166,11 @@ public class LevelManager : MonoBehaviour
         tmp.transform.position = Limbs.getPosition(tmp);
         ControlScript.switchToHead();
     }
+<<<<<<< HEAD
+=======
+	
+	
+	
+>>>>>>> refs/remotes/origin/master
 
 }
