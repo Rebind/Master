@@ -28,13 +28,13 @@ public class NextLevel : MonoBehaviour {
 		switch (currLevel) {
 			case "Showcase":
 				PlayerPrefs.SetInt("Level", 1);
-				Application.LoadLevel("Loading");
-				Application.LoadLevel(1);
+				Application.LoadLevel("LoadingScene");
+				//Application.LoadLevel(1);
 				break;
 			case "AlexFerr2DLevel":
 				PlayerPrefs.SetInt("Level", 4);
-				Application.LoadLevel("Loading");
-				Application.LoadLevel(4);
+				Application.LoadLevel("LoadingScene");
+				//Application.LoadLevel(4);
 				break;
 			case "BreakScene":
 				break;
