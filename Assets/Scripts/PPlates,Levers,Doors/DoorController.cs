@@ -16,14 +16,20 @@ public class DoorController : MonoBehaviour {
 
 	public int neededToOpen;
 
+
+	private bool opening;
+	private bool closing;
+
+
 	[HideInInspector]
 	public int platesActivated;
-	public bool plateOne;
-	public bool plateTwo;
+
 
 	void Start () {
 		assignState ();
-        mouth = GetComponent<Animator>();
+		if (gameObject.name == "mouth_door") {
+			mouth = GetComponent<Animator> ();
+		}
 		myCollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
         startState = open;
 
@@ -35,20 +41,27 @@ public class DoorController : MonoBehaviour {
 		myCollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
 
 		if (open) {
+
+
+
 			Debug.Log ("open");
-            mouth.SetBool("open", true);		//gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			if (gameObject.name == "mouth_door") {
+				mouth.SetBool ("open", true);		//gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			} else {
+				opening = true;
+			}
+			
 			myCollider.size = new Vector2(0,0);
            // myRigidBody.gravityScale = 1;
 		} else if (!open) {
 			Debug.Log ("closed");
             //gameObject.GetComponent<MeshRenderer> ().enabled = true;
-            mouth.SetBool("open", false);
-            if (gameObject.name == "mouth_door")
-            {
-                myCollider.size = new Vector2(1.5f, 0.8f);
-            }
-            else
-            {
+			if (gameObject.name == "mouth_door") {
+				mouth.SetBool("open", false);
+
+				myCollider.size = new Vector2 (1.5f, 0.8f);
+			} else {
+				closing = true;
                 myCollider.size = new Vector2(1, 1);
             }
         }
@@ -80,4 +93,29 @@ public class DoorController : MonoBehaviour {
         open = startState;
         assignState();
     }
+
+
+	public void Update(){
+
+
+		Color color = this.gameObject.GetComponent<MeshRenderer> ().material.color;
+
+
+		if (opening && open) {
+
+			this.gameObject.GetComponent<MeshRenderer> ().material.color = new UnityEngine.Color (color.r, color.g, color.b, color.a - .025f);   
+			if (this.gameObject.GetComponent<MeshRenderer> ().material.color.a <= 0f) {
+				opening = false;
+			}
+		}
+		if (closing && !open) {
+
+			this.gameObject.GetComponent<MeshRenderer> ().material.color = new UnityEngine.Color (color.r, color.g, color.b, color.a + .025f);   
+			if (this.gameObject.GetComponent<MeshRenderer> ().material.color.a >= 1f) {
+				closing = false;
+			}
+		}
+
+	}
+
 }
