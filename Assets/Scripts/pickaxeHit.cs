@@ -22,16 +22,13 @@ public class pickaxeHit : MonoBehaviour {
 		Player = GameObject.Find ("Player");
 		pickaxe = Player.GetComponent<LimbController> ();
         playerAnimator = Player.GetComponent<Animator>();
-	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-            if (pickaxe.hasPickaxe && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance) {
+            if (pickaxe.hasPickaxe && Input.GetKeyDown(KeyCode.X) && Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance) {
                 Debug.Log("testing in here now");
-                mylevelmanager.destroyWall();;
-               
-            }
-         
+                mylevelmanager.destroyWall();
+            } 
     }
 }
