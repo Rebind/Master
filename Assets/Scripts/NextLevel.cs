@@ -29,6 +29,7 @@ public class NextLevel : MonoBehaviour {
 			case "Showcase":
 				PlayerPrefs.SetInt("Level", 1);
 				Application.LoadLevel("LoadingScene");
+				
 				//Application.LoadLevel(1);
 				break;
 			case "AlexFerr2DLevel":
@@ -36,7 +37,9 @@ public class NextLevel : MonoBehaviour {
 				Application.LoadLevel("LoadingScene");
 				//Application.LoadLevel(4);
 				break;
-			case "BreakScene":
+			case "BeggLevel":
+				PlayerPrefs.SetInt("Level", 4);
+				Application.LoadLevel("LoadingScene");
 				break;
 			default:
 				print ("Incorrect intelligence level.");
