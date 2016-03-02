@@ -41,46 +41,37 @@ public class PressurePlateController : MonoBehaviour
     {
         if (!oneTime)
         {
-            if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
-            {
+			if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
 				//playSoundEffect();
-				audioPP.PlayOneShot(ppSound, 0.4f);
-                spriteRenderer.color = new Color(0f, 1f, 0f, 1f);
-                //spriteRenderer.sprite = activeSprite;
-                onPlate = true;
+				audioPP.PlayOneShot (ppSound, 0.4f);
+				spriteRenderer.color = new Color (0f, 1f, 0f, 1f);
+				//spriteRenderer.sprite = activeSprite;
+				onPlate = true;
+				if (moveDoor) { //toggles the door(s) states
 
-                if (moveDoor)
-                { //toggles the door(s) states
+					foreach (GameObject door in affectedDoors) {
 
-                    foreach (GameObject door in affectedDoors)
-                    {
-
-                        if (!door.GetComponent<DoorController>().requireMultiplePlates)
-                        {
-                            door.GetComponent<DoorController>().turnOn();
-                        }
-                        else if (door.GetComponent<DoorController>().requireMultiplePlates)
-                        {
-                            door.GetComponent<DoorController>().platesActivated++;
-                            door.GetComponent<DoorController>().turnOn();
+						if (!door.GetComponent<DoorController> ().requireMultiplePlates) {
+							door.GetComponent<DoorController> ().turnOn ();
+						} else if (door.GetComponent<DoorController> ().requireMultiplePlates) {
+							door.GetComponent<DoorController> ().platesActivated++;
+							door.GetComponent<DoorController> ().turnOn ();
 
 
-                        }
-                    }
+						}
+					}
 
 
 
 
-                }
-                if (movePlatform)
-                { //toggles the state of the platform(s)
-                    foreach (GameObject platform in affectedPlatforms)
-                    {
+				}
+				if (movePlatform) { //toggles the state of the platform(s)
+					foreach (GameObject platform in affectedPlatforms) {
 
-                        platform.GetComponent<PlatformController>().turnOn();
-                    }
-                }
-            }
+						platform.GetComponent<PlatformController> ().turnOn ();
+					}
+				}
+			} 
             oneTime = true;
         }
     }
