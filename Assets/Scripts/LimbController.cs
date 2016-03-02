@@ -472,6 +472,9 @@ public class LimbController : MonoBehaviour
 	{
 		pos = player.transform.position;
 		limb.transform.position = pos;
+		if (limb.tag != "torso") {
+			limb.GetComponent<Controller2D> ().collisions.below = false;
+		}
 	}
 	
 	/*

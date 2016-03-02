@@ -13,6 +13,9 @@ public class PushBox : MonoBehaviour
 	public Player playerScript;
     private Animator playerAnimator;
 	
+	public AudioClip rockSound;
+	public AudioSource audioRock;
+	
 
     void Start()
     {
@@ -22,6 +25,7 @@ public class PushBox : MonoBehaviour
 		playerScript = Player.GetComponent<Player>();
 		temSpeed = playerScript.moveSpeed;
         playerAnimator = Player.GetComponent<Animator>();
+		audioRock = this.gameObject.AddComponent<AudioSource>();
     }
 
     void Update()
@@ -41,22 +45,38 @@ public class PushBox : MonoBehaviour
                 playerAnimator.SetLayerWeight(4, 1);
            // }
                 gameObject.layer = 11;
+				
+			//Play sound here
+			playSoundEffect();
 		}
 		if ((Input.GetKeyUp(KeyCode.H) || Input.GetButtonUp("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm))
 		{
+			//Stop sound from playing
+			stopSoundEffect();
 			rgbd.constraints = RigidbodyConstraints2D.FreezeAll;
-                playerAnimator.SetLayerWeight(4, 0);
-                gameObject.layer = 8;
+            playerAnimator.SetLayerWeight(4, 0);
+            gameObject.layer = 8;
 			//make a gap 
 			if (gameObject.transform.position.x > temPosition.x) {
 				gameObject.transform.position += addGap;
 			} else if (gameObject.transform.position.x < temPosition.x) {
 				gameObject.transform.position -= addGap;
 			}
+			
+			
 		}
 	}
 
-	//no press key requise
+	private void playSoundEffect(){
+		audioRock.clip = rockSound;
+		audioRock.Play();
+	}
+	
+	private void stopSoundEffect(){
+		audioRock.Stop();
+	}
+	
+	//no press key require
 	private void pushController2(){
 		if (arm.hasArm || arm.hasSecondArm)
 		{

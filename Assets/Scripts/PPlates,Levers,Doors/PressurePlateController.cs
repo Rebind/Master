@@ -16,6 +16,8 @@ public class PressurePlateController : MonoBehaviour
     public GameObject[] affectedPlatforms;
     SpriteRenderer spriteRenderer;
 
+	public AudioClip ppSound;
+	public AudioSource audioPP;
 
 
     bool onPlate;
@@ -29,6 +31,7 @@ public class PressurePlateController : MonoBehaviour
         oneTime = false;
         onPlate = false;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+		audioPP = this.gameObject.AddComponent<AudioSource>();
 
     }
 
@@ -40,7 +43,8 @@ public class PressurePlateController : MonoBehaviour
         {
             if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
             {
-
+				//playSoundEffect();
+				audioPP.PlayOneShot(ppSound, 0.4f);
                 spriteRenderer.color = new Color(0f, 1f, 0f, 1f);
                 //spriteRenderer.sprite = activeSprite;
                 onPlate = true;
@@ -86,8 +90,9 @@ public class PressurePlateController : MonoBehaviour
         if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
         {
             spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+			
             //spriteRenderer.sprite = inactiveSprite;
-
+			stopSoundEffect();
             onPlate = false;
             Debug.Log("Off Plate");
             //Destroy (this.gameObject);
@@ -131,8 +136,14 @@ public class PressurePlateController : MonoBehaviour
     // Update is called once per frame
 
 
+	private void playSoundEffect(){
+		
+	}
 
-
+	private void stopSoundEffect(){
+		audioPP.Stop();
+		
+	}
 
 
     //returns true or false if plate is colliding with an object
