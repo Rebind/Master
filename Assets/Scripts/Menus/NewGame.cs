@@ -9,12 +9,16 @@ public class NewGame : MonoBehaviour {
 	int selected = 0;
 	bool inputVertical = false;
 	bool userHasHitReturn = false;
+	
+	public Texture2D emptyProgressBar; 
+	public Texture2D fullProgressBar; 
+	
+	public bool clickedStart = false;
  
-	void Start(){
- 
-		selected = 0;
- 
-	}
+	private AsyncOperation async = null; // When assigned, load is in progress.
+	private LevelManager lvlmanager;
+	private Loading loading;
+
  
 	int menuSelection (string[] buttonsArray, int selectedItem, string direction) {
  
@@ -46,12 +50,15 @@ public class NewGame : MonoBehaviour {
  
 		}
  
-	return selectedItem;
+		return selectedItem;
  
 	}
  
 	void Update(){
  
+		//StartCoroutine(LoadALevel("Showcase"));
+		
+		
 		if(Input.GetAxisRaw("Vertical") == 1){
 			if(inputVertical == false){
 				selected = menuSelection(buttons, selected, "up");
@@ -74,46 +81,69 @@ public class NewGame : MonoBehaviour {
  
 	}
  
+
+	IEnumerator Start() {
+		async = Application.LoadLevelAsync("Showcase");
+		async.allowSceneActivation = false;
+		yield return async;
+	}
+	
 	void OnGUI(){
- 
+		//GUI.DrawTexture(new Rect(500, 200, 100, 50), emptyProgressBar);
+		
 		GUI.SetNextControlName(buttons[0]);
 		Event e = Event.current;
-        if (e.keyCode == KeyCode.Return) {
-			Debug.Log("testing in GUI");
-			userHasHitReturn = true;
-		}
- 
-		if(GUI.Button(new Rect(500,200,70,50), buttons[0]) ){
+       
+		
+		if(GUI.Button(new Rect(500,250,100,50), buttons[0]) ){
  
 			//when selected Start button
-			Application.LoadLevel("water");
+			//Application.LoadLevel("Showcase");
 			Debug.Log("Clicked Start");
  
 		}
 		
 		if(GUI.GetNameOfFocusedControl() == "Start" && e.keyCode == KeyCode.Return){
-			Application.LoadLevel("water");
-			Debug.Log("Clicked Start");
+			
+			//StartCoroutine(LoadALevel ("Showcase"));
+			clickedStart = true;
+			Application.LoadLevel("LoadingScene");
+			loading.setLevelName(lvlmanager.Levels[1]);
 		}
  
 		GUI.SetNextControlName(buttons[1]);
  
-		if(GUI.Button(new Rect(500,260,70,50), buttons[1])){
+		if(GUI.Button(new Rect(500,320,100,50), buttons[1])){
  
 			//when selected Options button
 			Debug.Log("Clicked Options");
  
 		}
  
+		//Players select the levels they want
+		if(GUI.GetNameOfFocusedControl() == "Level Select" && e.keyCode == KeyCode.Return){
+			
+			//StartCoroutine(LoadALevel ("Showcase"));
+			//clickedStart = true;
+			//Application.LoadLevel("LoadingScene");
+			//loading.getLevelName(lvlmanager.Levels[1]);
+		}
 		GUI.SetNextControlName(buttons[2]);
  
-		if(GUI.Button(new Rect(500,320,70,50), buttons[2])){
+		if(GUI.Button(new Rect(500,390,100,50), buttons[2])){
  
 			//when selected Exit button
 			Debug.Log("Exit");
  
 		}
  
+		if(GUI.GetNameOfFocusedControl() == "Exit" && e.keyCode == KeyCode.Return){
+			
+			//StartCoroutine(LoadALevel ("Showcase"));
+			//clickedStart = true;
+			//Application.LoadLevel("LoadingScene");
+			//loading.getLevelName(lvlmanager.Levels[1]);
+		}
 		GUI.FocusControl(buttons[selected]);
  
 	}

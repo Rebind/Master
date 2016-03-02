@@ -12,14 +12,17 @@ public class LevelManager : MonoBehaviour
     private GameObject breakable;
 
     public GameObject deathParticle;
-
+	public GameObject exit;
     public GameObject WreckParticle;
     private GameObject[] Legs;
     private GameObject[] Arms;
     Animator playerAnimator;
     float minimumDistance = 10.5f;
     private LinkedList Limbs;
-
+	private PressurePlateController pp;
+	public string [] Levels;
+	private Loading loading;
+	
     public class Node {
         public Node next;
         public Node last;
@@ -70,6 +73,7 @@ public class LevelManager : MonoBehaviour
 
         player = GameObject.Find("Player");
         Wreck = GameObject.Find("BreakTerrain");
+		exit = GameObject.Find("Exit");
         breakable = GameObject.FindGameObjectWithTag("breakable");
         ControlScript = player.GetComponent<SwitchControl>();
         //find all objects with tags "leg" and "arm"
@@ -77,6 +81,7 @@ public class LevelManager : MonoBehaviour
         Arms = GameObject.FindGameObjectsWithTag("arm");
         playerAnimator = player.GetComponent<Animator>();
 
+		Levels = new string[]{"AlexFerr2DLevel", "Showcase"};
         for (int i = 0; i < Legs.Length; i++) 
         {
             Limbs.append(Legs[i]);
@@ -91,7 +96,8 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+		
+        if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_XButton"))
         {
             playerAnimator.SetTrigger("attack");
         }
@@ -99,10 +105,11 @@ public class LevelManager : MonoBehaviour
         {
             playerAnimator.SetLayerWeight(5, 1);
         }
-        else
-        {
+        else{
             playerAnimator.SetLayerWeight(5, 0);
         }
+		
+		
     }
 
     public void respawnPlayer()
@@ -140,5 +147,8 @@ public class LevelManager : MonoBehaviour
         tmp.transform.position = Limbs.getPosition(tmp);
         ControlScript.switchToHead();
     }
+	
+	
+	
 
 }
