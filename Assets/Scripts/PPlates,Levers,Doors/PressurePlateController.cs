@@ -53,6 +53,8 @@ public class PressurePlateController : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
+        activeSprite = Resources.Load("Pressure Plates_5", typeof(Sprite)) as Sprite;
+        inactiveSprite = Resources.Load("Pressure Plates_4", typeof(Sprite)) as Sprite;
         oneTime = false;
         onPlate = false;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
@@ -66,32 +68,25 @@ public class PressurePlateController : MonoBehaviour
     {
         if (!oneTime)
         {
-            if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
-            {
+			if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
 				//playSoundEffect();
-				audioPP.PlayOneShot(ppSound, 0.4f);
-                spriteRenderer.color = new Color(0f, 1f, 0f, 1f);
-                //spriteRenderer.sprite = activeSprite;
-                onPlate = true;
+				audioPP.PlayOneShot (ppSound, 0.4f);
+				//spriteRenderer.color = new Color (0f, 1f, 0f, 1f);
+				spriteRenderer.sprite = activeSprite;
+				onPlate = true;
+				if (moveDoor) { //toggles the door(s) states
 
-                if (moveDoor)
-                { //toggles the door(s) states
+					foreach (GameObject door in affectedDoors) {
 
-                    foreach (GameObject door in affectedDoors)
-                    {
-
-                        if (!door.GetComponent<DoorController>().requireMultiplePlates)
-                        {
-                            door.GetComponent<DoorController>().turnOn();
-                        }
-                        else if (door.GetComponent<DoorController>().requireMultiplePlates)
-                        {
-                            door.GetComponent<DoorController>().platesActivated++;
-                            door.GetComponent<DoorController>().turnOn();
+						if (!door.GetComponent<DoorController> ().requireMultiplePlates) {
+							door.GetComponent<DoorController> ().turnOn ();
+						} else if (door.GetComponent<DoorController> ().requireMultiplePlates) {
+							door.GetComponent<DoorController> ().platesActivated++;
+							door.GetComponent<DoorController> ().turnOn ();
 
 
-                        }
-                    }
+						}
+					}
 
 
 <<<<<<< HEAD
@@ -177,16 +172,14 @@ public class PressurePlateController : MonoBehaviour
 =======
 
 
-                }
-                if (movePlatform)
-                { //toggles the state of the platform(s)
-                    foreach (GameObject platform in affectedPlatforms)
-                    {
+				}
+				if (movePlatform) { //toggles the state of the platform(s)
+					foreach (GameObject platform in affectedPlatforms) {
 
-                        platform.GetComponent<PlatformController>().turnOn();
-                    }
-                }
-            }
+						platform.GetComponent<PlatformController> ().turnOn ();
+					}
+				}
+			} 
             oneTime = true;
         }
     }
@@ -195,9 +188,9 @@ public class PressurePlateController : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
         {
-            spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+            //spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
 			
-            //spriteRenderer.sprite = inactiveSprite;
+            spriteRenderer.sprite = inactiveSprite;
 			stopSoundEffect();
             onPlate = false;
             Debug.Log("Off Plate");
