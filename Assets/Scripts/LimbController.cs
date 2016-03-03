@@ -17,6 +17,9 @@ public class LimbController : MonoBehaviour
 	public AudioClip attachSound;
 
 
+	private float timer;
+
+
 	string objectTag;
 	private Sprite currentBodyState; //stores the current state of the body, gets from the array
 	private Animator myAnimator; //Animator for the different states
@@ -24,7 +27,7 @@ public class LimbController : MonoBehaviour
 	public bool hasTorso, hasArm, hasSecondArm, hasLeg, hasSecondLeg;
 	public bool hasBoot, hasTorch, hasShovel, hasPickaxe;
 	private Player player;
-	private float minimumDistance = 2.5f;
+	private float minimumDistance = 200.5f;
 	private Vector3 pos;
 	private Sound sounds;
 	private bool playSound;
@@ -80,7 +83,8 @@ public class LimbController : MonoBehaviour
 			//handleSounds ();
 		
 		}
-
+		timer += Time.deltaTime;
+			
 	}
 
 	/*
@@ -292,7 +296,8 @@ public class LimbController : MonoBehaviour
 		{
 			hasTorso = true;
 			assignState();
-			torso.SetActive(false);
+			torso.transform.Translate(new Vector3(999999,99999,9999));
+
 
 		}
 		else if (hasTorso && objectTag == "arm")
@@ -300,14 +305,21 @@ public class LimbController : MonoBehaviour
 			
 			if (!hasArm)
 			{
-				arm.SetActive (false);
+
+				arm.transform.Translate(new Vector3(999999,99999,9999));
+	
+				arm.GetComponent<Player>().enabled = false;
+
+				
 				hasArm = true;
 
 			}
 			else if (hasArm && !hasSecondArm)
 			{
 				hasSecondArm = true;
-				twoArms.SetActive(false);
+				twoArms.transform.Translate(new Vector3(999999,99999,9999));
+				twoArms.GetComponent<Player>().enabled = false;
+
 			}
 			hasPickaxe = true;
 			assignState();
@@ -317,12 +329,18 @@ public class LimbController : MonoBehaviour
 			if (!hasLeg)
 			{
 				hasLeg = true;
-				leg.SetActive(false);
+				leg.transform.Translate(new Vector3(999999,99999,9999));
+				leg.GetComponent<Player>().enabled = false;
+
 			}
 			else if (hasLeg && !hasSecondLeg)
 			{
+
+	
+				twoLegs.transform.Translate(new Vector3(999999,99999,9999));
+				twoLegs.GetComponent<Player>().enabled = false;
+
 				hasSecondLeg = true;
-				twoLegs.SetActive(false);
 			}
 
 			assignState();
