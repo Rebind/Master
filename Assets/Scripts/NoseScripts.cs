@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Nose : MonoBehaviour {
+public class NoseScripts : MonoBehaviour {
 
 	public Player playerScript;
 	private GameObject Player;
