@@ -27,7 +27,7 @@ public class LimbController : MonoBehaviour
 	public bool hasTorso, hasArm, hasSecondArm, hasLeg, hasSecondLeg;
 	public bool hasBoot, hasTorch, hasShovel, hasPickaxe;
 	private Player player;
-	private float minimumDistance = 200.5f;
+	private float minimumDistance = 2.5f;
 	private Vector3 pos;
 	private Sound sounds;
 	private bool playSound;
