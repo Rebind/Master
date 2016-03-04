@@ -46,8 +46,8 @@ public class PressurePlateController : MonoBehaviour
 			if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
 				//playSoundEffect();
 				audioPP.PlayOneShot (ppSound, 0.4f);
-				//spriteRenderer.color = new Color (0f, 1f, 0f, 1f);
-				spriteRenderer.sprite = activeSprite;
+				spriteRenderer.color = new Color (0f, 1f, 0f, 1f);
+				//spriteRenderer.sprite = activeSprite;
 				onPlate = true;
 				if (moveDoor) { //toggles the door(s) states
 
@@ -82,9 +82,9 @@ public class PressurePlateController : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
         {
-            //spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+            spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
 			
-            spriteRenderer.sprite = inactiveSprite;
+            //priteRenderer.sprite = inactiveSprite;
 			stopSoundEffect();
             onPlate = false;
             Debug.Log("Off Plate");
