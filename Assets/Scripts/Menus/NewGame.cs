@@ -93,7 +93,6 @@ public class NewGame : MonoBehaviour {
 		
 		GUI.SetNextControlName(buttons[0]);
 		Event e = Event.current;
-       
 		
 		if(GUI.Button(new Rect(500,250,100,50), buttons[0]) ){
  
