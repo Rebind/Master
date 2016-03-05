@@ -10,8 +10,11 @@ public class NewGame : MonoBehaviour {
 	bool inputVertical = false;
 	bool userHasHitReturn = false;
 	
-	public Texture2D emptyProgressBar; 
-	public Texture2D fullProgressBar; 
+	public Texture2D resumeButton; 
+	public Texture2D quitButton; 
+	
+	public Texture2D playButton;
+	
 	
 	public bool clickedStart = false;
  
@@ -95,7 +98,7 @@ public class NewGame : MonoBehaviour {
 		Event e = Event.current;
        
 		
-		if(GUI.Button(new Rect(500,250,100,50), buttons[0]) ){
+		if(GUI.Button(new Rect(Screen.width/2,250,100,50), playButton )){
  
 			//when selected Start button
 			//Application.LoadLevel("Showcase");
@@ -113,7 +116,7 @@ public class NewGame : MonoBehaviour {
  
 		GUI.SetNextControlName(buttons[1]);
  
-		if(GUI.Button(new Rect(500,320,100,50), buttons[1])){
+		if(GUI.Button(new Rect(Screen.width/2,320,100,50), resumeButton)){
  
 			//when selected Options button
 			Debug.Log("Clicked Options");
@@ -130,7 +133,7 @@ public class NewGame : MonoBehaviour {
 		}
 		GUI.SetNextControlName(buttons[2]);
  
-		if(GUI.Button(new Rect(500,390,100,50), buttons[2])){
+		if(GUI.Button(new Rect(Screen.width/2,390,100,50), quitButton)){
  
 			//when selected Exit button
 			Debug.Log("Exit");

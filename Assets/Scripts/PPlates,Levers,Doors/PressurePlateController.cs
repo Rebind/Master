@@ -28,6 +28,8 @@ public class PressurePlateController : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
+        activeSprite = Resources.Load("Pressure Plates_5", typeof(Sprite)) as Sprite;
+        inactiveSprite = Resources.Load("Pressure Plates_4", typeof(Sprite)) as Sprite;
         oneTime = false;
         onPlate = false;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
@@ -82,7 +84,7 @@ public class PressurePlateController : MonoBehaviour
         {
             spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
 			
-            //spriteRenderer.sprite = inactiveSprite;
+            //priteRenderer.sprite = inactiveSprite;
 			stopSoundEffect();
             onPlate = false;
             Debug.Log("Off Plate");
