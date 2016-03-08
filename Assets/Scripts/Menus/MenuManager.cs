@@ -21,11 +21,11 @@ public class MenuManager : MonoBehaviour {
 
 	void Update(){
 		if (isPaused) {
-			PauseGame (true);
+			//PauseGame (true);
 			ShowMenu(CurrentMenu);
 		} else {
 			CurrentMenu.IsOpen = false;
-			PauseGame (false);
+			//PauseGame (false);
 		}
 		if (Input.GetButtonDown ("Cancel")) {
 			switchPause ();
