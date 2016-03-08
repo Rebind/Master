@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
 	public Vector3 velocity;
 
 	private float minJumpVelocity;
-	private float maxJumpVelocity;
-	private float maxJumpHeight = 4;
+	public float maxJumpVelocity;
+	public float maxJumpHeight = 4;
 	private float minJumpHeight = 0;
 	private float timeToJumpApex = .4f;
 
@@ -78,8 +78,6 @@ public class Player : MonoBehaviour
 			velocity.x = 0;
 			velocity.y += -10 * Time.deltaTime;
 			myController.Move (velocity * Time.deltaTime);
-			
-
 
 		}
 
@@ -93,7 +91,6 @@ public class Player : MonoBehaviour
            
             playerAnim.SetLayerWeight(2, 1);
         }
-
     }
 
 
@@ -179,6 +176,7 @@ public class Player : MonoBehaviour
 	//changes the movement speed of the player charachter based on current limb state
 	private void handlePlayerMovementSpeed()
 	{
+		
 		if ((isJumping) && (oldFacing != facingRight)) {
 			moveSpeed = 4f;
 		}
@@ -198,6 +196,7 @@ public class Player : MonoBehaviour
 		{
 			moveSpeed = 10f;
 		}
+			
 	}
 
 	//flips the player sprite based on its facing
@@ -457,7 +456,7 @@ public class Player : MonoBehaviour
 			audioS.Stop ();
 		}
 	}
-
+		
 
 	/*
 	}
