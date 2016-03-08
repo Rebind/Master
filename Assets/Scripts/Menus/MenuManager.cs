@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 	public Menu CurrentMenu;
 	private Player playerScripts;
 	private GameObject Player;
+	public GameObject Canvas;
 	public bool isPaused;
 	//private float tempSpeed;
 	private float tempJumpHeight;
@@ -19,11 +21,11 @@ public class MenuManager : MonoBehaviour {
 
 	void Update(){
 		if (isPaused) {
-			//PauseGame (true);
+			PauseGame (true);
 			ShowMenu(CurrentMenu);
 		} else {
 			CurrentMenu.IsOpen = false;
-			//PauseGame (false);
+			PauseGame (false);
 		}
 		if (Input.GetButtonDown ("Cancel")) {
 			switchPause ();
