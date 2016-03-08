@@ -101,10 +101,12 @@ public class LevelManager : MonoBehaviour
         {
             playerAnimator.SetTrigger("attack");
         }
-        if(Vector3.Distance(breakable.transform.position, player.transform.position) <= minimumDistance)
-        {
-            playerAnimator.SetLayerWeight(5, 1);
-        }
+		if(breakable != null){
+			if(Vector3.Distance(breakable.transform.position, player.transform.position) <= minimumDistance)
+			{
+				playerAnimator.SetLayerWeight(5, 1);
+			}
+		}
         else{
             playerAnimator.SetLayerWeight(5, 0);
         }
