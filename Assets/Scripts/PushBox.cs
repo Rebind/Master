@@ -36,7 +36,6 @@ public class PushBox : MonoBehaviour
     }
 
 	private void pushController(){
-		if (Vector3.Distance (transform.position, Player.transform.position) <= minimumDistance) {
 			
 			if ((Input.GetKeyDown (KeyCode.H) || Input.GetButtonDown ("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat ("speed") > 0.1) {
 				//get the position when player press "h"
@@ -58,15 +57,14 @@ public class PushBox : MonoBehaviour
 				playerAnimator.SetLayerWeight (4, 0);
 				gameObject.layer = 8;
 				//make a gap 
-				if (gameObject.transform.position.x > temPosition.x) {
-					gameObject.transform.position += addGap;
-				} else if (gameObject.transform.position.x < temPosition.x) {
-					gameObject.transform.position -= addGap;
-				}
+				//if (gameObject.transform.position.x > temPosition.x) {
+				//	gameObject.transform.position += addGap;
+				//} else if (gameObject.transform.position.x < temPosition.x) {
+				//	gameObject.transform.position -= addGap;
+				//}
 				
 				
 			}
-		}
 	}
 
 	private void playSoundEffect(){
