@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
 	private int state;
 
-	private bool facingRight;
+	public bool facingRight;
 	private bool oldFacing;
 	public bool isJumping;
 	public bool isClimbing;
@@ -224,6 +224,15 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	public void faceRight(){
+		if (!facingRight) {
+			facingRight = !facingRight;
+			Vector3 theScale = transform.localScale;
+			theScale.x *= -1;
+			transform.localScale = theScale;
+		}
+			
+	}
 
 	//changes the player's jump height based on limb state
 	private void handleJumpHeight()
