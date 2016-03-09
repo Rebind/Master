@@ -20,12 +20,14 @@ public class PlatformController : RaycastController {
 	float nextMoveTime;
     public bool startState;
 	public bool moving;
+    SpriteRenderer spriteRenderer;
 
-	List<PassengerMovement> passengerMovement;
+    List<PassengerMovement> passengerMovement;
 	Dictionary<Transform,Controller2D> passengerDictionary = new Dictionary<Transform, Controller2D>();
 
 	public override void Start () {
 		base.Start ();
+        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         startState = moving;
 		globalWaypoints = new Vector3[localWaypoints.Length];
 		for (int i =0; i < localWaypoints.Length; i++) {
@@ -35,8 +37,8 @@ public class PlatformController : RaycastController {
 
 	void Update () {
 		if (moving) {
-
-		UpdateRaycastOrigins ();
+            spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+            UpdateRaycastOrigins ();
 
 		Vector3 velocity = CalculatePlatformMovement();
 
@@ -48,7 +50,11 @@ public class PlatformController : RaycastController {
 		
 			MovePassengers (false);
 		}
-	}
+        else
+        {
+            spriteRenderer.color = new Color(.7f, .7f, .7f, 1f);
+        }
+    }
 
 	public void toggle(){
 		moving = !moving;
