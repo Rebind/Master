@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 	public Menu CurrentMenu;
 	private Player playerScripts;
 	private GameObject Player;
+	public GameObject Canvas;
 	public bool isPaused;
 	//private float tempSpeed;
 	private float tempJumpHeight;
