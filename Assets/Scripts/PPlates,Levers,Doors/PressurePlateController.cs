@@ -29,8 +29,6 @@ public class PressurePlateController : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
-        activeSprite = Resources.Load("Pressure Plates_5", typeof(Sprite)) as Sprite;
-        inactiveSprite = Resources.Load("Pressure Plates_4", typeof(Sprite)) as Sprite;
         oneTime = false;
         onPlate = false;
         spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
@@ -53,8 +51,8 @@ public class PressurePlateController : MonoBehaviour
 					audioPP.clip = ppSound;
 					audioPP.Play();
 				}
-				spriteRenderer.color = new Color (0f, 1f, 0f, 1f);
-				//spriteRenderer.sprite = activeSprite;
+				//spriteRenderer.color = new Color (0f, 1f, 0f, 1f);
+				spriteRenderer.sprite = activeSprite;
 				onPlate = true;
 				if (moveDoor) { //toggles the door(s) states
 
@@ -90,9 +88,9 @@ public class PressurePlateController : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
         {
-            spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
+            //spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
 			hasPlayed = false;
-            //priteRenderer.sprite = inactiveSprite;
+            spriteRenderer.sprite = inactiveSprite;
 			stopSoundEffect();
             onPlate = false;
             Debug.Log("Off Plate");
