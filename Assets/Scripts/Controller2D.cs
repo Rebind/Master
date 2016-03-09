@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Controller2D : RaycastController {
 
-	float maxClimbAngle = 80;
-	float maxDescendAngle = 80;
+	float maxClimbAngle = 50;
+	float maxDescendAngle = 50;
 
 	public CollisionInfo collisions;
 	public LayerMask collisionMask;

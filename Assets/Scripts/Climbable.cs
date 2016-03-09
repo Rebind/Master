@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Climbable : MonoBehaviour {
 
-
+	public float offset;
 
 
 	// Use this for initialization
@@ -17,6 +17,9 @@ public class Climbable : MonoBehaviour {
 				
 			if (other.GetComponent<Controller2D> ().collisions.below == false || Input.GetKeyDown(KeyCode.UpArrow)) {
 				other.GetComponent<Player> ().isClimbing = true;
+				other.transform.position = new Vector3 (this.transform.position.x-offset, other.transform.position.y);
+				other.GetComponent<Player> ().faceRight();
+
 			} else {
 				other.GetComponent<Player> ().isClimbing = false;
 
