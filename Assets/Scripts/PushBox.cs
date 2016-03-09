@@ -65,6 +65,10 @@ public class PushBox : MonoBehaviour
 				
 				
 			}
+			
+			if(Vector3.Distance(gameObject.transform.position, Player.transform.position) > 10.0f && (Input.GetKeyDown (KeyCode.H) || Input.GetButtonDown ("Xbox_XButton"))){
+				stopSoundEffect();
+			}
 	}
 
 	private void playSoundEffect(){
