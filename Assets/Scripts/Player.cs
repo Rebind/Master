@@ -67,7 +67,9 @@ public class Player : MonoBehaviour
         if (enabled) {
 			state = myAnimator.GetInteger("state");
 			handleMovements();
-			handleSpriteFacing();
+			if (!isClimbing) {
+				handleSpriteFacing ();
+			}
 			handleJumpHeight();
 			handlePlayerMovementSpeed ();
 			handleBodyCollisions();
@@ -110,7 +112,7 @@ public class Player : MonoBehaviour
 
 		Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
 
-		if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing && Input.GetAxisRaw("Horizontal") != 0)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")) && notOnNose)  //if spacebar is pressed, jump
+		if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")) && notOnNose)  //if spacebar is pressed, jump
 		{
 			oldFacing = facingRight;
 			velocity.y = maxJumpVelocity;
@@ -138,11 +140,14 @@ public class Player : MonoBehaviour
 		} 
 
 
-		velocity.x = input.x * moveSpeed;
+		if (!isClimbing || isClimbing && myController.collisions.below) {
+			velocity.x = input.x * moveSpeed;
+		}
 
 
-		if (isClimbing && !isJumping && notOnNose) {
+		if (isClimbing && notOnNose && !myController.collisions.below) {
 			velocity.y = input.y * moveSpeed;
+			velocity.x = 0;
             myAnimator.SetLayerWeight(3, 1);
         }
 
