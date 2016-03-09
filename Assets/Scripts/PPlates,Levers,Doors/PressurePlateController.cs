@@ -16,13 +16,13 @@ public class PressurePlateController : MonoBehaviour
     public GameObject[] affectedPlatforms;
     SpriteRenderer spriteRenderer;
 
-	public AudioClip ppSound;
+	public AudioClip ppOn;
+	public AudioClip ppOff;
 	public AudioSource audioPP;
 
 
     bool onPlate;
     bool oneTime;
-	bool hasPlayed = false;
 
 
 
@@ -45,12 +45,16 @@ public class PressurePlateController : MonoBehaviour
 			if (other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")) {
 				//playSoundEffect();
 				//audioPP.PlayOneShot (ppSound, 0.5f);
-				if (hasPlayed == false)
-				{
-					hasPlayed = true;
-					audioPP.clip = ppSound;
-					audioPP.Play();
+
+
+					
+				if (audioPP.isPlaying) {
+					audioPP.Stop ();
+				} else {
+					audioPP.clip = ppOn;
+					audioPP.Play ();
 				}
+
 				//spriteRenderer.color = new Color (0f, 1f, 0f, 1f);
 				spriteRenderer.sprite = activeSprite;
 				onPlate = true;
@@ -89,12 +93,19 @@ public class PressurePlateController : MonoBehaviour
         if (other.CompareTag("Player") || other.CompareTag("arm") || other.CompareTag("torso") || other.CompareTag("leg"))
         {
             //spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
-			hasPlayed = false;
             spriteRenderer.sprite = inactiveSprite;
 			stopSoundEffect();
             onPlate = false;
             Debug.Log("Off Plate");
             //Destroy (this.gameObject);
+
+			if (audioPP.isPlaying) {
+				audioPP.Stop ();
+			} else {
+				audioPP.clip = ppOff;
+				audioPP.Play();
+
+			}
 
             if (moveDoor)
             { //toggles the door(s) states
