@@ -39,7 +39,7 @@ public class Sound : MonoBehaviour {
 		audioFoot = AddAudio(footsteps, true, true, 0.1f);
 		//audioFoot.pitch = 0.35f;
 		audioFeet = AddAudio(feet, true, true, 3.0f);
-		audioJump = AddAudio(jump, true, true, 5.0f);
+		audioJump = AddAudio(jump, false, true,1f);
 
 		playerMovementAudioSources = new AudioSource[4] { audioHeadRoll, audioTorso, audioFeet, audioFoot };
 	} 
