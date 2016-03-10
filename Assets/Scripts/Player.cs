@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
 		{
 			oldFacing = facingRight;
 			velocity.y = maxJumpVelocity;
-			//           sounds.audioJump.PlayOneShot(sounds.jump);
+		   sounds.audioJump.Play();
 			myAnimator.SetTrigger("jump");
 			isJumping = true;
 
