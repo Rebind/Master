@@ -5,10 +5,13 @@ public class KillPlayer : MonoBehaviour
 {
 
     public LevelManager mylevelmanager;
-
+    private Sound sounds;
+    private GameObject player;
     // Use this for initialization
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        sounds = player.GetComponent<Sound>();
         mylevelmanager = FindObjectOfType<LevelManager>();
     }
 
@@ -20,8 +23,11 @@ public class KillPlayer : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        //sounds.audiodead.Play();
         if (other.tag == "Player")
         {
+
+            sounds.audiodead.Play();
             Debug.Log("player respawn here");
             mylevelmanager.respawnPlayer();
         } 
