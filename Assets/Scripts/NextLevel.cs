@@ -14,7 +14,7 @@ public class NextLevel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Vector3.Distance(this.transform.position, player.transform.position) <= 4.0f){
+		if (Vector3.Distance(this.transform.position, player.transform.position) <= 4.5f){
 			Debug.Log("in exit");
 			nextLevel();
 			

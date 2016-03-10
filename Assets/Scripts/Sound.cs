@@ -10,9 +10,16 @@ public class Sound : MonoBehaviour {
 	public AudioClip footsteps;
 	public AudioClip feet;
 	public AudioClip jump;
+    public AudioClip limbControl;
+    public AudioClip dead;
+    public AudioClip climb;
 
-	public AudioSource audioAttach;
-	public AudioSource audioDetach;
+
+    public AudioSource audioAttach;
+    public AudioSource audioLimbControl;
+    public AudioSource audioClimb;
+    public AudioSource audiodead;
+    public AudioSource audioDetach;
 	public AudioSource audioHeadRoll;
 	public AudioSource audioTorso;
 	public AudioSource audioFoot;
@@ -39,8 +46,11 @@ public class Sound : MonoBehaviour {
 		audioFoot = AddAudio(footsteps, true, true, 0.1f);
 		//audioFoot.pitch = 0.35f;
 		audioFeet = AddAudio(feet, true, true, 3.0f);
-		audioJump = AddAudio(jump, false, true,1f);
+		audioJump = AddAudio(jump, false, true,.5f);
+        audiodead = AddAudio(dead, false, true, .6f);
+        audioLimbControl = AddAudio(limbControl, false, true, .4f);
+        audioClimb = AddAudio(climb, false, true, 1f);
 
-		playerMovementAudioSources = new AudioSource[4] { audioHeadRoll, audioTorso, audioFeet, audioFoot };
+        playerMovementAudioSources = new AudioSource[4] { audioHeadRoll, audioTorso, audioFeet, audioFoot };
 	} 
 }

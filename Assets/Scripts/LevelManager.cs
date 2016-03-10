@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     private GameObject player;
     private GameObject Wreck;
     private GameObject breakable;
-
+    private Sound sounds;
     public GameObject deathParticle;
 	public GameObject exit;
     public GameObject WreckParticle;
@@ -71,7 +71,7 @@ public class LevelManager : MonoBehaviour
     {
         Limbs = new LinkedList();
 
-        player = GameObject.Find("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         Wreck = GameObject.Find("BreakTerrain");
 		exit = GameObject.Find("Exit");
         breakable = GameObject.FindGameObjectWithTag("breakable");
@@ -80,8 +80,9 @@ public class LevelManager : MonoBehaviour
         Legs = GameObject.FindGameObjectsWithTag("leg");
         Arms = GameObject.FindGameObjectsWithTag("arm");
         playerAnimator = player.GetComponent<Animator>();
+        sounds = player.GetComponent<Sound>();
 
-		Levels = new string[]{"AlexFerr2DLevel", "Showcase"};
+        Levels = new string[]{"AlexFerr2DLevel", "Showcase"};
         for (int i = 0; i < Legs.Length; i++) 
         {
             Limbs.append(Legs[i]);
@@ -111,7 +112,6 @@ public class LevelManager : MonoBehaviour
             playerAnimator.SetLayerWeight(5, 0);
         }
 		
-		
     }
 
     public void respawnPlayer()
@@ -129,7 +129,7 @@ public class LevelManager : MonoBehaviour
     public IEnumerator respawnPlayerCo()
     {
         Instantiate(deathParticle, player.transform.position, player.transform.rotation);
-        player.SetActive(false);
+        //player.SetActive(false);
         player.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(respawnDelay);
 		//SceneManager.LoadScene ("ninja");
@@ -137,7 +137,6 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(respawnDelay);
         player.SetActive(true);
         player.GetComponent<Renderer>().enabled = true;
-        
         //Instantiate(respawnParticle, currentCheckpoint.transform.position, currentCheckpoint.transform.rotation);
         //player.transform.position = currentCheckpoint.transform.position;
     }
