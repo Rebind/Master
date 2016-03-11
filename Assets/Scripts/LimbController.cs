@@ -488,8 +488,10 @@ public class LimbController : MonoBehaviour
 	*/
 	private void instantiateBodyParts(GameObject limb)
 	{
-		pos = player.transform.position;
-		limb.transform.position = pos;
+		//pos = player.transform.position;
+        pos = new Vector3(player.transform.position.x, player.transform.position.y + 3,
+            player.transform.position.z);
+        limb.transform.position = pos;
 		if (limb.tag != "torso") {
 			limb.GetComponent<Controller2D> ().collisions.below = false;
 		}

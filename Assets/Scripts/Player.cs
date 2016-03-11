@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
 
 		if (!enabled && notOnNose) {
 			velocity.x = 0;
-			velocity.y += -10 * Time.deltaTime;
+            velocity.y = -10;// * Time.deltaTime;
 			myController.Move (velocity * Time.deltaTime);
 
 		}
