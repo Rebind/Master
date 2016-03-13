@@ -78,7 +78,8 @@ public class Player : MonoBehaviour
 
 		if (!enabled && notOnNose) {
 			velocity.x = 0;
-			velocity.y += -10 * Time.deltaTime;
+			//velocity.y += -10 * Time.deltaTime;
+			velocity.y = -5;
 			myController.Move (velocity * Time.deltaTime);
 
 		}
@@ -493,4 +494,11 @@ public class Player : MonoBehaviour
 	}
 
 */
+
+	void OnCollisionEnter2D (Collision2D col){
+		if (col.gameObject.tag == "ground") {
+			Debug.Log ("here");
+			velocity.y = 0;
+		}
+	}
 }

@@ -34,7 +34,7 @@ public class LimbController : MonoBehaviour
 	private LimbController checkLimbs;
 	private bool dpadY = false;
 	private bool dpadX = false;
-
+	private int caseSwitch = 1;
 	// Use this for initialization
 	void Start()
 	{
@@ -488,7 +488,35 @@ public class LimbController : MonoBehaviour
 	*/
 	private void instantiateBodyParts(GameObject limb)
 	{
+		int yposition = 3;
+		float xposition = 0.1f;
+		int caseNum ;
+		caseNum = caseSwitch % 4;
 		pos = player.transform.position;
+		switch (caseNum) {
+		case 0:
+			pos.y += yposition;
+			pos.x += xposition;
+			break;
+		case 1:
+			pos.y += yposition;
+			pos.x -= xposition;
+			break;
+		case 2:
+			pos.y += yposition * 2;
+			pos.x += xposition;
+			break;
+		case 3:
+			pos.y += yposition * 2;
+			pos.x -= xposition;
+			break;
+		case 4:
+			pos.y += yposition;
+			break;
+		}
+		caseSwitch ++;
+
+
 		limb.transform.position = pos;
 		if (limb.tag != "torso") {
 			limb.GetComponent<Controller2D> ().collisions.below = false;
