@@ -132,22 +132,29 @@ public class PlatformController : RaycastController {
 		if (velocity.y != 0) {
 			float rayLength = Mathf.Abs (velocity.y) + skinWidth;
 
-			for (int i = 0; i < verticalRayCount; i ++) {
-				Vector2 rayOrigin = (directionY == -1)?raycastOrigins.bottomLeft:raycastOrigins.topLeft;
+			for (int i = 0; i < verticalRayCount; i++) {
+				Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
 				rayOrigin += Vector2.right * (verticalRaySpacing * i);
-				RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, passengerMask);
+				//RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, passengerMask);
+				RaycastHit2D[] hitAll = Physics2D.RaycastAll (rayOrigin, Vector2.up * directionY, rayLength, passengerMask); 
+				int numPassengersHit = hitAll.Length;
 
-				if (hit) {
-					if (!movedPassengers.Contains(hit.transform)) {
-						movedPassengers.Add(hit.transform);
-						float pushX = (directionY == 1)?velocity.x:0;
-						float pushY = velocity.y - (hit.distance - skinWidth) * directionY;
+				for (int j = 0; j < numPassengersHit; j++) { 
+					RaycastHit2D hit = hitAll [j];
+					if (hit) {
+						if (!movedPassengers.Contains (hit.transform)) {
+							movedPassengers.Add (hit.transform);
+							float pushX = (directionY == 1) ? velocity.x : 0;
+							float pushY = velocity.y - (hit.distance - skinWidth) * directionY;
 
-						passengerMovement.Add(new PassengerMovement(hit.transform,new Vector3(pushX,pushY), directionY == 1, true));
+							passengerMovement.Add (new PassengerMovement (hit.transform, new Vector3 (pushX, pushY), directionY == 1, true));
+						}
 					}
 				}
 			}
+
 		}
+
 
 		// Horizontally moving platform
 		if (velocity.x != 0) {
