@@ -23,13 +23,14 @@ public class SwitchControl : MonoBehaviour {
 	public float setDistance = 10f;
 	private bool axisLeft = false;
 	private bool axisRight = false;
-	// Use this for initialization
+    private Sound sounds;
+    // Use this for initialization
 
-	GameObject player;
+    GameObject player;
 
 	void Start () {
-		//find the camera object and obtain its script
-		cameraObject = GameObject.Find("Main Camera");
+        //find the camera object and obtain its script
+        cameraObject = GameObject.Find("Main Camera");
 		CameraScript = cameraObject.GetComponent<CameraFollow>();
 		//initialize the object in control to be the head at first
 		inControl = GameObject.Find("Player");
@@ -41,7 +42,8 @@ public class SwitchControl : MonoBehaviour {
 		//merge the two arrays into one
 
 		player = GameObject.FindGameObjectWithTag("Player");
-		for (int i = 0; i < Legs.Length; i++) 
+        sounds = player.GetComponent<Sound>();
+        for (int i = 0; i < Legs.Length; i++) 
 		{
 			Limbs.Add(Legs[i]);
 		}
@@ -57,10 +59,10 @@ public class SwitchControl : MonoBehaviour {
 		ClosestLimb = FindClosestLimb();
 		updateLists ();
 		//Switch to nearest limb
-		if (Input.GetKeyUp(KeyCode.E) || Input.GetAxisRaw("Xbox_RightTrigger") != 0)
+		if (Input.GetKeyUp(KeyCode.E) || Input.GetAxisRaw("Xbox_RightButton") != 0)
 		{
-			//Debug.Log("E is pressed");
-			if(axisLeft == false){
+            //Debug.Log("E is pressed");
+            if (axisLeft == false){
 				GameObject newTarget = FindClosestLimb();
 				if (newTarget != null) {
 					toggleScript (newTarget, true);
@@ -74,16 +76,17 @@ public class SwitchControl : MonoBehaviour {
 						inControlTag = 1;
 					}
 					CameraScript.ChangeTarget(newTarget.name);
-				}
-				axisLeft = true;
+                    sounds.audioLimbControl.Play();
+                }
+                axisLeft = true;
 			}
 		}
 		//Return to head
-		if (Input.GetKeyUp(KeyCode.Q) || Input.GetAxisRaw("Xbox_LeftTrigger") != 0)
+		if (Input.GetKeyUp(KeyCode.Q) || Input.GetAxisRaw("Xbox_LeftButton") != 0)
 		{
 			//Debug.Log("Q is pressed");
 			if(axisRight == false && inControl != player){
-				/*
+                /*
 				GameObject newTarget = GameObject.Find("Player");
 				toggleScript (newTarget, true);
 				toggleScript (inControl, false);
@@ -91,16 +94,17 @@ public class SwitchControl : MonoBehaviour {
 				inControlTag = 0;
 				CameraScript.ChangeTarget(newTarget.name);
 				*/
+                sounds.audioLimbControl.Play();
 				switchToHead();
 				axisRight = true;
 			}
 		}
 		//This is to make sure the axis on the xbox is pressed only once. Without this, then, the changed player
 		//won't move. 
-		if(Input.GetAxisRaw("Xbox_LeftTrigger") == 0){
+		if(Input.GetAxisRaw("Xbox_LeftButton") == 0){
 			axisLeft = false;
 		}
-		if(Input.GetAxisRaw("Xbox_RightTrigger") == 0){
+		if(Input.GetAxisRaw("Xbox_RightButton") == 0){
 			axisRight = false;
 		}
 	}

@@ -10,6 +10,7 @@ public class PushBox : MonoBehaviour
 	private Vector3 addGap = new Vector3(.3f,0,0);
 	private Vector3 temPosition;
 	private float temSpeed;
+	private float minimumDistance =10f;
 	public Player playerScript;
     private Animator playerAnimator;
 	
@@ -35,36 +36,39 @@ public class PushBox : MonoBehaviour
     }
 
 	private void pushController(){
-		if ((Input.GetKeyDown(KeyCode.H) || Input.GetButtonDown("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat("speed") > 0.1)
-		{
-			//get the position when player press "h"
-			temPosition = gameObject.transform.position;
-			rgbd.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
-            /*if (playerAnimator.GetFloat("speed") > 0.1)
-            {*/
-                playerAnimator.SetLayerWeight(4, 1);
-           // }
-                gameObject.layer = 11;
+			
+			if ((Input.GetKeyDown (KeyCode.H) || Input.GetButtonDown ("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat ("speed") > 0.1) {
+				//get the position when player press "h"
+				temPosition = gameObject.transform.position;
+				rgbd.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+				/*if (playerAnimator.GetFloat("speed") > 0.1)
+	            {*/
+				playerAnimator.SetLayerWeight (4, 1);
+				// }
+				gameObject.layer = 11;
+					
+				//Play sound here
+				playSoundEffect ();
+			}
+			if ((Input.GetKeyUp (KeyCode.H) || Input.GetButtonUp ("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm)) {
+				//Stop sound from playing
+				stopSoundEffect ();
+				rgbd.constraints = RigidbodyConstraints2D.FreezeAll;
+				playerAnimator.SetLayerWeight (4, 0);
+				gameObject.layer = 8;
+				//make a gap 
+				//if (gameObject.transform.position.x > temPosition.x) {
+				//	gameObject.transform.position += addGap;
+				//} else if (gameObject.transform.position.x < temPosition.x) {
+				//	gameObject.transform.position -= addGap;
+				//}
 				
-			//Play sound here
-			playSoundEffect();
-		}
-		if ((Input.GetKeyUp(KeyCode.H) || Input.GetButtonUp("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm))
-		{
-			//Stop sound from playing
-			stopSoundEffect();
-			rgbd.constraints = RigidbodyConstraints2D.FreezeAll;
-            playerAnimator.SetLayerWeight(4, 0);
-            gameObject.layer = 8;
-			//make a gap 
-			if (gameObject.transform.position.x > temPosition.x) {
-				gameObject.transform.position += addGap;
-			} else if (gameObject.transform.position.x < temPosition.x) {
-				gameObject.transform.position -= addGap;
+				
 			}
 			
-			
-		}
+			if(Vector3.Distance(gameObject.transform.position, Player.transform.position) > 10.0f && (Input.GetKeyDown (KeyCode.H) || Input.GetButtonDown ("Xbox_XButton"))){
+				stopSoundEffect();
+			}
 	}
 
 	private void playSoundEffect(){

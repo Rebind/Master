@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
 	private int state;
 
-	private bool facingRight;
+	public bool facingRight;
 	private bool oldFacing;
 	public bool isJumping;
 	public bool isClimbing;
@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
         if (enabled) {
 			state = myAnimator.GetInteger("state");
 			handleMovements();
-			handleSpriteFacing();
+			handleSpriteFacing ();
 			handleJumpHeight();
 			handlePlayerMovementSpeed ();
 			handleBodyCollisions();
@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
 
 		if (!enabled && notOnNose) {
 			velocity.x = 0;
-			velocity.y += -10 * Time.deltaTime;
+            velocity.y = -10;// * Time.deltaTime;
 			myController.Move (velocity * Time.deltaTime);
 
 		}
@@ -110,11 +110,11 @@ public class Player : MonoBehaviour
 
 		Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
 
-		if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing && Input.GetAxisRaw("Horizontal") != 0)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")) && notOnNose)  //if spacebar is pressed, jump
+		if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")) && notOnNose)  //if spacebar is pressed, jump
 		{
 			oldFacing = facingRight;
 			velocity.y = maxJumpVelocity;
-			//           sounds.audioJump.PlayOneShot(sounds.jump);
+		   sounds.audioJump.Play();
 			myAnimator.SetTrigger("jump");
 			isJumping = true;
 
@@ -138,12 +138,19 @@ public class Player : MonoBehaviour
 		} 
 
 
-		velocity.x = input.x * moveSpeed;
+		if (!isClimbing || isClimbing && myController.collisions.below) {
+			velocity.x = input.x * moveSpeed;
+		}
 
 
-		if (isClimbing && !isJumping && notOnNose) {
+		if (isClimbing && notOnNose && !myController.collisions.below) {
 			velocity.y = input.y * moveSpeed;
+			velocity.x = 0;
             myAnimator.SetLayerWeight(3, 1);
+            if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f)
+            {
+                sounds.audioClimb.Play();
+            }
         }
 
 		else if (!isClimbing && notOnNose) {
@@ -203,22 +210,39 @@ public class Player : MonoBehaviour
 	private void handleSpriteFacing()
 	{
 		float horizontal = Input.GetAxis("Horizontal");
-		if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
-		{
+		if (!isClimbing) {
+			if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight) {
 
-			if (isJumping) {
-				oldFacing = !facingRight;
+				if (isJumping) {
+					oldFacing = !facingRight;
+				}
+				if (!isJumping) {
+					facingRight = !facingRight;
+					Vector3 theScale = transform.localScale;
+					theScale.x *= -1;
+					transform.localScale = theScale;
+				}
 			}
-			if (!isJumping) {
+		} else {
+			if (horizontal < 0 && !facingRight || horizontal > 0 && facingRight) {
 
-				facingRight = !facingRight;
-				Vector3 theScale = transform.localScale;
-				theScale.x *= -1;
-				transform.localScale = theScale;
+				if (isJumping) {
+					oldFacing = !facingRight;
+				}
+				if (!isJumping) {
+					facingRight = !facingRight;
+					Vector3 theScale = transform.localScale;
+					theScale.x *= -1;
+					transform.localScale = theScale;
+				}
 			}
+
+
+
+
 		}
 	}
-
+		
 
 	//changes the player's jump height based on limb state
 	private void handleJumpHeight()

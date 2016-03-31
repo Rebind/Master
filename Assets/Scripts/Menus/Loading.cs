@@ -6,7 +6,9 @@
      // Set this in inspector.
      public Texture2D emptyProgressBar;
      public Texture2D fullProgressBar;
-     public int LevelName;
+    public Texture loadingAvatar;
+    public Texture loadingBackground;
+    public int LevelName;
      public Rect position = new Rect(0, 0, 100, 50);
      public bool fullScreen = true;
      public bool debug = true;
@@ -25,14 +27,10 @@
      }
  
 	public void  setLevelName(string lvlName){
-		//this.LevelName = lvlName;
-		
-		//return lvlName;
 	}
 	
 	public void getLevelName(){
-		//LevelName = lvlName;
-		//return lvlName;
+
 	}
  
      void OnGUI()
@@ -55,8 +53,11 @@
          //GUI.DrawTexture(new Rect(x, y, width, height), emptyProgressBar);
          GUI.DrawTexture(new Rect(x, y, width * async.progress, height), fullProgressBar);
          GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-         //GUI.Label(new Rect(x, y, width, height), string.Format("{0:N0}%", async.progress * 100f
+        //GUI.Label(new Rect(x, y, width, height), string.Format("{0:N0}%", async.progress * 100f 
+        GUI.DrawTexture(new Rect(x, y, width, height), loadingBackground);
+        GUI.DrawTexture(new Rect(x+400, y+150, width/4, height/2), loadingAvatar);
 		 GUI.Label(new Rect(x, y, width, height), string.Format("{0:N0}", "LOADING...."));
+       
      }
  
      void dbg(string fmt, params object[] args)

@@ -14,7 +14,7 @@ public class NextLevel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Vector3.Distance(this.transform.position, player.transform.position) <= 4.0f){
+		if (Vector3.Distance(this.transform.position, player.transform.position) <= 4.5f){
 			Debug.Log("in exit");
 			nextLevel();
 			
@@ -33,7 +33,7 @@ public class NextLevel : MonoBehaviour {
 				//Application.LoadLevel(1);
 				break;
 			case "AlexFerr2DLevel":
-				PlayerPrefs.SetInt("Level", 4);
+				PlayerPrefs.SetInt("Level", 0);
 				Application.LoadLevel("LoadingScene");
 				//Application.LoadLevel(4);
 				break;
@@ -41,6 +41,7 @@ public class NextLevel : MonoBehaviour {
 				PlayerPrefs.SetInt("Level", 4);
 				Application.LoadLevel("LoadingScene");
 				break;
+			
 			default:
 				print ("Incorrect intelligence level.");
 				break;

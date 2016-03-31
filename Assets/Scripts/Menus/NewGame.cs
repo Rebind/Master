@@ -17,6 +17,7 @@ public class NewGame : MonoBehaviour {
 	
 	
 	public bool clickedStart = false;
+	private bool aPressed = false; 
  
 	private AsyncOperation async = null; // When assigned, load is in progress.
 	private LevelManager lvlmanager;
@@ -52,16 +53,12 @@ public class NewGame : MonoBehaviour {
 			}
  
 		}
- 
 		return selectedItem;
- 
 	}
  
-	void Update(){
  
-		//StartCoroutine(LoadALevel("Showcase"));
-		
-		
+	void Update(){
+		//knowing what players scroll through
 		if(Input.GetAxisRaw("Vertical") == 1){
 			if(inputVertical == false){
 				selected = menuSelection(buttons, selected, "up");
@@ -81,42 +78,36 @@ public class NewGame : MonoBehaviour {
 		if(Input.GetAxisRaw("Vertical") == 0){
 			inputVertical = false;
 		}
+		
+		//If players pressed the A button on xbox. 
+		if(Input.GetButtonDown("Xbox_AButton")){
+			aPressed = true;
+		}
+		else aPressed = false;
  
 	}
  
-
-	IEnumerator Start() {
-		async = Application.LoadLevelAsync("Showcase");
-		async.allowSceneActivation = false;
-		yield return async;
-	}
-	
 	void OnGUI(){
-		//GUI.DrawTexture(new Rect(500, 200, 100, 50), emptyProgressBar);
 		
 		GUI.SetNextControlName(buttons[0]);
 		Event e = Event.current;
-       
 		
-		if(GUI.Button(new Rect(Screen.width/2,250,100,50), playButton )){
- 
-			//when selected Start button
-			//Application.LoadLevel("Showcase");
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), playButton )){
+
 			Debug.Log("Clicked Start");
  
 		}
 		
-		if(GUI.GetNameOfFocusedControl() == "Start" && e.keyCode == KeyCode.Return){
-			
-			//StartCoroutine(LoadALevel ("Showcase"));
-			clickedStart = true;
+		//If players select the start. 
+		if(GUI.GetNameOfFocusedControl() == "Start" && (e.keyCode == KeyCode.Return || aPressed)){
+			PlayerPrefs.SetInt("Level", 1);
 			Application.LoadLevel("LoadingScene");
-			loading.setLevelName(lvlmanager.Levels[1]);
+			
 		}
  
 		GUI.SetNextControlName(buttons[1]);
  
-		if(GUI.Button(new Rect(Screen.width/2,320,100,50), resumeButton)){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 100,100,50), resumeButton)){
  
 			//when selected Options button
 			Debug.Log("Clicked Options");
@@ -124,28 +115,23 @@ public class NewGame : MonoBehaviour {
 		}
  
 		//Players select the levels they want
-		if(GUI.GetNameOfFocusedControl() == "Level Select" && e.keyCode == KeyCode.Return){
+		if(GUI.GetNameOfFocusedControl() == "Level Select" && (e.keyCode == KeyCode.Return || aPressed)){
 			
-			//StartCoroutine(LoadALevel ("Showcase"));
-			//clickedStart = true;
-			//Application.LoadLevel("LoadingScene");
-			//loading.getLevelName(lvlmanager.Levels[1]);
+			
 		}
 		GUI.SetNextControlName(buttons[2]);
  
-		if(GUI.Button(new Rect(Screen.width/2,390,100,50), quitButton)){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), quitButton)){
  
 			//when selected Exit button
 			Debug.Log("Exit");
  
 		}
- 
-		if(GUI.GetNameOfFocusedControl() == "Exit" && e.keyCode == KeyCode.Return){
+	
+		//If players select exit. 
+		if(GUI.GetNameOfFocusedControl() == "Exit" && (e.keyCode == KeyCode.Return || aPressed)){
 			
-			//StartCoroutine(LoadALevel ("Showcase"));
-			//clickedStart = true;
-			//Application.LoadLevel("LoadingScene");
-			//loading.getLevelName(lvlmanager.Levels[1]);
+			Application.Quit();
 		}
 		GUI.FocusControl(buttons[selected]);
  
