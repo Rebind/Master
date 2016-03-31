@@ -67,9 +67,7 @@ public class Player : MonoBehaviour
         if (enabled) {
 			state = myAnimator.GetInteger("state");
 			handleMovements();
-			if (!isClimbing) {
-				handleSpriteFacing ();
-			}
+			handleSpriteFacing ();
 			handleJumpHeight();
 			handlePlayerMovementSpeed ();
 			handleBodyCollisions();
@@ -212,31 +210,39 @@ public class Player : MonoBehaviour
 	private void handleSpriteFacing()
 	{
 		float horizontal = Input.GetAxis("Horizontal");
-		if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
-		{
+		if (!isClimbing) {
+			if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight) {
 
-			if (isJumping) {
-				oldFacing = !facingRight;
+				if (isJumping) {
+					oldFacing = !facingRight;
+				}
+				if (!isJumping) {
+					facingRight = !facingRight;
+					Vector3 theScale = transform.localScale;
+					theScale.x *= -1;
+					transform.localScale = theScale;
+				}
 			}
-			if (!isJumping) {
+		} else {
+			if (horizontal < 0 && !facingRight || horizontal > 0 && facingRight) {
 
-				facingRight = !facingRight;
-				Vector3 theScale = transform.localScale;
-				theScale.x *= -1;
-				transform.localScale = theScale;
+				if (isJumping) {
+					oldFacing = !facingRight;
+				}
+				if (!isJumping) {
+					facingRight = !facingRight;
+					Vector3 theScale = transform.localScale;
+					theScale.x *= -1;
+					transform.localScale = theScale;
+				}
 			}
+
+
+
+
 		}
 	}
-
-	public void faceRight(){
-		if (!facingRight) {
-			facingRight = !facingRight;
-			Vector3 theScale = transform.localScale;
-			theScale.x *= -1;
-			transform.localScale = theScale;
-		}
-			
-	}
+		
 
 	//changes the player's jump height based on limb state
 	private void handleJumpHeight()
