@@ -27,14 +27,10 @@
      }
  
 	public void  setLevelName(string lvlName){
-		//this.LevelName = lvlName;
-		
-		//return lvlName;
 	}
 	
 	public void getLevelName(){
-		//LevelName = lvlName;
-		//return lvlName;
+
 	}
  
      void OnGUI()

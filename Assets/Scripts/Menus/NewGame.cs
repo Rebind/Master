@@ -53,10 +53,9 @@ public class NewGame : MonoBehaviour {
 			}
  
 		}
- 
 		return selectedItem;
- 
 	}
+ 
  
 	void Update(){
 		//knowing what players scroll through
@@ -88,20 +87,12 @@ public class NewGame : MonoBehaviour {
  
 	}
  
-
-	IEnumerator Start() {
-		async = Application.LoadLevelAsync("Showcase");
-		async.allowSceneActivation = false;
-		yield return async;
-	}
-	
 	void OnGUI(){
-		//GUI.DrawTexture(new Rect(500, 200, 100, 50), emptyProgressBar);
 		
 		GUI.SetNextControlName(buttons[0]);
 		Event e = Event.current;
 		
-		if(GUI.Button(new Rect(Screen.width/2,250,100,50), playButton )){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), playButton )){
 
 			Debug.Log("Clicked Start");
  
@@ -109,14 +100,14 @@ public class NewGame : MonoBehaviour {
 		
 		//If players select the start. 
 		if(GUI.GetNameOfFocusedControl() == "Start" && (e.keyCode == KeyCode.Return || aPressed)){
-			PlayerPrefs.SetInt("Level", 6);
+			PlayerPrefs.SetInt("Level", 1);
 			Application.LoadLevel("LoadingScene");
 			
 		}
  
 		GUI.SetNextControlName(buttons[1]);
  
-		if(GUI.Button(new Rect(Screen.width/2,320,100,50), resumeButton)){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 100,100,50), resumeButton)){
  
 			//when selected Options button
 			Debug.Log("Clicked Options");
@@ -130,7 +121,7 @@ public class NewGame : MonoBehaviour {
 		}
 		GUI.SetNextControlName(buttons[2]);
  
-		if(GUI.Button(new Rect(Screen.width/2,390,100,50), quitButton)){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), quitButton)){
  
 			//when selected Exit button
 			Debug.Log("Exit");
