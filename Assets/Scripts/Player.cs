@@ -189,19 +189,19 @@ public class Player : MonoBehaviour
 		}
 		else if (state == 1 || state == 2 || state == 3)
 		{
-			moveSpeed = 5f;
+			moveSpeed = 7f;
 		}
 		else if (state == 4 || state == 6 || state == 8)
 		{
-			moveSpeed = 7.5f;
+			moveSpeed = 14f;
 		}
 		else if (state == 7 || state == 5 || state == 9)
 		{
-			moveSpeed = 12.5f;
+			moveSpeed = 20f;
 		}
 		else
 		{
-			moveSpeed = 10f;
+			moveSpeed = 12f;
 		}
 			
 	}
@@ -257,15 +257,15 @@ public class Player : MonoBehaviour
 		}
 		else if (state == 1 || state == 2 || state == 3)
 		{
-			maxJumpHeight = 2;
+			maxJumpHeight = 3;
 		}
 		else if (state == 4 || state == 6 || state == 8)
 		{
-			maxJumpHeight = 4;
+			maxJumpHeight = 6;
 		}
 		else if (state == 5 || state == 7 || state == 9)
 		{
-			maxJumpHeight = 7;
+			maxJumpHeight = 10;
 		}
 		gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
 		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
