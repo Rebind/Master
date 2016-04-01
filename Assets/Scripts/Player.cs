@@ -186,24 +186,26 @@ public class Player : MonoBehaviour
 		if ((isJumping) && (oldFacing != facingRight)) {
 			moveSpeed = 4f;
 		}
-		else if (state == 1 || state == 2 || state == 3)
+		else if (state == 1 || state == 2 || state == 3)//no legs
 		{
-			moveSpeed = 7f;
+			moveSpeed = 8f;
 		}
-		else if (state == 4 || state == 6 || state == 8)
+		else if (state == 4 || state == 6 || state == 8)//one leg
+		{
+			moveSpeed = 10f;
+		}
+		else if (state == 7 || state == 5 || state == 9) //full body
 		{
 			moveSpeed = 14f;
 		}
-		else if (state == 7 || state == 5 || state == 9)
-		{
-			moveSpeed = 20f;
-		}
-		else
+		else //just the head
 		{
 			moveSpeed = 12f;
 		}
 			
 	}
+
+
 
 	//flips the player sprite based on its facing
 	private void handleSpriteFacing()
@@ -250,21 +252,21 @@ public class Player : MonoBehaviour
 
 			maxJumpHeight = 4;
 		}
-		else if (state == 0)
+		else if (state == 0) //just the head
 		{
 			maxJumpHeight = 1;
 		}
-		else if (state == 1 || state == 2 || state == 3)
+		else if (state == 1 || state == 2 || state == 3) //torso
+		{
+			maxJumpHeight = 1;
+		}
+		else if (state == 4 || state == 6 || state == 8) //one leg
 		{
 			maxJumpHeight = 3;
 		}
-		else if (state == 4 || state == 6 || state == 8)
+		else if (state == 5 || state == 7 || state == 9)//both legs
 		{
 			maxJumpHeight = 6;
-		}
-		else if (state == 5 || state == 7 || state == 9)
-		{
-			maxJumpHeight = 10;
 		}
 		gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
 		maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
