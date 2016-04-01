@@ -28,7 +28,6 @@ public class Climbable : MonoBehaviour {
 
 				}
 			}
-			//other.GetComponent<Player> ().faceRight();
 
 		} else {
 			other.GetComponent<Player> ().isClimbing = false;
