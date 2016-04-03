@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     private SwitchControl ControlScript;
 
     private GameObject player;
+    private GameObject follower;
     private GameObject Wreck;
     private GameObject breakable;
     private Sound sounds;
@@ -72,6 +73,7 @@ public class LevelManager : MonoBehaviour
         Limbs = new LinkedList();
 
         player = GameObject.FindGameObjectWithTag("Player");
+        follower = GameObject.FindGameObjectWithTag("follower");
         Wreck = GameObject.Find("BreakTerrain");
 		exit = GameObject.Find("Exit");
         breakable = GameObject.FindGameObjectWithTag("breakable");
@@ -131,10 +133,14 @@ public class LevelManager : MonoBehaviour
         Instantiate(deathParticle, player.transform.position, player.transform.rotation);
         //player.SetActive(false);
         player.GetComponent<Renderer>().enabled = false;
+        follower.GetComponent<Renderer>().enabled = false;
+        follower.SetActive(false);
         yield return new WaitForSeconds(respawnDelay);
 		//SceneManager.LoadScene ("ninja");
         Application.LoadLevel(Application.loadedLevel);
         yield return new WaitForSeconds(respawnDelay);
+        follower.SetActive(true);
+        follower.GetComponent<Renderer>().enabled = true;
         player.SetActive(true);
         player.GetComponent<Renderer>().enabled = true;
         //Instantiate(respawnParticle, currentCheckpoint.transform.position, currentCheckpoint.transform.rotation);

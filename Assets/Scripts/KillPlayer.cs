@@ -29,6 +29,7 @@ public class KillPlayer : MonoBehaviour
 
             sounds.audiodead.Play();
             Debug.Log("player respawn here");
+            mylevelmanager.GetComponent<AudioSource>().Stop();
             mylevelmanager.respawnPlayer();
         } 
         if (other.tag == "leg" || other.tag == "arm") {
