@@ -130,8 +130,8 @@ public class UIManager : MonoBehaviour {
 		GUI.SetNextControlName(buttons[0]);
 		Event e = Event.current;
 		if(isPaused){
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), playButton )){
-
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), "Resume" )){
+			isPaused = false;
 			Debug.Log("Clicked Start");
 		}
 		//If players select the resume. 
@@ -144,8 +144,9 @@ public class UIManager : MonoBehaviour {
  
  
 		//Restart level. 
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 100,100,50), resumeButton)){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 100,100,50), "Restart")){
 			//when selected Options button
+			Application.LoadLevel(Application.loadedLevel);
 			Debug.Log("Clicked Options");
 		}
 		//Players select the levels they want
@@ -154,8 +155,9 @@ public class UIManager : MonoBehaviour {
 		}
 		GUI.SetNextControlName(buttons[2]);
  
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), quitButton)){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), "Quit")){
 			//when selected Exit button
+			Application.Quit();
 			Debug.Log("Exit");
 		}
 		//If players select exit. 
