@@ -93,7 +93,8 @@ public class NewGame : MonoBehaviour {
 		Event e = Event.current;
 		
 		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), playButton )){
-
+			PlayerPrefs.SetInt("Level", 1);
+			Application.LoadLevel("LoadingScene");
 			Debug.Log("Clicked Start");
  
 		}
@@ -108,7 +109,8 @@ public class NewGame : MonoBehaviour {
 		GUI.SetNextControlName(buttons[1]);
  
 		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 100,100,50), resumeButton)){
- 
+			PlayerPrefs.SetInt("Level", 1);
+			Application.LoadLevel("LoadingScene");
 			//when selected Options button
 			Debug.Log("Clicked Options");
  
@@ -116,13 +118,15 @@ public class NewGame : MonoBehaviour {
  
 		//Players select the levels they want
 		if(GUI.GetNameOfFocusedControl() == "Level Select" && (e.keyCode == KeyCode.Return || aPressed)){
-			
+			PlayerPrefs.SetInt("Level", 1);
+			Application.LoadLevel("LoadingScene");
 			
 		}
 		GUI.SetNextControlName(buttons[2]);
  
 		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), quitButton)){
- 
+			PlayerPrefs.SetInt("Level", 1);
+			Application.LoadLevel("LoadingScene");
 			//when selected Exit button
 			Debug.Log("Exit");
  
