@@ -26,15 +26,37 @@ public class PlayerOW : MonoBehaviour {
             tmp = OWScript.Levels.getNewPos("right");
             target = GameObject.Find(tmp);
         }
-        if (Input.GetKeyUp(KeyCode.Return)) {
+        if (Input.GetKeyUp(KeyCode.Return) || Input.GetButtonDown("Xbox_AButton")) {
             tmp = OWScript.Levels.getCurr();
             target = GameObject.Find(tmp);
+			
             if (target.transform.position == player.transform.position){
-            	//load level using tmp as level name;
+				//Loading screen
+				
+				switch (tmp) {
+				case "Showcase":
+					PlayerPrefs.SetInt("Level", 1);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "AlexFerr2DLevel":
+					PlayerPrefs.SetInt("Level", 0);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "BeggLevel":
+					PlayerPrefs.SetInt("Level", 4);
+					Application.LoadLevel("LoadingScene");
+					break;
+			
+				default:
+					print ("Incorrect intelligence level.");
+					break;
+				}
             }
-        }
+		}
 	}
 
+	
+	
 	// Use this for initialization
 	void Start () {
 		OW = GameObject.Find("OverWorld");

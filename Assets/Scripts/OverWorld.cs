@@ -167,20 +167,20 @@ public class OverWorld : MonoBehaviour {
 	void Start () {
         Levels = new LinkedList();
         //Put the levels here
-        tmpLevel = GameObject.Find("Blah");
+        tmpLevel = GameObject.Find("BeggLevel");
         Levels.addHead(tmpLevel.name, tmpLevel.transform.position);
 
-        tmpLevel = GameObject.Find("Blah1");
-        Levels.addNode(tmpLevel.name, "Blah", "left", tmpLevel.transform.position);
+        tmpLevel = GameObject.Find("Showcase");
+        Levels.addNode(tmpLevel.name, "BeggLevel", "left", tmpLevel.transform.position);
 
         tmpLevel = GameObject.Find("BlahBlah");
-        Levels.addNode(tmpLevel.name, "Blah", "right", tmpLevel.transform.position);
+        Levels.addNode(tmpLevel.name, "BeggLevel", "right", tmpLevel.transform.position);
 
         tmpLevel = GameObject.Find("BlahBlahBlah");
-        Levels.addNode(tmpLevel.name, "Blah", "up", tmpLevel.transform.position);
+        Levels.addNode(tmpLevel.name, "BeggLevel", "up", tmpLevel.transform.position);
 
         tmpLevel = GameObject.Find("BlahBlahBlahBlah");
-        Levels.addNode(tmpLevel.name, "Blah", "down", tmpLevel.transform.position);
+        Levels.addNode(tmpLevel.name, "BeggLevel", "down", tmpLevel.transform.position);
 
         Levels.printall();
 	}
