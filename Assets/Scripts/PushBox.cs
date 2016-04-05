@@ -37,7 +37,7 @@ public class PushBox : MonoBehaviour
 
 	private void pushController(){
 			
-			if ((Input.GetKeyDown (KeyCode.H) || Input.GetButtonDown ("Xbox_XButton")) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat ("speed") > 0.1) {
+			if ((Input.GetKeyDown (KeyCode.H) || Input.GetButtonDown ("Xbox_RightButton")) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat ("speed") > 0.1) {
 				//get the position when player press "h"
 				temPosition = gameObject.transform.position;
 				rgbd.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
