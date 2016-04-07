@@ -8,7 +8,6 @@ public class DoorController : MonoBehaviour {
 	public bool open;
 
 	public bool requireMultiplePlates;
-	public bool requireTwoPlates;
     public Animator mouth;
 	private bool startState;
 	private BoxCollider2D myCollider;
@@ -23,6 +22,9 @@ public class DoorController : MonoBehaviour {
 
 	[HideInInspector]
 	public int platesActivated;
+
+
+
 
 
 	void Start () {
