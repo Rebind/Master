@@ -5,8 +5,11 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour {
 	public GameObject pausePanel;
 	public bool isPaused;
+    private GameObject lvlManager;
+    AudioSource levelSound;
 
-	string[] buttons = new string[3] {"Start", "Level Select", "Exit"};
+
+    string[] buttons = new string[3] {"Start", "Level Select", "Exit"};
  
 	int selected = 0;
 	bool inputVertical = false;
@@ -61,6 +64,7 @@ public class UIManager : MonoBehaviour {
 	
 	public void Start(){
 		isPaused = false;
+        lvlManager = GameObject.Find("LevelManager");
 		//tempSpeed = playerScripts.moveSpeed;
 	}
 
@@ -111,10 +115,13 @@ public class UIManager : MonoBehaviour {
 	void PauseGame(bool state){
 		if (state) {
 			Time.timeScale = 0.0f;
-		} else {
+            lvlManager.GetComponent<AudioSource>().Pause();
+        }
+        else {
 			Time.timeScale = 1.0f;
-		}
-		pausePanel.SetActive (state);
+            lvlManager.GetComponent<AudioSource>().UnPause();
+        }
+        pausePanel.SetActive (state);
 	}
 
 	public void switchPause(){
