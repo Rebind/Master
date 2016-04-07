@@ -13,8 +13,9 @@ public class Climbable : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D other)
-	{
-		if (other.CompareTag ("Player") && other.GetComponent<LimbController>().hasSecondArm) {
+	{	
+		if(other.CompareTag("Player")){
+		if (other.GetComponent<LimbController>().hasSecondArm) {
 
 			if (other.GetComponent<Controller2D> ().collisions.below == false || Input.GetKeyDown (KeyCode.UpArrow)) {
 				other.GetComponent<Player> ().isClimbing = true;
@@ -35,6 +36,7 @@ public class Climbable : MonoBehaviour {
 		}
 
 
+	}
 	}
 
 
