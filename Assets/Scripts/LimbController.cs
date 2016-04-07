@@ -61,10 +61,10 @@ public class LimbController : MonoBehaviour
 		if (player.enabled) {
 		
 			addLimbsToLists ();
-			if (Input.GetKeyDown (KeyCode.X) || Input.GetButtonDown ("Xbox_BButton")) {
+			if (Input.GetKeyDown (KeyCode.Z) || Input.GetButtonDown ("Xbox_BButton")) {
 				whichLimb ();
-			} else if (Input.GetAxisRaw ("XBox_DPadX") != 0 || Input.GetAxisRaw ("XBox_DPadY") != 0 || 
-			       Input.GetKeyDown (KeyCode.Alpha1) || Input.GetKeyDown (KeyCode.Alpha2) || Input.GetKeyDown (KeyCode.Alpha3)) {
+			} else if (Input.GetAxisRaw("XBox_DPadX") != 0 || Input.GetAxisRaw("XBox_DPadY") != 0 || 
+			       Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) {
 			
 				detach ();
 			}
@@ -360,7 +360,7 @@ public class LimbController : MonoBehaviour
 	public void detach()
 	{
 		
-		if ((Input.GetKeyDown(KeyCode.Alpha1) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
+		if ((Input.GetKeyDown(KeyCode.W) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
 		{
 			if (dpadY == false) {
 				if(player.isClimbing){
@@ -376,7 +376,7 @@ public class LimbController : MonoBehaviour
 				dpadY = true;
 			}
 		}
-		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1)   && hasArm && !hasSecondArm )
+		if ((Input.GetKeyDown(KeyCode.A) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1)   && hasArm && !hasSecondArm )
 		{
 			if (dpadX == false) {
 				arm.SetActive (true);
@@ -390,7 +390,7 @@ public class LimbController : MonoBehaviour
 			}
 			
 		}
-		if ((Input.GetKeyDown(KeyCode.Alpha2) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1) && hasArm && hasSecondArm)
+		if ((Input.GetKeyDown(KeyCode.D) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1) && hasArm && hasSecondArm)
 		{
 			if (dpadX == false) {
 				if(player.isClimbing){
@@ -409,7 +409,7 @@ public class LimbController : MonoBehaviour
 			
 			
 		}
-		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasLeg && !hasSecondLeg)
+		else if ((Input.GetKeyDown(KeyCode.S) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasLeg && !hasSecondLeg)
 		{
 			if (dpadY == false) {
 				leg.SetActive (true);
@@ -420,7 +420,7 @@ public class LimbController : MonoBehaviour
 				dpadY = true;
 			}
 		}
-		else if ((Input.GetKeyDown(KeyCode.Alpha3) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasSecondLeg)
+		else if ((Input.GetKeyDown(KeyCode.S) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasSecondLeg)
 		{
 			if (dpadY == false) {
 				twoLegs.SetActive (true);
