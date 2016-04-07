@@ -6,7 +6,7 @@ using System.Collections;
 public class LevelManager : MonoBehaviour
 {
     private SwitchControl ControlScript;
-
+    private GameObject back1;
     private GameObject player;
     private GameObject follower;
     private GameObject Wreck;
@@ -76,6 +76,7 @@ public class LevelManager : MonoBehaviour
         follower = GameObject.FindGameObjectWithTag("follower");
         Wreck = GameObject.Find("BreakTerrain");
 		exit = GameObject.Find("Exit");
+        back1 = GameObject.Find("Background");
         breakable = GameObject.FindGameObjectWithTag("breakable");
         ControlScript = player.GetComponent<SwitchControl>();
         //find all objects with tags "leg" and "arm"
@@ -134,12 +135,14 @@ public class LevelManager : MonoBehaviour
         //player.SetActive(false);
         player.GetComponent<Renderer>().enabled = false;
         follower.GetComponent<Renderer>().enabled = false;
+        back1.GetComponent<Renderer>().enabled = false;
         follower.SetActive(false);
         yield return new WaitForSeconds(respawnDelay);
 		//SceneManager.LoadScene ("ninja");
         Application.LoadLevel(Application.loadedLevel);
         yield return new WaitForSeconds(respawnDelay);
         follower.SetActive(true);
+        back1.GetComponent<Renderer>().enabled = true;
         follower.GetComponent<Renderer>().enabled = true;
         player.SetActive(true);
         player.GetComponent<Renderer>().enabled = true;

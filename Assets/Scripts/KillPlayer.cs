@@ -26,7 +26,6 @@ public class KillPlayer : MonoBehaviour
         //sounds.audiodead.Play();
         if (other.tag == "Player")
         {
-
             sounds.audiodead.Play();
             Debug.Log("player respawn here");
             mylevelmanager.GetComponent<AudioSource>().Stop();
