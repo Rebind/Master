@@ -41,7 +41,22 @@ public class NextLevel : MonoBehaviour {
 				PlayerPrefs.SetInt("Level", 6);
 				Application.LoadLevel("LoadingScene");
 				break;
-			
+			case "DetachLevel":
+				PlayerPrefs.SetInt("Level", 9);
+				Application.LoadLevel("LoadingScene");
+				break;
+			case "Level-00":
+				PlayerPrefs.SetInt("Level", 8);
+				Application.LoadLevel("LoadingScene");
+				break;
+			case "Level2":
+				PlayerPrefs.SetInt("Level", 7);
+				Application.LoadLevel("LoadingScene");
+				break;
+			case "FifthLevel":
+				PlayerPrefs.SetInt("Level", 6);
+				Application.LoadLevel("LoadingScene");
+				break;
 			default:
 				print ("Incorrect intelligence level.");
 				break;
