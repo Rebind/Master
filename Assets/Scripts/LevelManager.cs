@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-//using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -135,11 +135,13 @@ public class LevelManager : MonoBehaviour
         //player.SetActive(false);
         player.GetComponent<Renderer>().enabled = false;
         follower.GetComponent<Renderer>().enabled = false;
-        back1.GetComponent<Renderer>().enabled = false;
         follower.SetActive(false);
         yield return new WaitForSeconds(respawnDelay);
 		//SceneManager.LoadScene ("ninja");
-        Application.LoadLevel(Application.loadedLevel);
+		Scene scene = SceneManager.GetActiveScene(); 
+		SceneManager.LoadScene(scene.name);
+
+        //Application.LoadLevel(Application.loadedLevel);
         yield return new WaitForSeconds(respawnDelay);
         follower.SetActive(true);
         back1.GetComponent<Renderer>().enabled = true;
