@@ -45,11 +45,11 @@ public class NextLevel : MonoBehaviour {
 				PlayerPrefs.SetInt("Level", 9);
 				Application.LoadLevel("LoadingScene");
 				break;
-			case "Level-00":
+			case "Level-01":
 				PlayerPrefs.SetInt("Level", 8);
 				Application.LoadLevel("LoadingScene");
 				break;
-			case "Level2":
+			case "Level-02":
 				PlayerPrefs.SetInt("Level", 7);
 				Application.LoadLevel("LoadingScene");
 				break;
