@@ -35,7 +35,7 @@ public class LeverController : MonoBehaviour {
 	}
 
 	void Update(){
-		if(Input.GetKeyDown(KeyCode.Z) && nearLever()){
+		if(Input.GetKeyDown(KeyCode.X) && nearLever()){
 			toggleLever ();
 			Debug.Log("Lever Tripped");
 			//lever toggle
