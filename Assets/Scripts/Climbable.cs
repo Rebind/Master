@@ -17,7 +17,11 @@ public class Climbable : MonoBehaviour {
 		if(other.CompareTag("Player")){
 		if (other.GetComponent<LimbController>().hasSecondArm) {
 
+<<<<<<< HEAD
+			if (Input.GetKeyDown (KeyCode.UpArrow) || (Input.GetAxisRaw("Vertical")>0)) {
+=======
 				if (Input.GetKeyDown (KeyCode.UpArrow) || (Input.GetAxisRaw("Vertical")>0)) {
+>>>>>>> refs/remotes/origin/master
 				other.GetComponent<Player> ().isClimbing = true;
 			}
 
