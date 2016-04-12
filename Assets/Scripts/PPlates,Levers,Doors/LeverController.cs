@@ -35,9 +35,11 @@ public class LeverController : MonoBehaviour {
 	}
 
 	void Update(){
-		if(Input.GetKeyDown(KeyCode.X) && nearLever()){
+		if((Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_RightButton")) && nearLever()){
 			toggleLever ();
-			Debug.Log("Lever Tripped");
+            //gameObject.transform.localScale = new Vector3(.3F, -.3F, 0);
+            //this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+            Debug.Log("Lever Tripped");
 			//lever toggle
 		}
 
