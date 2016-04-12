@@ -61,7 +61,7 @@ public class LimbController : MonoBehaviour
 		if (player.enabled) {
 		
 			addLimbsToLists ();
-			if (Input.GetKeyDown (KeyCode.X) || Input.GetButtonDown ("Xbox_BButton")) {
+			if (Input.GetKeyDown (KeyCode.Z) || Input.GetButtonDown ("Xbox_BButton")) {
 				whichLimb ();
 			} else if (Input.GetAxisRaw ("XBox_DPadX") != 0 || Input.GetAxisRaw ("XBox_DPadY") != 0 || 
 			       Input.GetKeyDown (KeyCode.Alpha1) || Input.GetKeyDown (KeyCode.Alpha2) || Input.GetKeyDown (KeyCode.Alpha3)) {
