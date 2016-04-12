@@ -64,7 +64,7 @@ public class LimbController : MonoBehaviour
 			if (Input.GetKeyDown (KeyCode.Z) || Input.GetButtonDown ("Xbox_BButton")) {
 				whichLimb ();
 			} else if (Input.GetAxisRaw ("XBox_DPadX") != 0 || Input.GetAxisRaw ("XBox_DPadY") != 0 || 
-			       Input.GetKeyDown (KeyCode.Alpha1) || Input.GetKeyDown (KeyCode.Alpha2) || Input.GetKeyDown (KeyCode.Alpha3)) {
+			       Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.A) || Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown(KeyCode.D)) {
 			
 				detach ();
 			}

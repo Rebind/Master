@@ -17,25 +17,23 @@ public class Climbable : MonoBehaviour {
 		if(other.CompareTag("Player")){
 		if (other.GetComponent<LimbController>().hasSecondArm) {
 
-			if (other.GetComponent<Controller2D> ().collisions.below == false || Input.GetKeyDown (KeyCode.UpArrow)) {
+			if (Input.GetKeyDown (KeyCode.UpArrow)) {
 				other.GetComponent<Player> ().isClimbing = true;
-
-				if (other.GetComponent<Player> ().facingRight) {
-					other.transform.position = new Vector3 (this.transform.position.x - (leftOffset), other.transform.position.y);	
-
-				} else {
-
-					other.transform.position = new Vector3 (this.transform.position.x - (rightOffset), other.transform.position.y);	
-
-				}
 			}
 
-		} else {
-			other.GetComponent<Player> ().isClimbing = false;
+	}
+			if (other.GetComponent<Player> ().facingRight && other.GetComponent<Player>().isClimbing) {
+				other.transform.position = new Vector3 (this.transform.position.x - (leftOffset), other.transform.position.y);	
 
-		}
+				Debug.Log ("Facing Right");
+
+			} else if(!other.GetComponent<Player> ().facingRight && other.GetComponent<Player>().isClimbing){
+
+				other.transform.position = new Vector3 (this.transform.position.x - (rightOffset), other.transform.position.y);	
+				Debug.Log ("Not Facing Right");
 
 
+			}
 	}
 	}
 
