@@ -225,15 +225,12 @@ public class Player : MonoBehaviour
 		} else {
 			if (horizontal < 0 && !facingRight || horizontal > 0 && facingRight) {
 
-				if (isJumping) {
-					oldFacing = !facingRight;
-				}
-				if (!isJumping) {
+				 
 					facingRight = !facingRight;
 					Vector3 theScale = transform.localScale;
 					theScale.x *= -1;
 					transform.localScale = theScale;
-				}
+
 			}
 
 
