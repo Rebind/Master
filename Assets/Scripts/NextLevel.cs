@@ -50,7 +50,11 @@ public class NextLevel : MonoBehaviour {
 				Application.LoadLevel("LoadingScene");
 				break;
 			case "Level-02":
-				PlayerPrefs.SetInt("Level", 7);
+				PlayerPrefs.SetInt("Level", 11);
+				Application.LoadLevel("LoadingScene");
+				break;
+			case "Level3":
+				PlayerPrefs.SetInt("Level", 12);
 				Application.LoadLevel("LoadingScene");
 				break;
 			case "FifthLevel":
