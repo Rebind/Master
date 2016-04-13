@@ -38,7 +38,7 @@ public class NextLevel : MonoBehaviour {
 				//Application.LoadLevel(4);
 				break;
 			case "BeggLevel":
-				PlayerPrefs.SetInt("Level", 6);
+				PlayerPrefs.SetInt("Level", 4);
 				Application.LoadLevel("LoadingScene");
 				break;
 			case "DetachLevel":
