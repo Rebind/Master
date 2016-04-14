@@ -37,7 +37,7 @@ public class LeverController : MonoBehaviour {
 	}
 
 	void Update(){
-		if((Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_RightButton")) && nearLever()){
+		if((Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_BButton")) && nearLever()){
 			toggleLever ();
             this.gameObject.GetComponent<SpriteRenderer>().flipY = on;
             on = !on;
