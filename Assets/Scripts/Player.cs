@@ -110,7 +110,8 @@ public class Player : MonoBehaviour
 
 		Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //get input from the player (left and Right Keys)
 
-		if ((Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetButtonDown("Xbox_AButton")) && (myController.collisions.below || (isClimbing)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")) && notOnNose)  //if spacebar is pressed, jump
+		if ((Input.GetKeyDown(KeyCode.LeftAlt) || Input.GetKeyDown(KeyCode.Space) ||Input.GetButtonDown("Xbox_AButton")) 
+		&& (myController.collisions.below || (isClimbing)) && (myAnimator.GetInteger("state") != 0 || this.tag.Equals("leg")) && notOnNose)  //if spacebar is pressed, jump
 		{
 			oldFacing = facingRight;
 			velocity.y = maxJumpVelocity;
@@ -121,7 +122,7 @@ public class Player : MonoBehaviour
 
 
 
-		if ((Input.GetKeyUp(KeyCode.LeftAlt) || Input.GetButtonUp("Xbox_AButton")) && notOnNose) {
+		if ((Input.GetKeyUp(KeyCode.LeftAlt) || Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("Xbox_AButton")) && notOnNose) {
 			myAnimator.ResetTrigger("jump");
 			isJumping = false;
 			if (velocity.y > minJumpVelocity) {

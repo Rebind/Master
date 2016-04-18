@@ -63,7 +63,7 @@ public class PressurePlateController : MonoBehaviour
 					foreach (GameObject door in affectedDoors) {
 
 						if (!door.GetComponent<DoorController> ().requireMultiplePlates) {
-							door.GetComponent<DoorController> ().turnOn ();
+							door.GetComponent<DoorController> ().toggle ();
 						} else if (door.GetComponent<DoorController> ().requireMultiplePlates) {
 							door.GetComponent<DoorController> ().platesActivated++;
 							door.GetComponent<DoorController> ().turnOn ();
@@ -115,7 +115,7 @@ public class PressurePlateController : MonoBehaviour
 
                     if (!door.GetComponent<DoorController>().requireMultiplePlates)
                     {
-                        door.GetComponent<DoorController>().turnOff();
+						door.GetComponent<DoorController>().toggle();
                     }
                     else if (door.GetComponent<DoorController>().requireMultiplePlates)
                     {
