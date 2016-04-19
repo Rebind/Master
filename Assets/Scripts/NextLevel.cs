@@ -26,13 +26,13 @@ public class NextLevel : MonoBehaviour {
 		Debug.Log("String: " + currLevel);
 		
 		switch (currLevel) {
-			case "Showcase":
+			case "Level-04":
 				PlayerPrefs.SetInt("Level", 4);
 				Application.LoadLevel("LoadingScene");
 				
 				//Application.LoadLevel(1);
 				break;
-			case "AlexFerr2DLevel":
+			case "Level-07":
 				PlayerPrefs.SetInt("Level", 1);
 				Application.LoadLevel("LoadingScene");
 				//Application.LoadLevel(4);
@@ -41,7 +41,7 @@ public class NextLevel : MonoBehaviour {
 				PlayerPrefs.SetInt("Level", 6);
 				Application.LoadLevel("LoadingScene");
 				break;
-			case "DetachLevel":
+			case "Level-02":
 				PlayerPrefs.SetInt("Level", 9);
 				Application.LoadLevel("LoadingScene");
 				break;
@@ -49,15 +49,15 @@ public class NextLevel : MonoBehaviour {
 				PlayerPrefs.SetInt("Level", 8);
 				Application.LoadLevel("LoadingScene");
 				break;
-			case "Level-02":
+			case "Level-03":
 				PlayerPrefs.SetInt("Level", 11);
 				Application.LoadLevel("LoadingScene");
 				break;
-			case "Level3":
+			case "Level-05":
 				PlayerPrefs.SetInt("Level", 12);
 				Application.LoadLevel("LoadingScene");
 				break;
-			case "FifthLevel":
+			case "Level-06":
 				PlayerPrefs.SetInt("Level", 6);
 				Application.LoadLevel("LoadingScene");
 				break;
