@@ -12,9 +12,10 @@ public class DoorController : MonoBehaviour {
 	private bool startState;
 	private BoxCollider2D myCollider;
     private Rigidbody2D myRigidBody;
+    private GameObject Player;
 
 	public int neededToOpen;
-
+	public Player playerScript;
 
 	private bool opening;
 	private bool closing;
@@ -28,6 +29,8 @@ public class DoorController : MonoBehaviour {
 
 
 	void Start () {
+		Player = GameObject.Find("Player");
+		playerScript = Player.GetComponent<Player>();
 		assignState ();
 		if (gameObject.name == "mouth_door") {
 			mouth = GetComponent<Animator> ();
@@ -119,7 +122,6 @@ public class DoorController : MonoBehaviour {
 				closing = false;
 			}
 		}
-
 	}
 
 }
