@@ -15,7 +15,6 @@ public class DoorController : MonoBehaviour {
 
 	public int neededToOpen;
 
-
 	private bool opening;
 	private bool closing;
 
@@ -119,7 +118,6 @@ public class DoorController : MonoBehaviour {
 				closing = false;
 			}
 		}
-
 	}
 
 }
