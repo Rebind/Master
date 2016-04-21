@@ -107,7 +107,7 @@ public class DoorController : MonoBehaviour {
 		if (opening && open) {
 
 			this.gameObject.GetComponent<MeshRenderer> ().material.color = new UnityEngine.Color (color.r, color.g, color.b, color.a - .025f);   
-			if (this.gameObject.GetComponent<MeshRenderer> ().material.color.a <= 0f) {
+			if (this.gameObject.GetComponent<MeshRenderer> ().material.color.a <= 0.2f) {
 				opening = false;
 			}
 		}

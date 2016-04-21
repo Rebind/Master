@@ -7,13 +7,15 @@ public class FlickeringLight : MonoBehaviour {
 	float low = 0f;
 	public float radius;
 	public bool dim = false;
-	public float upper = 104.1f;
+	public float upper = 0f;
 	public float lower = 90f;
 	// Use this for initialization
 	void Start () {
 		dim = true;
 		tmp = this.GetComponent<Light>();
-		InvokeRepeating("flicker", Random.Range(0.0f, 2.0f), 0.2f);
+		upper = tmp.range;
+		lower = tmp.range - 7f;
+		InvokeRepeating("flicker", Random.Range(0.0f, 2.0f),0.05f);
 	}
 	
 	// Update is called once per frame
@@ -26,9 +28,9 @@ public class FlickeringLight : MonoBehaviour {
 			dim = true;
 		}
 		if(dim == true){
-			radius = radius - 5;
+			radius = radius - 1;
 		}else if(dim == false){
-			radius = radius + 5;
+			radius = radius + 1;
 		}
 		tmp.range = radius;
 	}
