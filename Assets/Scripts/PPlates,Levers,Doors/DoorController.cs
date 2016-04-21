@@ -15,7 +15,6 @@ public class DoorController : MonoBehaviour {
 
 	public int neededToOpen;
 
-
 	private bool opening;
 	private bool closing;
 
@@ -70,8 +69,10 @@ public class DoorController : MonoBehaviour {
     }
 
 	public void toggle(){
+		Debug.Log (open);
 		open = !open;
 		assignState ();
+		Debug.Log (open);
 
 	}
 
@@ -117,7 +118,6 @@ public class DoorController : MonoBehaviour {
 				closing = false;
 			}
 		}
-
 	}
 
 }

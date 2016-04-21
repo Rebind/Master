@@ -8,6 +8,7 @@ public class LeverController : MonoBehaviour {
 
 	public bool moveDoor;
 	public bool movePlatform;
+    private bool on;
 
 	public float maximumActivationDistance;
 
@@ -32,12 +33,16 @@ public class LeverController : MonoBehaviour {
 		myCamera = camera.GetComponent<CameraFollow> ();
 		oneTime = false;
 		onPlate = false;
+        on = true;
 	}
 
 	void Update(){
-		if(Input.GetKeyDown(KeyCode.Z) && nearLever()){
+		if((Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_BButton")) && nearLever()){
 			toggleLever ();
-			Debug.Log("Lever Tripped");
+            this.gameObject.GetComponent<SpriteRenderer>().flipY = on;
+            on = !on;
+            //this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+            Debug.Log("Lever Tripped");
 			//lever toggle
 		}
 

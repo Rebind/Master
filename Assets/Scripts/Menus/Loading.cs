@@ -54,9 +54,9 @@
          GUI.DrawTexture(new Rect(x, y, width * async.progress, height), fullProgressBar);
          GUI.skin.label.alignment = TextAnchor.MiddleCenter;
         //GUI.Label(new Rect(x, y, width, height), string.Format("{0:N0}%", async.progress * 100f 
-        GUI.DrawTexture(new Rect(x, y, width, height), loadingBackground);
+        //GUI.DrawTexture(new Rect(x, y, width, height), loadingBackground);
         GUI.DrawTexture(new Rect(x+400, y+150, width/4, height/2), loadingAvatar);
-		 GUI.Label(new Rect(x, y, width, height), string.Format("{0:N0}", "LOADING...."));
+		 //GUI.Label(new Rect(x, y, width, height), string.Format("{0:N0}", "LOADING...."));
        
      }
  
