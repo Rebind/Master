@@ -7,8 +7,6 @@ public class PressurePlateController : MonoBehaviour
     BoxCollider2D myCollider;
 
 
-    public bool moveDoor;
-    public bool movePlatform;
     public Sprite activeSprite;
     public Sprite inactiveSprite;
 
@@ -58,7 +56,7 @@ public class PressurePlateController : MonoBehaviour
 				//spriteRenderer.color = new Color (0f, 1f, 0f, 1f);
 				spriteRenderer.sprite = activeSprite;
 				onPlate = true;
-				if (moveDoor) { //toggles the door(s) states
+				if (affectedDoors != null) { //toggles the door(s) states
 
 					foreach (GameObject door in affectedDoors) {
 
@@ -76,7 +74,7 @@ public class PressurePlateController : MonoBehaviour
 
 
 				}
-				if (movePlatform) { //toggles the state of the platform(s)
+				if (affectedPlatforms != null) { //toggles the state of the platform(s)
 					foreach (GameObject platform in affectedPlatforms) {
 
 						platform.GetComponent<PlatformController> ().turnOn ();
@@ -107,7 +105,7 @@ public class PressurePlateController : MonoBehaviour
 
 			}
 
-            if (moveDoor)
+			if (affectedDoors != null)
             { //toggles the door(s) states
 
                 foreach (GameObject door in affectedDoors)
@@ -129,7 +127,7 @@ public class PressurePlateController : MonoBehaviour
 
 
             }
-            if (movePlatform)
+			if (affectedPlatforms != null)
             { //toggles the state of the platform(s)
                 foreach (GameObject platform in affectedPlatforms)
                 {
