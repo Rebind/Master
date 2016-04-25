@@ -18,9 +18,9 @@ public class LimbController : MonoBehaviour
 
 
 	private float timer;
+    private LevelManager mylevelmanager;
 
-
-	string objectTag;
+    string objectTag;
 	private Sprite currentBodyState; //stores the current state of the body, gets from the array
 	private Animator myAnimator; //Animator for the different states
 	private GameObject[] nearbyLimbsofType;
@@ -53,8 +53,9 @@ public class LimbController : MonoBehaviour
 		sounds = player.GetComponent<Sound>();
 		playSound = false;
 		assignState();
+        mylevelmanager = FindObjectOfType<LevelManager>();
 
-	}
+    }
 
 	void Update()
 	{
@@ -359,19 +360,19 @@ public class LimbController : MonoBehaviour
 	 * */
 	public void detach()
 	{
-		
-		if ((Input.GetKeyDown(KeyCode.W) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
 		{
 			if (dpadY == false) {
 				if(player.isClimbing){
 					player.isClimbing = false;
 				}
-				torso.SetActive (true); 
+                mylevelmanager.detachLimb();
+                torso.SetActive (true); 
 				checkForDifferentLimbs ();
 				instantiateBodyParts (torso);
 				hasTorso = false;
 				assignState ();
-				sounds.audioDetach.Play ();
+				sounds.audioDetachTorso.Play ();
 				player.isClimbing = false;
 				dpadY = true;
 			}
@@ -380,11 +381,12 @@ public class LimbController : MonoBehaviour
 			&& hasArm && !hasSecondArm )
 		{
 			if (dpadX == false) {
-				arm.SetActive (true);
+                mylevelmanager.detachLimb();
+                arm.SetActive (true);
 				instantiateBodyParts (arm);
 				hasArm = false;
 				assignState ();
-				sounds.audioDetach.Play ();
+				sounds.audioDetachArm.Play ();
 				
 				//Change animations?
 				dpadX = true;
@@ -395,14 +397,15 @@ public class LimbController : MonoBehaviour
 			&& hasArm && hasSecondArm)
 		{
 			if (dpadX == false) {
-				if(player.isClimbing){
+                mylevelmanager.detachLimb();
+                if (player.isClimbing){
 					player.isClimbing = false;
 				}
 				twoArms.SetActive (true);
 				instantiateBodyParts (twoArms);
 				hasSecondArm = false;
 				assignState ();
-				sounds.audioDetach.Play ();
+				sounds.audioDetachArm.Play ();
 				//Change animations here?
 				
 				dpadX = true;
@@ -414,20 +417,22 @@ public class LimbController : MonoBehaviour
 		else if ((Input.GetKeyDown(KeyCode.S) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasLeg && !hasSecondLeg)
 		{
 			if (dpadY == false) {
-				leg.SetActive (true);
+                mylevelmanager.detachLimb();
+                leg.SetActive (true);
 				hasLeg = false;
 				instantiateBodyParts (leg);
 				assignState ();
-				sounds.audioDetach.Play ();
+				sounds.audioDetachLeg.Play ();
 				dpadY = true;
 			}
 		}
 		else if ((Input.GetKeyDown(KeyCode.S) || Input.GetAxisRaw("XBox_DPadY") == -1) && hasSecondLeg)
 		{
 			if (dpadY == false) {
-				twoLegs.SetActive (true);
+                mylevelmanager.detachLimb();
+                twoLegs.SetActive (true);
 				hasSecondLeg = false;
-				sounds.audioDetach.Play ();
+				sounds.audioDetachLeg.Play ();
 				instantiateBodyParts (twoLegs);
 				assignState ();
 				dpadY = true;
