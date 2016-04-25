@@ -5,7 +5,12 @@ public class Sound : MonoBehaviour {
 
 	public AudioClip attachSound;
 	public AudioClip detachSound;
-	public AudioClip headRoll;
+
+    public AudioClip detachSoundLeg;
+    public AudioClip detachSoundArm;
+    public AudioClip detachSoundTorso;
+
+    public AudioClip headRoll;
 	public AudioClip torsoWalk;
 	public AudioClip footsteps;
 	public AudioClip feet;
@@ -20,7 +25,12 @@ public class Sound : MonoBehaviour {
     public AudioSource audioClimb;
     public AudioSource audiodead;
     public AudioSource audioDetach;
-	public AudioSource audioHeadRoll;
+
+    public AudioSource audioDetachLeg;
+    public AudioSource audioDetachArm;
+    public AudioSource audioDetachTorso;
+
+    public AudioSource audioHeadRoll;
 	public AudioSource audioTorso;
 	public AudioSource audioFoot;
 	public AudioSource audioFeet;
@@ -40,7 +50,12 @@ public class Sound : MonoBehaviour {
 	public void Awake(){
 		// add the necessary AudioSources:
 		audioAttach = AddAudio(attachSound, false, true, 0.5f);
-		audioDetach = AddAudio(detachSound, false, true, 0.5f);
+
+        audioDetachLeg = AddAudio(detachSoundLeg, false, true, 0.5f);
+        audioDetachArm = AddAudio(detachSoundArm, false, true, 0.5f);
+        audioDetachTorso = AddAudio(detachSoundTorso, false, true, 0.5f);
+
+        audioDetach = AddAudio(detachSound, false, true, 0.5f);
 		audioHeadRoll = AddAudio(headRoll, false, true, 2.0f); 
 		audioTorso = AddAudio(torsoWalk, false, true, 0.2f); 
 		audioFoot = AddAudio(footsteps, true, true, 0.1f);
