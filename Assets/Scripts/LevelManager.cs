@@ -128,7 +128,7 @@ public class LevelManager : MonoBehaviour
     public void detachLimb()
     {
      
-        Instantiate(detachParticle, new Vector3(56.7f,17.7f,500f) , player.transform.rotation);
+        Instantiate(detachParticle, player.transform.position , player.transform.rotation);
     }
 
     public void destroyWall()
