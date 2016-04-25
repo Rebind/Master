@@ -5,9 +5,6 @@ public class LeverController : MonoBehaviour {
 
 	BoxCollider2D myCollider;
 
-
-	public bool moveDoor;
-	public bool movePlatform;
     private bool on;
 
 	public float maximumActivationDistance;
@@ -15,8 +12,8 @@ public class LeverController : MonoBehaviour {
 	public GameObject[] affectedDoors;
 	public GameObject[] affectedPlatforms;
 
-	[SerializeField]
-	public GameObject camera;
+
+	private Camera camera;
 
 	private CameraFollow myCamera;
 
@@ -29,6 +26,7 @@ public class LeverController : MonoBehaviour {
 
 	// Use this for initialization
 	public void Start () {
+		camera = Camera.main;
 		maximumActivationDistance = 1.5f;
 		myCamera = camera.GetComponent<CameraFollow> ();
 		oneTime = false;
@@ -64,14 +62,14 @@ public class LeverController : MonoBehaviour {
 
 	public void toggleLever(){
 
-				if (moveDoor) { //toggles the door(s) states
+		if (affectedDoors != null) { //toggles the door(s) states
 					foreach (GameObject door in affectedDoors) {
 
 						door.GetComponent<DoorController> ().toggle ();
 					}
 
 				}
-				if (movePlatform) { //toggles the state of the platform(s)
+		if (affectedPlatforms != null) { //toggles the state of the platform(s)
 					foreach (GameObject platform in affectedPlatforms) {
 
 						platform.GetComponent<PlatformController> ().toggle ();
