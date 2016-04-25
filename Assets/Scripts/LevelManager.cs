@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     public GameObject deathParticle;
 	public GameObject exit;
     public GameObject WreckParticle;
+    public GameObject detachParticle;
     private GameObject[] Legs;
     private GameObject[] Arms;
     Animator playerAnimator;
@@ -23,6 +24,7 @@ public class LevelManager : MonoBehaviour
 	private PressurePlateController pp;
 	public string [] Levels;
 	private Loading loading;
+    private Vector3 offSet;
 	
     public class Node {
         public Node next;
@@ -71,8 +73,9 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         Limbs = new LinkedList();
-
         player = GameObject.FindGameObjectWithTag("Player");
+        Debug.Log(player.transform.position);
+        offSet = player.transform.position + (player.transform.forward * 985.0f);
         follower = GameObject.FindGameObjectWithTag("follower");
         Wreck = GameObject.Find("BreakTerrain");
 		exit = GameObject.Find("Exit");
@@ -120,7 +123,12 @@ public class LevelManager : MonoBehaviour
     public void respawnPlayer()
     {
         StartCoroutine("respawnPlayerCo");
+    }
 
+    public void detachLimb()
+    {
+     
+        Instantiate(detachParticle, new Vector3(56.7f,17.7f,500f) , player.transform.rotation);
     }
 
     public void destroyWall()

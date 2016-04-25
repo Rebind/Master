@@ -18,9 +18,9 @@ public class LimbController : MonoBehaviour
 
 
 	private float timer;
+    private LevelManager mylevelmanager;
 
-
-	string objectTag;
+    string objectTag;
 	private Sprite currentBodyState; //stores the current state of the body, gets from the array
 	private Animator myAnimator; //Animator for the different states
 	private GameObject[] nearbyLimbsofType;
@@ -53,8 +53,9 @@ public class LimbController : MonoBehaviour
 		sounds = player.GetComponent<Sound>();
 		playSound = false;
 		assignState();
+        mylevelmanager = FindObjectOfType<LevelManager>();
 
-	}
+    }
 
 	void Update()
 	{
@@ -359,8 +360,8 @@ public class LimbController : MonoBehaviour
 	 * */
 	public void detach()
 	{
-		
-		if ((Input.GetKeyDown(KeyCode.W) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
+        mylevelmanager.detachLimb();
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
 		{
 			if (dpadY == false) {
 				if(player.isClimbing){
