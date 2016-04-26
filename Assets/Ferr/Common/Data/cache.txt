@@ -10,3 +10,4 @@ Assets/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.prefab
 
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Wall for Rock.prefab
+Assets/Prefabs/New Terrain.prefab

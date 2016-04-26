@@ -19,6 +19,11 @@ public class DoorController : MonoBehaviour {
 	private bool closing;
 
 
+	public AudioClip doorOpen;
+	public AudioClip doorClose;
+	private AudioSource audioDoor;
+
+
 	[HideInInspector]
 	public int platesActivated;
 
@@ -27,6 +32,7 @@ public class DoorController : MonoBehaviour {
 
 
 	void Start () {
+		audioDoor = this.gameObject.AddComponent<AudioSource>();
 		assignState ();
 		if (gameObject.name == "mouth_door") {
 			mouth = GetComponent<Animator> ();
@@ -42,7 +48,11 @@ public class DoorController : MonoBehaviour {
 		myCollider = gameObject.GetComponent<BoxCollider2D>() as BoxCollider2D;
 
 		if (open) {
-
+			if (audioDoor.isPlaying) {
+				audioDoor.Stop ();
+			}
+			audioDoor.clip = doorOpen;
+			audioDoor.Play();
 
 
 			Debug.Log ("open");
@@ -55,6 +65,12 @@ public class DoorController : MonoBehaviour {
 			myCollider.size = new Vector2(0,0);
            // myRigidBody.gravityScale = 1;
 		} else if (!open) {
+			if (audioDoor.isPlaying) {
+				audioDoor.Stop ();
+			}
+			audioDoor.clip = doorClose;
+			audioDoor.Play();
+
 			Debug.Log ("closed");
             //gameObject.GetComponent<MeshRenderer> ().enabled = true;
 			if (gameObject.name == "mouth_door") {
