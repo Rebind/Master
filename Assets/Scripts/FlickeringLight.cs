@@ -3,18 +3,19 @@ using System.Collections;
 
 public class FlickeringLight : MonoBehaviour {
 	public Light tmp;
-	float high = 104.1f;
-	float low = 0f;
-	 float radius;
-	 bool dim = false;
-	 float upper = 0f;
-	 float lower = 90f;
+	public float radius;
+	bool dim = false;
+	public float upper;
+	public float lower;
 	public float rangeModifier;
 	public float changePerTick;
 	public float tickInterval; 
 	// Use this for initialization
 	void Start () {
 		dim = true;
+		rangeModifier = 20.0f;
+		changePerTick = 3.0f;
+		tickInterval = 0.2f; 
 		tmp = this.GetComponent<Light>();
 		upper = tmp.range;
 		lower = tmp.range - rangeModifier;
