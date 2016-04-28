@@ -10,7 +10,7 @@ public class PushBox : MonoBehaviour
     private Vector3 addGap = new Vector3(.3f, 0, 0);
     private Vector3 temPosition;
     private float temSpeed;
-    private float minimumDistance = 10f;
+    private float minimumDistance = 15.0f;
     public Player playerScript;
     private Animator playerAnimator;
 
@@ -32,13 +32,13 @@ public class PushBox : MonoBehaviour
     void Update()
     {
         //Debug.Log(gameObject.transform.position.x);
-        pushController();
+       pushController();
     }
 
     private void pushController()
     {
 
-        if ((Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_BButton")) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat("speed") > 0.1)
+        if ((Vector3.Distance(transform.position, Player.transform.position) <= minimumDistance) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat("speed") > 0.1)
         {
             //get the position when player press "h"
             temPosition = gameObject.transform.position;
@@ -52,6 +52,9 @@ public class PushBox : MonoBehaviour
             //Play sound here
             playSoundEffect();
         }
+		else {
+			 playerAnimator.SetLayerWeight(4, 0);
+		}
         if ((Input.GetKeyUp(KeyCode.X) || Input.GetButtonUp("Xbox_BButton")) && (arm.hasArm || arm.hasSecondArm))
         {
             //Stop sound from playing
@@ -92,6 +95,7 @@ public class PushBox : MonoBehaviour
         if (arm.hasArm || arm.hasSecondArm)
         {
             rgbd.constraints = RigidbodyConstraints2D.FreezeRotation; //| RigidbodyConstraints2D.FreezePositionY;
+			
             gameObject.layer = 11;
         }
         if (arm.hasArm == false && arm.hasSecondArm == false)
