@@ -124,7 +124,9 @@ public class PushBox : MonoBehaviour
             Destroy(GetComponent<Rigidbody2D>());
         }
 		if(col.gameObject.tag == "Player"){
-			playSoundEffect();
+			if (!audioRock.isPlaying) {
+				playSoundEffect ();
+			}
 		}
     }
 }
