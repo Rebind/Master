@@ -148,8 +148,10 @@ public class Player : MonoBehaviour
 			velocity.x = 0;
             myAnimator.SetLayerWeight(3, 1);
             if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f)
-            {
-                sounds.audioClimb.Play();
+            {	
+				if (!sounds.audioClimb.isPlaying) {
+					sounds.audioClimb.Play ();
+				}
             }
         }
 
