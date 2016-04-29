@@ -38,7 +38,7 @@ public class PushBox : MonoBehaviour
     private void pushController()
     {
 
-        if ((Vector3.Distance(transform.position, Player.transform.position) <= minimumDistance) && (arm.hasArm || arm.hasSecondArm) && playerAnimator.GetFloat("speed") > 0.1)
+        if ((Vector3.Distance(transform.position, Player.transform.position) <= minimumDistance) && (arm.hasArm || arm.hasSecondArm))
         {
             //get the position when player press "h"
             temPosition = gameObject.transform.position;
@@ -50,12 +50,9 @@ public class PushBox : MonoBehaviour
             gameObject.layer = 11;
 
             //Play sound here
-            playSoundEffect();
+            //playSoundEffect();
         }
-		else {
-			 playerAnimator.SetLayerWeight(4, 0);
-		}
-        if ((Input.GetKeyUp(KeyCode.X) || Input.GetButtonUp("Xbox_BButton")) && (arm.hasArm || arm.hasSecondArm))
+		else if((Vector3.Distance(transform.position, Player.transform.position) > minimumDistance) && (arm.hasArm || arm.hasSecondArm))
         {
             //Stop sound from playing
             stopSoundEffect();
@@ -72,6 +69,8 @@ public class PushBox : MonoBehaviour
 
         }
 
+		
+        
         if (Vector3.Distance(gameObject.transform.position, Player.transform.position) > 10.0f && (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_RightButton")))
         {
             stopSoundEffect();
@@ -124,5 +123,8 @@ public class PushBox : MonoBehaviour
             //print (playerScript.moveSpeed);
             Destroy(GetComponent<Rigidbody2D>());
         }
+		if(col.gameObject.tag == "Player"){
+			playSoundEffect();
+		}
     }
 }
