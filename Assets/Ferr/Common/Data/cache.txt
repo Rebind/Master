@@ -12,3 +12,4 @@ Assets/Ferr/2DTerrain/TerrainMaterials/AcidMaterial.prefab
 [Ferr2DT_PathTerrain]
 Assets/Prefabs/Wall for Rock.prefab
 Assets/Prefabs/New Terrain.prefab
+Assets/Prefabs/Ferr2dAcid.prefab
