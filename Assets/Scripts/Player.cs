@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
 	public bool facingRight;
 	private bool oldFacing;
 	public bool isJumping;
+	private bool midJump;
 	public bool isClimbing;
 	public bool notOnNose;
 	private bool playSound;
@@ -120,11 +121,21 @@ public class Player : MonoBehaviour
 			isJumping = true;
 		}
 
+		if (isJumping && !myController.collisions.below) {
+			midJump = true;
+		} 
+
+	
+
+		if (midJump && myController.collisions.below) {
+			isJumping = false;
+			midJump = false;
+			myAnimator.ResetTrigger("jump");
+
+		}
 
 
 		if ((Input.GetKeyUp(KeyCode.LeftAlt) || Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("Xbox_AButton")) && notOnNose) {
-			myAnimator.ResetTrigger("jump");
-			isJumping = false;
 			if (velocity.y > minJumpVelocity) {
 				velocity.y = minJumpVelocity;
 			}
@@ -133,7 +144,6 @@ public class Player : MonoBehaviour
 
 		if (velocity.y < 0)
 		{
-			//isJumping = false;
 			myAnimator.SetBool("land", true);
 		} 
 
@@ -164,21 +174,16 @@ public class Player : MonoBehaviour
 		{
 
             myAnimator.SetFloat("speedVert", Mathf.Abs(Input.GetAxis("Vertical")));
-            myAnimator.SetFloat("speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+			if (myController.collisions.left || myController.collisions.right) {
+				myAnimator.SetFloat ("speed", 0);
+			} else {
+				myAnimator.SetFloat ("speed", Mathf.Abs (velocity.x));
+			}
 		}
 		else
 		{
 			myAnimator.SetFloat("speed", 0);
 		}
-		//myAnimator.SetFloat("sppeed", Mathf.Abs(Input.GetAxis("Horizontal")));
-		/* if (myAnimator.GetFloat("speed") != 0)
-         {
-             myAnimator.SetBool("isMoving", true);
-         }
-         else
-         {
-             myAnimator.SetBool("isMoving", false);
-         }*/
 	}
 
 
