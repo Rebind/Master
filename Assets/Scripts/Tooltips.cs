@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Tooltips : MonoBehaviour {
 
-	bool Bbutton;
-	bool Abutton;
-	bool detachLegs;
-	bool detachArms;
-	bool possessLimb;
-	bool returnHead;
+	bool Bbutton = true;
+	bool Abutton = true;
+	bool detachLegs = true;
+	bool detachArms = true;
+	bool possessLimb = true;
+	bool returnHead = true;
 	GameObject Player;
 	GameObject BButton;
 	GameObject AButton;
@@ -22,13 +22,14 @@ public class Tooltips : MonoBehaviour {
 	GameObject arm;
 	GameObject possessSign;
 	GameObject returnSign;
-	private float minimumDistance = 2.5f;
+	private float minimumDistance = 3.0f;
 	//private List<GameObject> whichList = new List<GameObject>();
 	// Use this for initialization
 	void Start () {
 		Player = GameObject.FindGameObjectWithTag("Player");
-		BButton = GameObject.Find("XBox-Interact");
-		AButton = GameObject.Find("XBox-Jump");
+		
+		BButton = GameObject.FindGameObjectWithTag("interactSign");
+		AButton = GameObject.FindGameObjectWithTag("jumpSign");
 		legSign = GameObject.FindGameObjectWithTag("signLeg");
 		armSign = GameObject.FindGameObjectWithTag("signArm");
 		pp1 = GameObject.Find("Pressure Plate (1)");
@@ -37,12 +38,7 @@ public class Tooltips : MonoBehaviour {
 		returnSign = GameObject.FindGameObjectWithTag("signReturn");
 		arm = GameObject.Find("Arm (1)");
 		pp3 = GameObject.Find("Pressure Plate for door one");
-		Bbutton = true;
-		Abutton = true;
-		detachLegs = true;
-		detachArms = true;
-		possessLimb = true;
-		returnHead = true;
+
 	}
 	
 	// Update is called once per frame
@@ -73,22 +69,22 @@ public class Tooltips : MonoBehaviour {
 		
 		torso = GameObject.FindGameObjectWithTag("torso");
 		quad = GameObject.Find("Quad");
+		Debug.Log(Bbutton);
 		if ((Vector3.Distance(Player.transform.position, torso.transform.position) <= minimumDistance) && Bbutton){
 			BButton.SetActive(true);
-			if(Input.GetKeyDown(KeyCode.Z)){
+			Debug.Log("testing in level 1");
+			if(Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Xbox_BButton")){
 				Bbutton = false;
 			}
-			//Bbutton = false;
 		}
 		else BButton.SetActive(false);
 		
 		if ((Vector3.Distance(Player.transform.position, quad.transform.position) <= minimumDistance) && Abutton){
 			//Debug.Log("testing in here");
 			AButton.SetActive(true);
-			if(Input.GetKeyDown(KeyCode.Space)){
+			if(Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Xbox_AButton") || Input.GetKeyDown(KeyCode.LeftAlt)){
 				Abutton = false;
 			}
-			//Bbutton = false;
 		}
 		else AButton.SetActive(false);
 	}
@@ -99,7 +95,7 @@ public class Tooltips : MonoBehaviour {
 		if ((Vector3.Distance(Player.transform.position, pp1.transform.position) <= minimumDistance) && detachLegs){
 			//Debug.Log("testing in here");
 			legSign.SetActive(true);
-			if(Input.GetKeyDown(KeyCode.S)){
+			if(Input.GetKeyDown(KeyCode.S) || Input.GetAxisRaw("XBox_DPadY") == -1){
 				detachLegs = false;
 			}
 			//Bbutton = false;
@@ -109,7 +105,7 @@ public class Tooltips : MonoBehaviour {
 		if ((Vector3.Distance(Player.transform.position, pp4.transform.position) <= minimumDistance) && detachArms){
 			//Debug.Log("testing in here");
 			armSign.SetActive(true);
-			if(Input.GetKeyDown(KeyCode.A)){
+			if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1){
 				detachArms = false;
 			}
 			//Bbutton = false;
@@ -124,7 +120,7 @@ public class Tooltips : MonoBehaviour {
 		if ((Vector3.Distance(arm.transform.position, pp3.transform.position) <= 2.0f) && returnHead){
 			//Debug.Log("testing in here");
 			returnSign.SetActive(true);
-			if(Input.GetKeyDown(KeyCode.LeftShift)){
+			if(Input.GetKeyDown(KeyCode.LeftShift) || Input.GetButtonDown("Xbox_YButton")){
 				returnHead = false;
 			}
 			//Bbutton = false;
@@ -134,7 +130,7 @@ public class Tooltips : MonoBehaviour {
 		if ((Vector3.Distance(Player.transform.position, arm.transform.position) <= 10f) && possessLimb){
 			//Debug.Log("testing in here");
 			possessSign.SetActive(true);
-			if(Input.GetKeyDown(KeyCode.LeftControl)){
+			if(Input.GetKeyDown(KeyCode.LeftControl) || Input.GetButtonDown("Xbox_XButton")){
 				possessLimb = false;
 			}
 			//Bbutton = false;
