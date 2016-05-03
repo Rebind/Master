@@ -7,7 +7,7 @@ public class DoorController : MonoBehaviour {
 
 	public bool open;
 
-	public bool requireMultiplePlates;
+
     public Animator mouth;
 	private bool startState;
 	private BoxCollider2D myCollider;
@@ -95,10 +95,10 @@ public class DoorController : MonoBehaviour {
 
     public void turnOn()
     {
-		if (!requireMultiplePlates) {
+		if (neededToOpen<=0) {
 			open = !startState;
 			assignState ();
-		} else if (requireMultiplePlates) {
+		} else if (neededToOpen != null) {
 			Debug.Log (platesActivated);
 			if (platesActivated == neededToOpen) {
 				open = !startState;
