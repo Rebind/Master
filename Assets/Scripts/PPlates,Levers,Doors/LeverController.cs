@@ -18,6 +18,9 @@ public class LeverController : MonoBehaviour {
 	private CameraFollow myCamera;
 
 
+	public AudioClip ppOn;
+	public AudioClip ppOff;
+	public AudioSource audioPP;
 
 
 	// Use this for initialization
@@ -26,6 +29,7 @@ public class LeverController : MonoBehaviour {
 		maximumActivationDistance = 1.5f;
 		myCamera = camera.GetComponent<CameraFollow> ();
         on = true;
+		audioPP = this.gameObject.AddComponent<AudioSource>();
 	}
 
 	void Update(){
@@ -33,9 +37,6 @@ public class LeverController : MonoBehaviour {
 			toggleLever ();
             this.gameObject.GetComponent<SpriteRenderer>().flipY = on;
             on = !on;
-            //this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
-            Debug.Log("Lever Tripped");
-			//lever toggle
 		}
 
 	}
@@ -55,6 +56,17 @@ public class LeverController : MonoBehaviour {
 
 
 	public void toggleLever(){
+
+		if (audioPP.isPlaying) {
+			audioPP.Stop ();
+		} else {
+			if(on){
+			audioPP.clip = ppOn;
+			} else {
+			audioPP.clip = ppOff;
+			}
+			audioPP.Play ();
+		}
 
 		if (affectedDoors != null) { //toggles the door(s) states
 					foreach (GameObject door in affectedDoors) {
