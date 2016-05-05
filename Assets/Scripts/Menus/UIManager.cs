@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour {
 	public Texture2D resumeButton; 
 	public Texture2D quitButton; 
 	
-	public Texture2D playButton;
+	public Texture2D restartButton;
 	
 	
 	public bool clickedStart = false;
@@ -137,7 +137,7 @@ public class UIManager : MonoBehaviour {
 		GUI.SetNextControlName(buttons[0]);
 		Event e = Event.current;
 		if(isPaused){
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), "Resume" )){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), resumeButton )){
 			isPaused = false;
 			Debug.Log("Clicked Start");
 		}
@@ -151,7 +151,7 @@ public class UIManager : MonoBehaviour {
  
  
 		//Restart level. 
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 100,100,50), "Restart")){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 100,100,50), restartButton)){
 			//when selected Options button
 			Application.LoadLevel(Application.loadedLevel);
 			Debug.Log("Clicked Options");
@@ -162,7 +162,7 @@ public class UIManager : MonoBehaviour {
 		}
 		GUI.SetNextControlName(buttons[2]);
  
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), "Quit")){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), quitButton)){
 			//when selected Exit button
 			Application.Quit();
 			Debug.Log("Exit");
