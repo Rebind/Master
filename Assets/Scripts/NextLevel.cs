@@ -28,38 +28,46 @@ public class NextLevel : MonoBehaviour {
 		switch (currLevel) {
 			case "Level-04":
 				PlayerPrefs.SetInt("Level",11);
-				Application.LoadLevel("LoadingScene");
+				StartCoroutine("FadingScenes");
+				
 				
 				//Application.LoadLevel(1);
 				break;
 			case "Level-07":
 				PlayerPrefs.SetInt("Level", 1);
-				Application.LoadLevel("LoadingScene");
+				StartCoroutine("FadingScenes");
+				
 				//Application.LoadLevel(4);
 				break;
 			case "BeggLevel":
 				PlayerPrefs.SetInt("Level", 6);
-				Application.LoadLevel("LoadingScene");
+				StartCoroutine("FadingScenes");
+				
 				break;
 			case "Level-02":
 				PlayerPrefs.SetInt("Level", 9);
-				Application.LoadLevel("LoadingScene");
+				StartCoroutine("FadingScenes");
+				
 				break;
 			case "Level-01":
 				PlayerPrefs.SetInt("Level", 8);
-				Application.LoadLevel("LoadingScene");
+				StartCoroutine("FadingScenes");
+				
 				break;
 			case "Level-03":
 				PlayerPrefs.SetInt("Level", 4);
-				Application.LoadLevel("LoadingScene");
+				StartCoroutine("FadingScenes");
+				
 				break;
 			case "Level-05":
 				PlayerPrefs.SetInt("Level", 12);
-				Application.LoadLevel("LoadingScene");
+				StartCoroutine("FadingScenes");
+				
 				break;
 			case "Level-06":
 				PlayerPrefs.SetInt("Level", 1);
-				Application.LoadLevel("LoadingScene");
+				StartCoroutine("FadingScenes");
+				
 				break;
 			default:
 				print ("Incorrect intelligence level.");
@@ -67,4 +75,11 @@ public class NextLevel : MonoBehaviour {
 		
 		}
 	}
+	
+	IEnumerator FadingScenes(){
+        //Debug.Log("Loading Level One”);
+        float fadeTime = GameObject.FindGameObjectWithTag("fade").GetComponent<FadeScenes>().BeginFade(1);
+        yield return new WaitForSeconds(1.0f);
+        Application.LoadLevel("LoadingScene");
+    }
 }
