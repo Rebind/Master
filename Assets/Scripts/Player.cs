@@ -221,7 +221,11 @@ public class Player : MonoBehaviour
 			if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight) {
 
 				if (isJumping) {
-					oldFacing = !facingRight;
+					//oldFacing = !facingRight;
+					facingRight = !facingRight;
+					Vector3 theScale = transform.localScale;
+					theScale.x *= -1;
+					transform.localScale = theScale;
 				}
 				if (!isJumping) {
 					facingRight = !facingRight;
