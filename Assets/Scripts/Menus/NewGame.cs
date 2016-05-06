@@ -92,7 +92,7 @@ public class NewGame : MonoBehaviour {
 		GUI.SetNextControlName(buttons[0]);
 		Event e = Event.current;
 		
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), playButton )){
+		if(GUI.Button(new Rect(335,Screen.height/2,playButton.width, playButton.height), playButton )){
 			PlayerPrefs.SetInt("Level", 10);
 			Application.LoadLevel("LoadingScene");
 			Debug.Log("Clicked Start");
@@ -108,7 +108,7 @@ public class NewGame : MonoBehaviour {
  
 		GUI.SetNextControlName(buttons[1]);
  
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 100,100,50), resumeButton)){
+		if(GUI.Button(new Rect(735 ,Screen.height/2,resumeButton.width,resumeButton.height), resumeButton)){
 			PlayerPrefs.SetInt("Level", 1);
 			Application.LoadLevel("LoadingScene");
 			//when selected Options button
@@ -124,7 +124,7 @@ public class NewGame : MonoBehaviour {
 		}
 		GUI.SetNextControlName(buttons[2]);
  
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), quitButton)){
+		if(GUI.Button(new Rect(1235,Screen.height/2, quitButton.width,quitButton.height), quitButton)){
 			Application.Quit();
 			//when selected Exit button
 			Debug.Log("Exit");
