@@ -9,8 +9,13 @@ public class PushBox : MonoBehaviour
     private Animator myAnimator;
     private Vector3 addGap = new Vector3(.3f, 0, 0);
     private Vector3 temPosition;
+	private Vector3 rockPosition;
+	private Vector3 startPosition;
     private float temSpeed;
-    private float minimumDistance = 15.0f;
+    private float minimumDistance = 10.0f;
+	private float timer = 0.0f;
+	private float timer2 = 0.0f;
+	private float timeDelta = .5f;
     public Player playerScript;
     private Animator playerAnimator;
 
@@ -25,13 +30,46 @@ public class PushBox : MonoBehaviour
         rgbd = GetComponent<Rigidbody2D>();
         playerScript = Player.GetComponent<Player>();
         temSpeed = playerScript.moveSpeed;
+		startPosition = gameObject.transform.position;
         playerAnimator = Player.GetComponent<Animator>();
         audioRock = this.gameObject.AddComponent<AudioSource>();
+		temPosition = gameObject.transform.position;
     }
 
     void Update()
     {
-        //Debug.Log(gameObject.transform.position.x);
+		timer += Time.deltaTime;
+		rockPosition = gameObject.transform.position;
+
+		if (timer >= timeDelta)
+		{
+			temPosition = gameObject.transform.position;
+
+			timer = 0.0f;
+		}
+
+		if (Mathf.Abs(rockPosition.x - temPosition.x)>0.1) 
+		{
+			playerScript.moveSpeed = 3;
+			if (!audioRock.isPlaying)
+			{
+				playSoundEffect ();
+			}
+			playerAnimator.SetLayerWeight(4, 1);
+			timer2 = 0;
+		} else{
+			timer2 += Time.deltaTime;
+			if (timer2 >= timeDelta) {
+				stopSoundEffect ();
+				playerAnimator.SetLayerWeight (4, 0);
+			}
+		}
+
+	   if (temPosition.y < (startPosition.y -1.0))
+	   {
+		   minimumDistance = 20.0f;
+	   }
+	   
        pushController();
     }
 
@@ -42,22 +80,23 @@ public class PushBox : MonoBehaviour
         {
             //get the position when player press "h"
             temPosition = gameObject.transform.position;
+			//Debug.Log ("here:" + temPosition.y);
+
+
             rgbd.constraints = RigidbodyConstraints2D.FreezeRotation; //| RigidbodyConstraints2D.FreezePositionY;
                                                                       /*if (playerAnimator.GetFloat("speed") > 0.1)
                                                                       {*/
-            playerAnimator.SetLayerWeight(4, 1);
+            //playerAnimator.SetLayerWeight(4, 1);
             // }
             gameObject.layer = 11;
-
-            //Play sound here
-            //playSoundEffect();
+;
         }
 		else if((Vector3.Distance(transform.position, Player.transform.position) > minimumDistance) && (arm.hasArm || arm.hasSecondArm))
         {
             //Stop sound from playing
-            stopSoundEffect();
+            //stopSoundEffect();
             rgbd.constraints = RigidbodyConstraints2D.FreezePositionX;
-            playerAnimator.SetLayerWeight(4, 0);
+            //playerAnimator.SetLayerWeight(4, 0);
             gameObject.layer = 8;
             //make a gap 
             //if (gameObject.transform.position.x > temPosition.x) {
@@ -123,10 +162,5 @@ public class PushBox : MonoBehaviour
             //print (playerScript.moveSpeed);
             Destroy(GetComponent<Rigidbody2D>());
         }
-		if(col.gameObject.tag == "Player"){
-			if (!audioRock.isPlaying) {
-				playSoundEffect ();
-			}
-		}
     }
 }
