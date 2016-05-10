@@ -35,6 +35,8 @@ public class LimbController : MonoBehaviour
 	private bool dpadY = false;
 	private bool dpadX = false;
 
+	private Transform oldPos;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -363,11 +365,12 @@ public class LimbController : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetAxisRaw("XBox_DPadY") == 1) && hasTorso)
 		{
 			if (dpadY == false) {
-				if(player.isClimbing){
+				if (player.isClimbing) {
 					player.isClimbing = false;
 				}
-                mylevelmanager.detachLimb();
-                torso.SetActive (true); 
+		
+				mylevelmanager.detachLimb ();
+				torso.SetActive (true); 
 				checkForDifferentLimbs ();
 				instantiateBodyParts (torso);
 				hasTorso = false;
@@ -375,6 +378,14 @@ public class LimbController : MonoBehaviour
 				sounds.audioDetachTorso.Play ();
 				player.isClimbing = false;
 				dpadY = true;
+				if (player.needMove) {
+					if (player.leftOfCollider) {
+						player.gameObject.transform.position -= new Vector3(.6f, 0, 0);
+						;
+					} else {
+						player.gameObject.transform.position += new Vector3(.6f, 0, 0);
+					}
+				}
 			}
 		}
 		if ((Input.GetKeyDown(KeyCode.A) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1 || Input.GetKeyDown(KeyCode.D))   

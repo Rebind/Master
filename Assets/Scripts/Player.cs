@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
 	private Boolean canBump1;
 	private Boolean canBump2;
 
+	public bool leftOfCollider;
+
 
 	public LayerMask layer;
 	private CameraFollow camScript;
@@ -68,6 +70,7 @@ public class Player : MonoBehaviour
 	{
         myTarget = camScript.target;
         if (enabled) {
+			Debug.Log (needMove);
 			state = myAnimator.GetInteger("state");
 			handleMovements();
 			handleSpriteFacing ();
@@ -298,6 +301,20 @@ public class Player : MonoBehaviour
 		}
 	}
 
+
+	/*
+	* 0 -  just the head
+	* 1 - head and torso
+	* 2 - head torso and one arm
+	* 3 - head torso and both arms
+	* 4 - head torso, both arms and one leg
+	* 5 - full body
+	* 6 - head, torso and one leg
+	* 7 - head, torso and both legs
+	* 8 - head, torso, leg and one arm
+	* 9 - head, torso, arm and two legs
+	*/
+
 	private void handleBodyCollisions()
 	{
 		//Debug.Log(myTarget.name);
@@ -317,9 +334,9 @@ public class Player : MonoBehaviour
 
 		if (myAnimator.GetInteger("state") == 0)
 		{
-			Vector3 temp1 = new Vector3(1.2f, 0, 0);
+			Vector3 temp1 = new Vector3(0f, 0, 0);
 			if (needMove){
-				if(facingRight)
+				if(leftOfCollider)
 					gameObject.transform.position -= temp1;
 				else
 					gameObject.transform.position += temp1;
@@ -339,7 +356,7 @@ public class Player : MonoBehaviour
 		{
 			Vector3 temp1 = new Vector3(1.25f, 0, 0);
 			if (needMove){
-				if(facingRight)
+				if(leftOfCollider)
 					gameObject.transform.position -= temp1;
 				else
 					gameObject.transform.position += temp1;
@@ -351,7 +368,6 @@ public class Player : MonoBehaviour
 				canBump2 = false;
 			}
 			changeBoxCollider (3.45f, 2.27f, 0.48f, 0.07f);
-			//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
 			myController.CalculateRaySpacing ();
 			needMove = false;
 
@@ -360,22 +376,19 @@ public class Player : MonoBehaviour
 		{
 			Vector3 temp1 = new Vector3(1.25f, 0, 0);
 			if (needMove) {
-				if (facingRight)
+				if (leftOfCollider)
 					gameObject.transform.position -= temp1;
 				else
 					gameObject.transform.position += temp1;
 			}
             if (isClimbing)
             {
-                //  changeBoxCollider(1.68f, 3.15f, 0f, 0.4f);
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
-				//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
                 myController.CalculateRaySpacing();
             }
             else
             {
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
-				//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
                 myController.CalculateRaySpacing();
             }
 			needMove = false;
@@ -387,7 +400,7 @@ public class Player : MonoBehaviour
 			{
 				Vector3 temp = new Vector3(0, 2f, 0);
 				gameObject.transform.position += temp;
-				canBump1 = false;
+				canBump1 = true;
 			}
             if (isClimbing)
             {
