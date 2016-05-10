@@ -52,7 +52,7 @@ public class PlatformController : RaycastController {
 		}
         else
         {
-            spriteRenderer.color = new Color(.7f, .7f, .7f, 1f);
+            spriteRenderer.color = new Color(.5f, .5f, .5f, 1f);
         }
     }
 
