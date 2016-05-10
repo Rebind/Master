@@ -224,7 +224,6 @@ public class Player : MonoBehaviour
 	//flips the player sprite based on its facing
 	private void handleSpriteFacing()
 	{
-		Debug.Log (state);
 		float horizontal = Input.GetAxis("Horizontal");
 		if (!isClimbing) {
 			if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight) {
