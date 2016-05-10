@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
 	private int state;
 
+	public bool needMove;
 	public bool facingRight;
 	private bool oldFacing;
 	public bool isJumping;
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
 		playSound = false;
 		myTarget = camScript.target;
 		notOnNose = true;
+		needMove = true;
 	}
 
 
@@ -92,6 +94,7 @@ public class Player : MonoBehaviour
            
             playerAnim.SetLayerWeight(2, 1);
         }
+
     }
 
 
@@ -314,17 +317,33 @@ public class Player : MonoBehaviour
 
 		if (myAnimator.GetInteger("state") == 0)
 		{
+			Vector3 temp1 = new Vector3(1.2f, 0, 0);
+			if (needMove){
+				if(facingRight)
+					gameObject.transform.position -= temp1;
+				else
+					gameObject.transform.position += temp1;
+			}
 			changeBoxCollider (2.2f, 2.1f, 0f, 1f);
 			myController.CalculateRaySpacing ();
+			needMove = false;
 
 		}
 		else if(myAnimator.GetInteger("state") == 1)
 		{
 			changeBoxCollider (2.2f, 3.32f, -0.09f, 1.49f);
 			myController.CalculateRaySpacing ();
+			needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 2)
 		{
+			Vector3 temp1 = new Vector3(1.25f, 0, 0);
+			if (needMove){
+				if(facingRight)
+					gameObject.transform.position -= temp1;
+				else
+					gameObject.transform.position += temp1;
+			}
 			if (canBump2)
 			{
 				Vector3 temp = new Vector3(0, 1f, 0);
@@ -332,22 +351,34 @@ public class Player : MonoBehaviour
 				canBump2 = false;
 			}
 			changeBoxCollider (3.45f, 2.27f, 0.48f, 0.07f);
+			//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
 			myController.CalculateRaySpacing ();
+			needMove = false;
 
 		}
 		else if (myAnimator.GetInteger("state") == 3)
 		{
+			Vector3 temp1 = new Vector3(1.25f, 0, 0);
+			if (needMove) {
+				if (facingRight)
+					gameObject.transform.position -= temp1;
+				else
+					gameObject.transform.position += temp1;
+			}
             if (isClimbing)
             {
                 //  changeBoxCollider(1.68f, 3.15f, 0f, 0.4f);
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
+				//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
                 myController.CalculateRaySpacing();
             }
             else
             {
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
+				//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
                 myController.CalculateRaySpacing();
             }
+			needMove = false;
 
 		}
 		else if (myAnimator.GetInteger("state") == 4)
@@ -368,6 +399,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
                 myController.CalculateRaySpacing();
             }
+			needMove = true;
 
 		}
 		else if (myAnimator.GetInteger("state") == 5)
@@ -382,6 +414,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
                 myController.CalculateRaySpacing();
             }
+			needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 6)
 		{
@@ -393,12 +426,14 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider(2.22f, 4.25f, -0.09f, 0f);
 			myController.CalculateRaySpacing ();
+			needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 7)
 		{
 
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
+			needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 8)
 		{
@@ -410,11 +445,13 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
+			needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 9)
 		{
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
+			needMove = true;
 		}
 
 	}
