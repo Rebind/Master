@@ -65,6 +65,7 @@ public class LimbController : MonoBehaviour
 		
 			addLimbsToLists ();
 			if (Input.GetKeyDown (KeyCode.Z) || Input.GetButtonDown ("Xbox_BButton")) {
+				
 				whichLimb ();
 			} else if (Input.GetAxisRaw ("XBox_DPadX") != 0 || Input.GetAxisRaw ("XBox_DPadY") != 0 || 
 			       Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.A) || Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown(KeyCode.D)) {
@@ -177,22 +178,30 @@ public class LimbController : MonoBehaviour
 		if (nearbyLimbOfType("arm") )//&& canAttach(arm))
 		{
 			sounds.audioAttach.Play();
-			attachLimb(armsList);	
+			attachLimb(armsList);
+			player.bumpPlayer (new Vector2(1.8f,0f));
+
 		}
 		else if  ((nearbyLimbOfType("pickaxe")))
 		{
 			sounds.audioAttach.Play();
 			attachLimb(armsList);
+			player.bumpPlayer (new Vector2(1f,0f));
+
 		}
 		else if (nearbyLimbOfType("leg") )//&& canAttach(leg))
 		{
 			sounds.audioAttach.Play();
 			attachLimb(legsList);
+			player.bumpPlayer (new Vector2(1f,0f));
+
 		}
 		else if (nearbyLimbOfType("torso") )//&& canAttach(torso))
 		{
 			sounds.audioAttach.Play();
 			attachLimb(torsoList);
+			player.bumpPlayer (new Vector2(1f,0f));
+
 		}
 
 	}

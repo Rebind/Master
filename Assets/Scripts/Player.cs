@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
 	private Boolean canBump2;
 
 	public bool leftOfCollider;
+	private float raycastOffset;
 
 
 
@@ -340,6 +341,7 @@ public class Player : MonoBehaviour
 			changeBoxCollider (2.2f, 2.1f, 0f, 1f);
 			myController.CalculateRaySpacing ();
 			needMove = false;
+			raycastOffset = 1f;
 
 		}
 		else if(myAnimator.GetInteger("state") == 1)
@@ -347,6 +349,7 @@ public class Player : MonoBehaviour
 			changeBoxCollider (2.2f, 3.32f, -0.09f, 1.49f);
 			myController.CalculateRaySpacing ();
 			needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 2)
 		{
@@ -360,7 +363,7 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider (3.45f, 2.27f, 0.48f, 0.07f);
 			myController.CalculateRaySpacing ();
-			//needMove = false;
+			raycastOffset = 1f;
 
 		}
 		else if (myAnimator.GetInteger("state") == 3)
@@ -377,7 +380,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
                 myController.CalculateRaySpacing();
             }
-			//needMove = false;
+			raycastOffset = 1f;
 
 		}
 		else if (myAnimator.GetInteger("state") == 4)
@@ -398,7 +401,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
                 myController.CalculateRaySpacing();
             }
-			//needMove = true;
+			raycastOffset = 2f;
 
 		}
 		else if (myAnimator.GetInteger("state") == 5)
@@ -413,7 +416,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
                 myController.CalculateRaySpacing();
             }
-			//needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 6)
 		{
@@ -425,14 +428,14 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider(2.22f, 4.25f, -0.09f, 0f);
 			myController.CalculateRaySpacing ();
-			//needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 7)
 		{
 
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			//needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 8)
 		{
@@ -444,13 +447,13 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			//needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 9)
 		{
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			//n/eedMove = true;
+			raycastOffset = 2f;
 		}
 
 	}
@@ -468,27 +471,30 @@ public class Player : MonoBehaviour
 
 
 	private void handleEdgeDetection() {
-		RaycastHit2D checkLeft = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+1f), Vector2.right * -1, 10f, myController.collisionMask);
-		RaycastHit2D checkRight = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+1f), Vector2.right * 1, 10f, myController.collisionMask);
+		RaycastHit2D checkLeft = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+raycastOffset), Vector2.right * -1, 4f, myController.collisionMask);
+		RaycastHit2D checkRight = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+raycastOffset), Vector2.right * 1, 4f, myController.collisionMask);
 
 
 		Debug.Log ("hitLeft " + checkLeft.distance);
 		Debug.Log ("hitRight " + checkRight.distance);
 
-		if (checkLeft.distance > checkRight.distance) {
-			Debug.Log ("Closer to Left");
-
-			needMove = true;
-			leftOfCollider = false;
-
-		} else if (checkLeft.distance < checkRight.distance) {
+		if ((checkRight.distance != 0) && (checkLeft.distance > checkRight.distance)) { //within range of both, closer to right
 			Debug.Log ("Closer to Right");
 
 			needMove = true;
 			leftOfCollider = true;
-		} else if ((checkLeft.distance == 0) && (checkRight.distance == 0)) {
+
+		} else if ((checkLeft.distance != 0) && (checkRight.distance > checkLeft.distance)) { //within range of both, closer to left
+			needMove = true;
+			leftOfCollider = false;
+		} else if ((checkLeft.distance == 0) && (checkRight.distance == 0)) { //within range of no walls. 
 			needMove = false;
-			Debug.Log("Not Near any Walls");
+		} else if (checkLeft.distance == 0) { //within range of right only, closer to right
+			needMove = true;
+			leftOfCollider = true;
+		} else if (checkRight.distance == 0) { //within range of left only, closer to left
+			needMove = true;
+			leftOfCollider = false;
 		}
 
 	}
