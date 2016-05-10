@@ -65,6 +65,7 @@ public class LimbController : MonoBehaviour
 		
 			addLimbsToLists ();
 			if (Input.GetKeyDown (KeyCode.Z) || Input.GetButtonDown ("Xbox_BButton")) {
+				
 				whichLimb ();
 			} else if (Input.GetAxisRaw ("XBox_DPadX") != 0 || Input.GetAxisRaw ("XBox_DPadY") != 0 || 
 			       Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.A) || Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown(KeyCode.D)) {
@@ -177,22 +178,30 @@ public class LimbController : MonoBehaviour
 		if (nearbyLimbOfType("arm") )//&& canAttach(arm))
 		{
 			sounds.audioAttach.Play();
-			attachLimb(armsList);	
+			attachLimb(armsList);
+			player.bumpPlayer (new Vector2(1.8f,0f));
+
 		}
 		else if  ((nearbyLimbOfType("pickaxe")))
 		{
 			sounds.audioAttach.Play();
 			attachLimb(armsList);
+			player.bumpPlayer (new Vector2(1f,0f));
+
 		}
 		else if (nearbyLimbOfType("leg") )//&& canAttach(leg))
 		{
 			sounds.audioAttach.Play();
 			attachLimb(legsList);
+			player.bumpPlayer (new Vector2(1f,0f));
+
 		}
 		else if (nearbyLimbOfType("torso") )//&& canAttach(torso))
 		{
 			sounds.audioAttach.Play();
 			attachLimb(torsoList);
+			player.bumpPlayer (new Vector2(1f,0f));
+
 		}
 
 	}
@@ -378,14 +387,7 @@ public class LimbController : MonoBehaviour
 				sounds.audioDetachTorso.Play ();
 				player.isClimbing = false;
 				dpadY = true;
-				if (player.needMove) {
-					if (player.leftOfCollider) {
-						player.gameObject.transform.position -= new Vector3(.6f, 0, 0);
-						;
-					} else {
-						player.gameObject.transform.position += new Vector3(.6f, 0, 0);
-					}
-				}
+				player.bumpPlayer (new Vector2(.6f,0f));
 			}
 		}
 		if ((Input.GetKeyDown(KeyCode.A) || Input.GetAxisRaw("XBox_DPadX") == 1 || Input.GetAxisRaw("XBox_DPadX") == -1 || Input.GetKeyDown(KeyCode.D))   
@@ -398,9 +400,11 @@ public class LimbController : MonoBehaviour
 				hasArm = false;
 				assignState ();
 				sounds.audioDetachArm.Play ();
-				
+				player.bumpPlayer (new Vector2(.6f,0f));
+
 				//Change animations?
 				dpadX = true;
+
 			}
 			
 		}
@@ -418,8 +422,10 @@ public class LimbController : MonoBehaviour
 				assignState ();
 				sounds.audioDetachArm.Play ();
 				//Change animations here?
-				
+				player.bumpPlayer (new Vector2(.6f,0f));
+
 				dpadX = true;
+
 			}
 			
 			
@@ -434,6 +440,8 @@ public class LimbController : MonoBehaviour
 				instantiateBodyParts (leg);
 				assignState ();
 				sounds.audioDetachLeg.Play ();
+				player.bumpPlayer (new Vector2(.6f,0f));
+
 				dpadY = true;
 			}
 		}
@@ -446,6 +454,8 @@ public class LimbController : MonoBehaviour
 				sounds.audioDetachLeg.Play ();
 				instantiateBodyParts (twoLegs);
 				assignState ();
+				player.bumpPlayer (new Vector2(.6f,0f));
+
 				dpadY = true;
 			}
 		}
