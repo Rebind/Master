@@ -224,16 +224,20 @@ public class Player : MonoBehaviour
 	//flips the player sprite based on its facing
 	private void handleSpriteFacing()
 	{
+		Debug.Log (state);
 		float horizontal = Input.GetAxis("Horizontal");
 		if (!isClimbing) {
 			if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight) {
 
 				if (isJumping) {
-					//oldFacing = !facingRight;
-					facingRight = !facingRight;
-					Vector3 theScale = transform.localScale;
-					theScale.x *= -1;
-					transform.localScale = theScale;
+					if ((state != 2) && (state != 3)) {
+						oldFacing = !facingRight;
+					} else {
+						facingRight = !facingRight;
+						Vector3 theScale = transform.localScale;
+						theScale.x *= -1;
+						transform.localScale = theScale;
+					}
 				}
 				if (!isJumping) {
 					facingRight = !facingRight;
@@ -475,11 +479,8 @@ public class Player : MonoBehaviour
 		RaycastHit2D checkRight = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+raycastOffset), Vector2.right * 1, 4f, myController.collisionMask);
 
 
-		Debug.Log ("hitLeft " + checkLeft.distance);
-		Debug.Log ("hitRight " + checkRight.distance);
 
 		if ((checkRight.distance != 0) && (checkLeft.distance > checkRight.distance)) { //within range of both, closer to right
-			Debug.Log ("Closer to Right");
 
 			needMove = true;
 			leftOfCollider = true;
@@ -499,7 +500,7 @@ public class Player : MonoBehaviour
 
 	}
 
-	public void bumpPlayer(Vector3 bump){
+	public void bumpPlayer(Vector3 bump){ //bumps the player depending on position relative to nearby colliders, takes a Vector2 representing the distance in x bumped.
 		if (needMove) {
 			if (leftOfCollider)
 				gameObject.transform.position -= bump;
