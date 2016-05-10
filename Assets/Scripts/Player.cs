@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
 	public bool leftOfCollider;
 
 
+
 	public LayerMask layer;
 	private CameraFollow camScript;
 	private Controller2D myTarget;
@@ -70,7 +71,6 @@ public class Player : MonoBehaviour
 	{
         myTarget = camScript.target;
         if (enabled) {
-			Debug.Log (needMove);
 			state = myAnimator.GetInteger("state");
 			handleMovements();
 			handleSpriteFacing ();
@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
 			handlePlayerMovementSpeed ();
 			handleBodyCollisions();
 			handleLayers();
+			handleEdgeDetection ();
 		}
 
 		if (!enabled && notOnNose) {
@@ -335,12 +336,7 @@ public class Player : MonoBehaviour
 		if (myAnimator.GetInteger("state") == 0)
 		{
 			Vector3 temp1 = new Vector3(0f, 0, 0);
-			if (needMove){
-				if(leftOfCollider)
-					gameObject.transform.position -= temp1;
-				else
-					gameObject.transform.position += temp1;
-			}
+
 			changeBoxCollider (2.2f, 2.1f, 0f, 1f);
 			myController.CalculateRaySpacing ();
 			needMove = false;
@@ -355,12 +351,7 @@ public class Player : MonoBehaviour
 		else if (myAnimator.GetInteger("state") == 2)
 		{
 			Vector3 temp1 = new Vector3(1.25f, 0, 0);
-			if (needMove){
-				if(leftOfCollider)
-					gameObject.transform.position -= temp1;
-				else
-					gameObject.transform.position += temp1;
-			}
+
 			if (canBump2)
 			{
 				Vector3 temp = new Vector3(0, 1f, 0);
@@ -369,18 +360,13 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider (3.45f, 2.27f, 0.48f, 0.07f);
 			myController.CalculateRaySpacing ();
-			needMove = false;
+			//needMove = false;
 
 		}
 		else if (myAnimator.GetInteger("state") == 3)
 		{
 			Vector3 temp1 = new Vector3(1.25f, 0, 0);
-			if (needMove) {
-				if (leftOfCollider)
-					gameObject.transform.position -= temp1;
-				else
-					gameObject.transform.position += temp1;
-			}
+
             if (isClimbing)
             {
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
@@ -391,7 +377,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
                 myController.CalculateRaySpacing();
             }
-			needMove = false;
+			//needMove = false;
 
 		}
 		else if (myAnimator.GetInteger("state") == 4)
@@ -412,7 +398,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
                 myController.CalculateRaySpacing();
             }
-			needMove = true;
+			//needMove = true;
 
 		}
 		else if (myAnimator.GetInteger("state") == 5)
@@ -427,7 +413,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
                 myController.CalculateRaySpacing();
             }
-			needMove = true;
+			//needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 6)
 		{
@@ -439,14 +425,14 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider(2.22f, 4.25f, -0.09f, 0f);
 			myController.CalculateRaySpacing ();
-			needMove = true;
+			//needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 7)
 		{
 
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			needMove = true;
+			//needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 8)
 		{
@@ -458,13 +444,13 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			needMove = true;
+			//needMove = true;
 		}
 		else if (myAnimator.GetInteger("state") == 9)
 		{
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			needMove = true;
+			//n/eedMove = true;
 		}
 
 	}
@@ -479,6 +465,42 @@ public class Player : MonoBehaviour
 	}
 
 
+
+
+	private void handleEdgeDetection() {
+		RaycastHit2D checkLeft = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+1f), Vector2.right * -1, 10f, myController.collisionMask);
+		RaycastHit2D checkRight = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+1f), Vector2.right * 1, 10f, myController.collisionMask);
+
+
+		Debug.Log ("hitLeft " + checkLeft.distance);
+		Debug.Log ("hitRight " + checkRight.distance);
+
+		if (checkLeft.distance > checkRight.distance) {
+			Debug.Log ("Closer to Left");
+
+			needMove = true;
+			leftOfCollider = false;
+
+		} else if (checkLeft.distance < checkRight.distance) {
+			Debug.Log ("Closer to Right");
+
+			needMove = true;
+			leftOfCollider = true;
+		} else if ((checkLeft.distance == 0) && (checkRight.distance == 0)) {
+			needMove = false;
+			Debug.Log("Not Near any Walls");
+		}
+
+	}
+
+	public void bumpPlayer(Vector3 bump){
+		if (needMove) {
+			if (leftOfCollider)
+				gameObject.transform.position -= bump;
+			else
+				gameObject.transform.position += bump;
+		}
+	}
 
 	//control the collision mask
 	private void pushBox(){

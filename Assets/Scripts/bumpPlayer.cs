@@ -18,8 +18,6 @@ public class bumpPlayer : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		Debug.Log (calcDistance (player, this.gameObject));
-		Debug.Log (playerScript.needMove);
 
 		if (calcDistance (player, this.gameObject) < minDistance) {
 			if (player.transform.position.x > this.transform.position.x) {
@@ -42,12 +40,12 @@ public class bumpPlayer : MonoBehaviour
 
 	private void bumpLeft ()
 	{
-		playerScript.leftOfCollider = true;
+		//playerScript.leftOfCollider = true;
 	}
 
 	private void bumpRight ()
 	{
-		playerScript.leftOfCollider = false;
+		//playerScript.leftOfCollider = false;
 	}
 
 
