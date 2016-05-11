@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 	public float moveSpeed;
 	private float gravity;
 
-	private int state;
+	public int state;
 
 	public bool needMove;
 	public bool facingRight;
@@ -390,9 +390,9 @@ public class Player : MonoBehaviour
 		{
 			if (canBump1)
 			{
-				Vector3 temp = new Vector3(0, 2f, 0);
+				Vector3 temp = new Vector3(0, 1.4f, 0);
 				gameObject.transform.position += temp;
-				canBump1 = true;
+				canBump1 = false;
 			}
             if (isClimbing)
             {
