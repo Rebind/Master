@@ -26,31 +26,15 @@ public class NextLevel : MonoBehaviour {
 		Debug.Log("String: " + currLevel);
 		
 		switch (currLevel) {
-			case "Level-04":
-				PlayerPrefs.SetInt("Level",11);
-				StartCoroutine("FadingScenes");
-				
-				
-				//Application.LoadLevel(1);
-				break;
-			case "Level-07":
-				PlayerPrefs.SetInt("Level", 1);
-				StartCoroutine("FadingScenes");
-				
-				//Application.LoadLevel(4);
-				break;
-			case "BeggLevel":
-				PlayerPrefs.SetInt("Level", 6);
-				StartCoroutine("FadingScenes");
-				
-				break;
-			case "Level-02":
-				PlayerPrefs.SetInt("Level", 9);
-				StartCoroutine("FadingScenes");
-				
-				break;
+		
 			case "Level-01":
-				PlayerPrefs.SetInt("Level", 8);
+				PlayerPrefs.SetInt("Level", 2);
+				StartCoroutine("FadingScenes");
+				
+				break;
+				
+			case "Level-02":
+				PlayerPrefs.SetInt("Level", 3);
 				StartCoroutine("FadingScenes");
 				
 				break;
@@ -59,16 +43,62 @@ public class NextLevel : MonoBehaviour {
 				StartCoroutine("FadingScenes");
 				
 				break;
+			case "Level-04":
+				PlayerPrefs.SetInt("Level",5);
+				StartCoroutine("FadingScenes");
+				
+				
+				break;
 			case "Level-05":
-				PlayerPrefs.SetInt("Level", 12);
+				PlayerPrefs.SetInt("Level", 6);
 				StartCoroutine("FadingScenes");
 				
 				break;
 			case "Level-06":
-				PlayerPrefs.SetInt("Level", 1);
+				PlayerPrefs.SetInt("Level", 7);
 				StartCoroutine("FadingScenes");
 				
 				break;
+			case "Level-07":
+				PlayerPrefs.SetInt("Level", 8);
+				StartCoroutine("FadingScenes");
+				
+				break;
+			case "Level-08":
+				PlayerPrefs.SetInt("Level", 9);
+				StartCoroutine("FadingScenes");
+				
+				break;
+			case "Level-09":
+				PlayerPrefs.SetInt("Level", 10);
+				StartCoroutine("FadingScenes");
+				
+				break;
+			case "Level-10":
+				PlayerPrefs.SetInt("Level", 11);
+				StartCoroutine("FadingScenes");
+				
+				break;
+			case "Level-11":
+				PlayerPrefs.SetInt("Level", 12);
+				StartCoroutine("FadingScenes");
+				
+				break;
+			case "Level-12":
+				PlayerPrefs.SetInt("Level", 0);
+				StartCoroutine("FadingScenes");
+				
+				break;
+			case "BeggLevel":
+				PlayerPrefs.SetInt("Level", 6);
+				StartCoroutine("FadingScenes");
+				
+				break;
+			
+			
+			
+			
+			
 			default:
 				print ("Incorrect intelligence level.");
 				break;
