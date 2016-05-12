@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 	public float moveSpeed;
 	private float gravity;
 
-	private int state;
+	public int state;
 
 	public bool needMove;
 	public bool facingRight;
@@ -31,6 +31,10 @@ public class Player : MonoBehaviour
 	private bool playSound;
 	private Boolean canBump1;
 	private Boolean canBump2;
+
+	public bool leftOfCollider;
+	private float raycastOffset;
+
 
 
 	public LayerMask layer;
@@ -75,6 +79,7 @@ public class Player : MonoBehaviour
 			handlePlayerMovementSpeed ();
 			handleBodyCollisions();
 			handleLayers();
+			handleEdgeDetection ();
 		}
 
 		if (!enabled && notOnNose) {
@@ -224,11 +229,14 @@ public class Player : MonoBehaviour
 			if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight) {
 
 				if (isJumping) {
-					//oldFacing = !facingRight;
-					facingRight = !facingRight;
-					Vector3 theScale = transform.localScale;
-					theScale.x *= -1;
-					transform.localScale = theScale;
+					if ((state != 2) && (state != 3)) {
+						oldFacing = !facingRight;
+					} else {
+						facingRight = !facingRight;
+						Vector3 theScale = transform.localScale;
+						theScale.x *= -1;
+						transform.localScale = theScale;
+					}
 				}
 				if (!isJumping) {
 					facingRight = !facingRight;
@@ -298,6 +306,20 @@ public class Player : MonoBehaviour
 		}
 	}
 
+
+	/*
+	* 0 -  just the head
+	* 1 - head and torso
+	* 2 - head torso and one arm
+	* 3 - head torso and both arms
+	* 4 - head torso, both arms and one leg
+	* 5 - full body
+	* 6 - head, torso and one leg
+	* 7 - head, torso and both legs
+	* 8 - head, torso, leg and one arm
+	* 9 - head, torso, arm and two legs
+	*/
+
 	private void handleBodyCollisions()
 	{
 		//Debug.Log(myTarget.name);
@@ -317,16 +339,12 @@ public class Player : MonoBehaviour
 
 		if (myAnimator.GetInteger("state") == 0)
 		{
-			Vector3 temp1 = new Vector3(1.2f, 0, 0);
-			if (needMove){
-				if(facingRight)
-					gameObject.transform.position -= temp1;
-				else
-					gameObject.transform.position += temp1;
-			}
+			Vector3 temp1 = new Vector3(0f, 0, 0);
+
 			changeBoxCollider (2.2f, 2.1f, 0f, 1f);
 			myController.CalculateRaySpacing ();
 			needMove = false;
+			raycastOffset = 1f;
 
 		}
 		else if(myAnimator.GetInteger("state") == 1)
@@ -334,16 +352,12 @@ public class Player : MonoBehaviour
 			changeBoxCollider (2.2f, 3.32f, -0.09f, 1.49f);
 			myController.CalculateRaySpacing ();
 			needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 2)
 		{
 			Vector3 temp1 = new Vector3(1.25f, 0, 0);
-			if (needMove){
-				if(facingRight)
-					gameObject.transform.position -= temp1;
-				else
-					gameObject.transform.position += temp1;
-			}
+
 			if (canBump2)
 			{
 				Vector3 temp = new Vector3(0, 1f, 0);
@@ -351,41 +365,32 @@ public class Player : MonoBehaviour
 				canBump2 = false;
 			}
 			changeBoxCollider (3.45f, 2.27f, 0.48f, 0.07f);
-			//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
 			myController.CalculateRaySpacing ();
-			needMove = false;
+			raycastOffset = 1f;
 
 		}
 		else if (myAnimator.GetInteger("state") == 3)
 		{
 			Vector3 temp1 = new Vector3(1.25f, 0, 0);
-			if (needMove) {
-				if (facingRight)
-					gameObject.transform.position -= temp1;
-				else
-					gameObject.transform.position += temp1;
-			}
+
             if (isClimbing)
             {
-                //  changeBoxCollider(1.68f, 3.15f, 0f, 0.4f);
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
-				//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
                 myController.CalculateRaySpacing();
             }
             else
             {
                 changeBoxCollider(3.45f, 2.27f, 0.48f, 0.07f);
-				//changeBoxCollider (0.50f, 2.1f, 0.48f, 0.07f);
                 myController.CalculateRaySpacing();
             }
-			needMove = false;
+			raycastOffset = 1f;
 
 		}
 		else if (myAnimator.GetInteger("state") == 4)
 		{
 			if (canBump1)
 			{
-				Vector3 temp = new Vector3(0, 2f, 0);
+				Vector3 temp = new Vector3(0, 1.4f, 0);
 				gameObject.transform.position += temp;
 				canBump1 = false;
 			}
@@ -399,7 +404,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
                 myController.CalculateRaySpacing();
             }
-			needMove = true;
+			raycastOffset = 2f;
 
 		}
 		else if (myAnimator.GetInteger("state") == 5)
@@ -414,7 +419,7 @@ public class Player : MonoBehaviour
                 changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
                 myController.CalculateRaySpacing();
             }
-			needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 6)
 		{
@@ -426,14 +431,14 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider(2.22f, 4.25f, -0.09f, 0f);
 			myController.CalculateRaySpacing ();
-			needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 7)
 		{
 
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 8)
 		{
@@ -445,13 +450,13 @@ public class Player : MonoBehaviour
 			}
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			needMove = true;
+			raycastOffset = 2f;
 		}
 		else if (myAnimator.GetInteger("state") == 9)
 		{
 			changeBoxCollider(2.22f, 4.25f, -0.08f, 0f);
 			myController.CalculateRaySpacing ();
-			needMove = true;
+			raycastOffset = 2f;
 		}
 
 	}
@@ -466,6 +471,42 @@ public class Player : MonoBehaviour
 	}
 
 
+
+
+	private void handleEdgeDetection() {
+		RaycastHit2D checkLeft = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+raycastOffset), Vector2.right * -1, 4f, myController.collisionMask);
+		RaycastHit2D checkRight = Physics2D.Raycast(new Vector2(this.transform.position.x,this.transform.position.y+raycastOffset), Vector2.right * 1, 4f, myController.collisionMask);
+
+
+
+		if ((checkRight.distance != 0) && (checkLeft.distance > checkRight.distance)) { //within range of both, closer to right
+
+			needMove = true;
+			leftOfCollider = true;
+
+		} else if ((checkLeft.distance != 0) && (checkRight.distance > checkLeft.distance)) { //within range of both, closer to left
+			needMove = true;
+			leftOfCollider = false;
+		} else if ((checkLeft.distance == 0) && (checkRight.distance == 0)) { //within range of no walls. 
+			needMove = false;
+		} else if (checkLeft.distance == 0) { //within range of right only, closer to right
+			needMove = true;
+			leftOfCollider = true;
+		} else if (checkRight.distance == 0) { //within range of left only, closer to left
+			needMove = true;
+			leftOfCollider = false;
+		}
+
+	}
+
+	public void bumpPlayer(Vector3 bump){ //bumps the player depending on position relative to nearby colliders, takes a Vector2 representing the distance in x bumped.
+		if (needMove) {
+			if (leftOfCollider)
+				gameObject.transform.position -= bump;
+			else
+				gameObject.transform.position += bump;
+		}
+	}
 
 	//control the collision mask
 	private void pushBox(){
