@@ -34,12 +34,36 @@ public class NextLevel : MonoBehaviour {
 				//Application.LoadLevel(1);
 				break;
 			case "Level-07":
-				PlayerPrefs.SetInt("Level", 1);
+				PlayerPrefs.SetInt("Level", 13);
 				StartCoroutine("FadingScenes");
 				
 				//Application.LoadLevel(4);
 				break;
-			case "BeggLevel":
+            case "Level-08":
+                PlayerPrefs.SetInt("Level", 14);
+                StartCoroutine("FadingScenes");
+
+                //Application.LoadLevel(4);
+                break;
+            case "Level-09":
+                PlayerPrefs.SetInt("Level", 15);
+                StartCoroutine("FadingScenes");
+
+                //Application.LoadLevel(4);
+                break;
+            case "Level-10":
+                PlayerPrefs.SetInt("Level", 16);
+                StartCoroutine("FadingScenes");
+
+                //Application.LoadLevel(4);
+                break;
+            case "Level-11":
+                PlayerPrefs.SetInt("Level", 0);
+                StartCoroutine("FadingScenes");
+
+                //Application.LoadLevel(4);
+                break;
+            case "BeggLevel":
 				PlayerPrefs.SetInt("Level", 6);
 				StartCoroutine("FadingScenes");
 				
