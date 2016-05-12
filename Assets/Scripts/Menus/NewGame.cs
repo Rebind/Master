@@ -93,7 +93,7 @@ public class NewGame : MonoBehaviour {
 		Event e = Event.current;
 		
 		if(GUI.Button(new Rect(335,Screen.height/2,playButton.width, playButton.height), playButton )){
-			PlayerPrefs.SetInt("Level", 10);
+			PlayerPrefs.SetInt("Level", 1);
 			Application.LoadLevel("LoadingScene");
 			Debug.Log("Clicked Start");
  
@@ -101,7 +101,7 @@ public class NewGame : MonoBehaviour {
 		
 		//If players select the start. 
 		if(GUI.GetNameOfFocusedControl() == "Start" && (e.keyCode == KeyCode.Return || aPressed)){
-			PlayerPrefs.SetInt("Level", 10);
+			PlayerPrefs.SetInt("Level", 1);
 			Application.LoadLevel("LoadingScene");
 			
 		}
