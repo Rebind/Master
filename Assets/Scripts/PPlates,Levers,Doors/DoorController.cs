@@ -85,10 +85,8 @@ public class DoorController : MonoBehaviour {
     }
 
 	public void toggle(){
-		Debug.Log (open);
 		open = !open;
 		assignState ();
-		Debug.Log (open);
 
 	}
 
