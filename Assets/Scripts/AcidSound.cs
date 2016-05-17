@@ -5,7 +5,6 @@ public class AcidSound : MonoBehaviour {
 	public GameObject tmp;
 	public SwitchControl ControlScript;
 	public GameObject target;
-	//public GameObject acidpit;
 	public AudioSource acidsound;
 	float distance;
 	// Use this for initialization
@@ -14,15 +13,18 @@ public class AcidSound : MonoBehaviour {
 		ControlScript = tmp.GetComponent<SwitchControl>();
 		target = ControlScript.inControl;
 		acidsound = this.GetComponent<AudioSource>();
-		//acidpit = this;
+		//set all acid volume to 0 at start of the level
+		//acidsound.volume = 0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		target = ControlScript.inControl;
+		//check distance between each acid pit and the player
 		distance = calcDistance(this.gameObject, target);
-		if(distance > 40){
-			acidsound.volume = 0;
+		//if too far away, disable volume, if close enough, scale volume up
+		if(distance > 40f){
+			acidsound.volume = 0f;
 		} else {
 			acidsound.volume = 40/distance - 1;
 		}
