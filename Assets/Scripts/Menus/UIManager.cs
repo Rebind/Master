@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
-	public GameObject pausePanel;
 	public bool isPaused;
     private GameObject lvlManager;
     AudioSource levelSound;
@@ -66,6 +65,7 @@ public class UIManager : MonoBehaviour {
 		isPaused = false;
         lvlManager = GameObject.Find("LevelManager");
 		//tempSpeed = playerScripts.moveSpeed;
+//		pausePanel = GameObject.FindGameObjectWithTag("pausePanel");
 	}
 
 	void Update(){
@@ -74,7 +74,7 @@ public class UIManager : MonoBehaviour {
 		} else {
 			PauseGame (false);
 		}
-		if (Input.GetKeyDown (KeyCode.P)) {
+		if (Input.GetKeyDown (KeyCode.P) || (Input.GetButtonDown("Xbox_StartButton"))) {
 			switchPause ();
 		} 
 		test();
@@ -121,7 +121,7 @@ public class UIManager : MonoBehaviour {
 			Time.timeScale = 1.0f;
             lvlManager.GetComponent<AudioSource>().UnPause();
         }
-        pausePanel.SetActive (state);
+//		GetComponent<Image> ().enabled = state;
 	}
 
 	public void switchPause(){
