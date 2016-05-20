@@ -33,6 +33,8 @@ public class DoorController : MonoBehaviour {
 
 	void Start () {
 		audioDoor = this.gameObject.AddComponent<AudioSource>();
+		//adjusted door volume to 40%
+		audioDoor.volume = .6f;
 		assignState ();
 		if (gameObject.name == "mouth_door") {
 			mouth = GetComponent<Animator> ();

@@ -5,7 +5,7 @@ public class LeverController : MonoBehaviour {
 
 	BoxCollider2D myCollider;
 
-    private bool on;
+    public bool on;
 
 	public float maximumActivationDistance;
 
@@ -28,17 +28,17 @@ public class LeverController : MonoBehaviour {
 		camera = Camera.main;
 		maximumActivationDistance = 1.5f;
 		myCamera = camera.GetComponent<CameraFollow> ();
-        on = true;
+		on = false;
 		audioPP = this.gameObject.AddComponent<AudioSource>();
 	}
 
 	void Update(){
 		if((Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Xbox_BButton")) && nearLever()){
 			toggleLever ();
+			on = !on;
             this.gameObject.GetComponent<SpriteRenderer>().flipY = on;
-            on = !on;
 		}
-
+		Debug.Log (on);
 	}
 
 
@@ -56,6 +56,7 @@ public class LeverController : MonoBehaviour {
 
 
 	public void toggleLever(){
+
 
 		if (audioPP.isPlaying) {
 			audioPP.Stop ();
