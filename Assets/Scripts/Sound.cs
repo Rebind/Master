@@ -53,7 +53,7 @@ public class Sound : MonoBehaviour {
 
         audioDetachLeg = AddAudio(detachSoundLeg, false, true, 0.5f);
         audioDetachArm = AddAudio(detachSoundArm, false, true, 0.5f);
-        audioDetachTorso = AddAudio(detachSoundTorso, false, true, 0.5f);
+        audioDetachTorso = AddAudio(detachSoundTorso, false, true, 0.25f);
 
         audioDetach = AddAudio(detachSound, false, true, 0.5f);
 		audioHeadRoll = AddAudio(headRoll, false, true, 2.0f); 
