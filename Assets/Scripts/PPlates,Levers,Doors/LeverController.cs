@@ -38,7 +38,6 @@ public class LeverController : MonoBehaviour {
 			on = !on;
             this.gameObject.GetComponent<SpriteRenderer>().flipY = on;
 		}
-		Debug.Log (on);
 	}
 
 

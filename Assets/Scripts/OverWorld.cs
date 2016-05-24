@@ -167,6 +167,7 @@ public class OverWorld : MonoBehaviour {
 	void Start () {
         Levels = new LinkedList();
         //Put the levels here
+        /*
         tmpLevel = GameObject.Find("BeggLevel");
         Levels.addHead(tmpLevel.name, tmpLevel.transform.position);
 
@@ -181,6 +182,40 @@ public class OverWorld : MonoBehaviour {
 
         tmpLevel = GameObject.Find("BlahBlahBlahBlah");
         Levels.addNode(tmpLevel.name, "BeggLevel", "down", tmpLevel.transform.position);
+        */
+
+        tmpLevel = GameObject.Find("Level_1");
+        Levels.addHead(tmpLevel.name, tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_2");
+        Levels.addNode(tmpLevel.name, "Level_1", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_3");
+        Levels.addNode(tmpLevel.name, "Level_2", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_4");
+        Levels.addNode(tmpLevel.name, "Level_3", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_5");
+        Levels.addNode(tmpLevel.name, "Level_4", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_6");
+        Levels.addNode(tmpLevel.name, "Level_5", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_7");
+        Levels.addNode(tmpLevel.name, "Level_6", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_8");
+        Levels.addNode(tmpLevel.name, "Level_7", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_9");
+        Levels.addNode(tmpLevel.name, "Level_8", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_10");
+        Levels.addNode(tmpLevel.name, "Level_9", "right", tmpLevel.transform.position);
+
+        tmpLevel = GameObject.Find("Level_11");
+        Levels.addNode(tmpLevel.name, "Level_10", "right", tmpLevel.transform.position);
 
         Levels.printall();
 	}

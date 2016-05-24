@@ -2,10 +2,15 @@
 using System.Collections;
 
 public class AcidSound : MonoBehaviour {
-	public GameObject tmp;
-	public SwitchControl ControlScript;
-	public GameObject target;
-	public AudioSource acidsound;
+	//access the player object to see which limb is in control
+	private GameObject tmp;
+	private SwitchControl ControlScript;
+	//actual game object that's in control
+	private GameObject target;
+	private AudioSource acidsound;
+	//access UI script to get pause state
+	private GameObject UIManager;
+	private UIManager UIScript;
 	float distance;
 	// Use this for initialization
 	void Start () {
@@ -13,12 +18,25 @@ public class AcidSound : MonoBehaviour {
 		ControlScript = tmp.GetComponent<SwitchControl>();
 		target = ControlScript.inControl;
 		acidsound = this.GetComponent<AudioSource>();
+		UIManager = GameObject.Find("UIManager");
+		UIScript = UIManager.GetComponent<UIManager>();
 		//set all acid volume to 0 at start of the level
 		//acidsound.volume = 0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//make sure acid volume is set to 0 when game is paused, 
+		//else adjust the volume normally
+		if(UIScript.isPaused){ 
+			acidsound.volume = 0f;
+		}
+		else {
+			adjustVolume();
+		}
+	}
+
+	private void adjustVolume(){
 		target = ControlScript.inControl;
 		//check distance between each acid pit and the player
 		distance = calcDistance(this.gameObject, target);
