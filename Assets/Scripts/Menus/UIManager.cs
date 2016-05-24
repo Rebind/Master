@@ -18,7 +18,8 @@ public class UIManager : MonoBehaviour {
 	public Texture2D quitButton; 
 	
 	public Texture2D restartButton;
-	
+
+	private Player player;
 	
 	public bool clickedStart = false;
 	private bool aPressed = false; 
@@ -62,6 +63,7 @@ public class UIManager : MonoBehaviour {
  
 	
 	public void Start(){
+		player = GameObject.Find ("Player").GetComponent<Player>();
 		isPaused = false;
         lvlManager = GameObject.Find("LevelManager");
 		//tempSpeed = playerScripts.moveSpeed;
@@ -116,10 +118,12 @@ public class UIManager : MonoBehaviour {
 		if (state) {
 			Time.timeScale = 0.0f;
             lvlManager.GetComponent<AudioSource>().Pause();
+			player.enabled = false;
         }
         else {
 			Time.timeScale = 1.0f;
             lvlManager.GetComponent<AudioSource>().UnPause();
+			player.enabled = true;
         }
 //		GetComponent<Image> ().enabled = state;
 	}

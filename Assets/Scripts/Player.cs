@@ -199,7 +199,7 @@ public class Player : MonoBehaviour
 	private void handlePlayerMovementSpeed()
 	{
 		
-		if ((isJumping) && (oldFacing != facingRight)) {
+		if ((isJumping && !isClimbing) && (oldFacing != facingRight)) {
 			moveSpeed = 4f;
 		}
 		else if (state == 1 || state == 2 || state == 3)
