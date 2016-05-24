@@ -18,7 +18,8 @@ public class UIManager : MonoBehaviour {
 	public Texture2D quitButton; 
 	
 	public Texture2D restartButton;
-	
+
+	private Player player;
 	
 	public bool clickedStart = false;
 	private bool aPressed = false; 
@@ -62,25 +63,29 @@ public class UIManager : MonoBehaviour {
  
 	
 	public void Start(){
+		player = GameObject.Find ("Player").GetComponent<Player>();
 		isPaused = false;
         lvlManager = GameObject.Find("LevelManager");
-		//tempSpeed = playerScripts.moveSpeed;
-//		pausePanel = GameObject.FindGameObjectWithTag("pausePanel");
 	}
 
 	void Update(){
 		if (isPaused) {
 			PauseGame (true);
+			handlePauseMenuActions();
+
 		} else {
 			PauseGame (false);
 		}
 		if (Input.GetKeyDown (KeyCode.P) || (Input.GetButtonDown("Xbox_StartButton"))) {
 			switchPause ();
+			if (!isPaused) {
+				player.enabled = true;
+			}
 		} 
-		test();
+
 	}
 		
-	void test(){
+	void handlePauseMenuActions(){
 	
 		//knowing what players scroll through
 		if(Input.GetAxisRaw("Vertical") == 1){
@@ -116,10 +121,12 @@ public class UIManager : MonoBehaviour {
 		if (state) {
 			Time.timeScale = 0.0f;
             lvlManager.GetComponent<AudioSource>().Pause();
+			player.enabled = false;
         }
         else {
 			Time.timeScale = 1.0f;
             lvlManager.GetComponent<AudioSource>().UnPause();
+			//player.enabled = true;
         }
 //		GetComponent<Image> ().enabled = state;
 	}
