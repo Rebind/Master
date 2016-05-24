@@ -34,16 +34,48 @@ public class PlayerOW : MonoBehaviour {
 				//Loading screen
 				
 				switch (tmp) {
-				case "Showcase":
+				case "Level_1":
 					PlayerPrefs.SetInt("Level", 1);
 					Application.LoadLevel("LoadingScene");
 					break;
-				case "AlexFerr2DLevel":
-					PlayerPrefs.SetInt("Level", 0);
+				case "Level_2":
+					PlayerPrefs.SetInt("Level", 2);
 					Application.LoadLevel("LoadingScene");
 					break;
-				case "BeggLevel":
+				case "Level_3":
+					PlayerPrefs.SetInt("Level", 3);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "Level_4":
 					PlayerPrefs.SetInt("Level", 4);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "Level_5":
+					PlayerPrefs.SetInt("Level", 5);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "Level_6":
+					PlayerPrefs.SetInt("Level", 6);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "Level_7":
+					PlayerPrefs.SetInt("Level", 7);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "Level_8":
+					PlayerPrefs.SetInt("Level", 8);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "Level_9":
+					PlayerPrefs.SetInt("Level", 9);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "Level_10":
+					PlayerPrefs.SetInt("Level", 10);
+					Application.LoadLevel("LoadingScene");
+					break;
+				case "Level_11":
+					PlayerPrefs.SetInt("Level", 11);
 					Application.LoadLevel("LoadingScene");
 					break;
 			
@@ -62,7 +94,7 @@ public class PlayerOW : MonoBehaviour {
 		OW = GameObject.Find("OverWorld");
 		OWScript = OW.GetComponent<OverWorld>();
 		player = GameObject.Find("PlayerOW");
-		target = GameObject.Find("Blah");
+		target = GameObject.Find("Level_1");
 		player.transform.position = target.transform.position;
 	}
 	
@@ -71,6 +103,6 @@ public class PlayerOW : MonoBehaviour {
 		setNewTarget();
 		targetPos = new Vector3(target.transform.position.x, target.transform.position.y, 
 			target.transform.position.z);
-		transform.position = Vector3.MoveTowards(transform.position, targetPos, 0.1f);
+		transform.position = Vector3.MoveTowards(transform.position, targetPos, 0.3f);
 	}
 }
