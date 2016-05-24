@@ -66,23 +66,26 @@ public class UIManager : MonoBehaviour {
 		player = GameObject.Find ("Player").GetComponent<Player>();
 		isPaused = false;
         lvlManager = GameObject.Find("LevelManager");
-		//tempSpeed = playerScripts.moveSpeed;
-//		pausePanel = GameObject.FindGameObjectWithTag("pausePanel");
 	}
 
 	void Update(){
 		if (isPaused) {
 			PauseGame (true);
+			handlePauseMenuActions();
+
 		} else {
 			PauseGame (false);
 		}
 		if (Input.GetKeyDown (KeyCode.P) || (Input.GetButtonDown("Xbox_StartButton"))) {
 			switchPause ();
+			if (!isPaused) {
+				player.enabled = true;
+			}
 		} 
-		test();
+
 	}
 		
-	void test(){
+	void handlePauseMenuActions(){
 	
 		//knowing what players scroll through
 		if(Input.GetAxisRaw("Vertical") == 1){
@@ -123,7 +126,7 @@ public class UIManager : MonoBehaviour {
         else {
 			Time.timeScale = 1.0f;
             lvlManager.GetComponent<AudioSource>().UnPause();
-			player.enabled = true;
+			//player.enabled = true;
         }
 //		GetComponent<Image> ().enabled = state;
 	}
