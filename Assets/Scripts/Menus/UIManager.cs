@@ -146,6 +146,9 @@ public class UIManager : MonoBehaviour {
 		if(isPaused){
 		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), resumeButton )){
 			isPaused = false;
+			if (!isPaused) {
+				player.enabled = true;
+			}
 			Debug.Log("Clicked Start");
 		}
 		//If players select the resume. 
@@ -153,6 +156,9 @@ public class UIManager : MonoBehaviour {
 			//PlayerPrefs.SetInt("Level", 1);
 			//Application.LoadLevel("LoadingScene");	
 			isPaused = false;
+				if (!isPaused) {
+					player.enabled = true;
+				}
 		}
 		GUI.SetNextControlName(buttons[1]);
  
