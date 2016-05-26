@@ -1,40 +1,29 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 
 public class Credits : MonoBehaviour
 {
-	private float offset;
-	public float speed = 29.0f;
-	public GUIStyle style;
-	public Rect viewArea;
+	public GameObject camera;
+	public int speed = 1;
+	public string level;
+	public GameObject text;
 
-	private void Start()
-	{
-		this.offset = this.viewArea.height;
+	private void Start(){
+		text = GameObject.Find ("Text (1)");
 	}
 
 	private void Update()
 	{
-		this.offset -= Time.deltaTime * this.speed;
+		//camera.transform.Translate (Vector3.down * Time.deltaTime * speed);
+		text.transform.Translate (Vector3.up * Time.deltaTime * speed);
+		StartCoroutine ("waitFor");
 	}
 
-	private void OnGUI()
-	{
-		GUI.BeginGroup(this.viewArea);
-
-		var position = new Rect(0, this.offset, this.viewArea.width, this.viewArea.height);
-		var text = @"Lead Designer/Programmer: Josue Ordonez
-		Lead Tester: Edgar Lopez
-		Artist Coordinator/Programmer: Khoa Luong
-		Lead Producer/Programmer: Alex Girard
-		User Test Coordinator/Programmer: Rihui Tan
-		Lead Developer/Programmer: Danica Pok
-		Artist: Mindy Nguyen and Juan Morales
-		Sound Designer: Joshua Ray";
-
-		GUI.Label(position, text, this.style);
-
-		GUI.EndGroup();
+	IEnumerator waitFor(){
+		yield return new WaitForSeconds (30);
+		SceneManager.LoadScene (level);
 	}
 }
