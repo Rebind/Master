@@ -10,19 +10,19 @@ public class PlayerOW : MonoBehaviour {
 
 	private void setNewTarget() {
 		string tmp = null;
-		if (Input.GetKeyUp(KeyCode.W)) {
+		if (Input.GetKeyUp(KeyCode.W) || Input.GetAxisRaw ("XBox_DPadY") == 1) {
             tmp = OWScript.Levels.getNewPos("up");
             target = GameObject.Find(tmp);
         }
-        if (Input.GetKeyUp(KeyCode.A)) {
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetAxisRaw ("XBox_DPadX") == -1) {
             tmp = OWScript.Levels.getNewPos("left");
             target = GameObject.Find(tmp);
         }
-        if (Input.GetKeyUp(KeyCode.S)) {
+        if (Input.GetKeyUp(KeyCode.S) || Input.GetAxisRaw ("XBox_DPadY") == -1) {
             tmp = OWScript.Levels.getNewPos("down");
             target = GameObject.Find(tmp);
         }
-        if (Input.GetKeyUp(KeyCode.D)) {
+        if (Input.GetKeyUp(KeyCode.D) || Input.GetAxisRaw ("XBox_DPadX") == 1) {
             tmp = OWScript.Levels.getNewPos("right");
             target = GameObject.Find(tmp);
         }
