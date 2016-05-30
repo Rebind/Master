@@ -80,15 +80,16 @@ public class PressurePlateController : MonoBehaviour
 						platform.GetComponent<PlatformController> ().turnOn ();
 					}
 				}
+				oneTime = true;
+
 			}
 			
-            oneTime = true;
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-		if ((other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg")))
+		if ((other.CompareTag ("Player") || other.CompareTag ("arm") || other.CompareTag ("torso") || other.CompareTag ("leg"))&& oneTime)
 			{
 				//spriteRenderer.color = new Color(1f, 0f, 0f, 1f);
 				spriteRenderer.sprite = inactiveSprite;
@@ -129,8 +130,9 @@ public class PressurePlateController : MonoBehaviour
 					}
 
 				}
-			}
 			oneTime = false;
+
+			}
 
     }
 
