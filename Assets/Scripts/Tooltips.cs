@@ -69,7 +69,6 @@ public class Tooltips : MonoBehaviour {
 		
 		torso = GameObject.FindGameObjectWithTag("torso");
 		quad = GameObject.Find("Quad");
-		Debug.Log(Bbutton);
 		if ((Vector3.Distance(Player.transform.position, torso.transform.position) <= minimumDistance) && Bbutton){
 			BButton.SetActive(true);
 			Debug.Log("testing in level 1");
