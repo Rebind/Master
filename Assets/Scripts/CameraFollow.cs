@@ -58,8 +58,8 @@ public class CameraFollow : MonoBehaviour {
 	void LateUpdate() {
 		focusArea.Update (target.collider.bounds);
         if (Input.GetKey(KeyCode.K)) { 
-            horizontalOffset -= .08f;
-            gameObject.GetComponent<Camera>().orthographicSize += .18f;
+            horizontalOffset -= .025f;
+            gameObject.GetComponent<Camera>().orthographicSize += .05f;
         }
         Vector2 focusPosition = focusArea.center + Vector2.up * verticalOffset + Vector2.right * horizontalOffset;
 
