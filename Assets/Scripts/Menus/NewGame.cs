@@ -162,7 +162,7 @@ public class NewGame : MonoBehaviour
             }
             GUI.SetNextControlName(buttons[2]);
 
-            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2.15f, playButton.width / 2, playButton.height / 2), quitButton))
+            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 1.9f, playButton.width / 2, playButton.height / 2), quitButton))
             {
                 Application.Quit();
                 //when selected Exit button
