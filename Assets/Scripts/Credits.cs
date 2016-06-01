@@ -32,7 +32,7 @@ public class Credits : MonoBehaviour
 	}
 
 	IEnumerator waitFor(){
-		yield return new WaitForSeconds (35);
+		yield return new WaitForSeconds (75);
 		SceneManager.LoadScene (level);
 	}
 }
