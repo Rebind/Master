@@ -55,7 +55,7 @@ public class NewGame : MonoBehaviour
     void Update()
     {
         //knowing what players scroll through
-        if (Input.GetAxisRaw("Vertical") == 1)
+        if (Input.GetAxisRaw("Horizontal") == 1)
         {
             if (inputVertical == false)
             {
@@ -65,7 +65,7 @@ public class NewGame : MonoBehaviour
 
         }
 
-        if (Input.GetAxisRaw("Vertical") == -1)
+        if (Input.GetAxisRaw("Horizontal") == -1)
         {
             if (inputVertical == false)
             {
@@ -110,7 +110,7 @@ public class NewGame : MonoBehaviour
             GUI.SetNextControlName(buttons[0]);
             Event e = Event.current;
 
-            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 3, playButton.width / 2, playButton.height / 2), playButton))
+            if (GUI.Button(new Rect(Screen.width / 2 -300, Screen.height / 2 -50, playButton.width / 2, playButton.height / 2), playButton))
             {
                 PlayerPrefs.SetInt("Level", 1);
                 Application.LoadLevel("LoadingScene");
@@ -128,7 +128,7 @@ public class NewGame : MonoBehaviour
 
             GUI.SetNextControlName(buttons[1]);
 
-            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2.5f, playButton.width / 2, playButton.height / 2), lvlSelButton))
+            if (GUI.Button(new Rect(Screen.width / 2 - 150, Screen.height / 2 -50, playButton.width / 2, playButton.height / 2), lvlSelButton))
             {
                 PlayerPrefs.SetInt("Level", 13);
                 Application.LoadLevel("LoadingScene");
@@ -144,7 +144,7 @@ public class NewGame : MonoBehaviour
                 Application.LoadLevel("LoadingScene");
 
             }
-            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2.15f, playButton.width / 2, playButton.height / 2), creditsButton))
+            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2 -50, playButton.width / 2, playButton.height / 2), creditsButton))
             {
                 PlayerPrefs.SetInt("Level", 14);
                 Application.LoadLevel("LoadingScene");
@@ -162,7 +162,7 @@ public class NewGame : MonoBehaviour
             }
             GUI.SetNextControlName(buttons[2]);
 
-            if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 1.9f, playButton.width / 2, playButton.height / 2), quitButton))
+            if (GUI.Button(new Rect(Screen.width / 2 + 150, Screen.height / 2 -50, playButton.width / 2, playButton.height / 2), quitButton))
             {
                 Application.Quit();
                 //when selected Exit button
