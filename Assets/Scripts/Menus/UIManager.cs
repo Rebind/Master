@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour {
 	public bool isPaused;
     private GameObject lvlManager;
     AudioSource levelSound;
+	public GUISkin customSkin;
 
 
     string[] buttons = new string[3] {"Start", "Level Select", "Exit"};
@@ -69,6 +70,7 @@ public class UIManager : MonoBehaviour {
 	}
 
 	void Update(){
+		handlePauseToggle ();
 		if (isPaused) {
 			PauseGame (true);
 			handlePauseMenuActions();
@@ -76,13 +78,17 @@ public class UIManager : MonoBehaviour {
 		} else {
 			PauseGame (false);
 		}
+
+
+	}
+
+	void handlePauseToggle(){
 		if (Input.GetKeyDown (KeyCode.P) || (Input.GetButtonDown("Xbox_StartButton"))) {
-			switchPause ();
+			isPaused = !isPaused;
 			if (!isPaused) {
 				player.enabled = true;
 			}
 		} 
-
 	}
 		
 	void handlePauseMenuActions(){
@@ -111,7 +117,9 @@ public class UIManager : MonoBehaviour {
 		//If players pressed the A button on xbox. 
 		if(Input.GetButtonDown("Xbox_AButton")){
 			aPressed = true;
+			Debug.Log ("true");
 		}
+
 		else aPressed = false;
  
 	
@@ -126,21 +134,12 @@ public class UIManager : MonoBehaviour {
         else {
 			Time.timeScale = 1.0f;
             lvlManager.GetComponent<AudioSource>().UnPause();
-			//player.enabled = true;
         }
-//		GetComponent<Image> ().enabled = state;
 	}
 
-	public void switchPause(){
-		if (isPaused) {
-			isPaused =false;
-		}else{
-			isPaused =true;
-		}
-	}
-	
+
 	void OnGUI(){
-		
+		GUI.skin = customSkin;
 		GUI.SetNextControlName(buttons[0]);
 		Event e = Event.current;
 		if(isPaused){
