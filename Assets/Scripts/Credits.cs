@@ -17,6 +17,8 @@ public class Credits : MonoBehaviour
 	public GameObject SampleArmDrag;
 	public GameObject chardesign;
 	public GameObject fullbodyavatar;
+	public GameObject SampleTorsoJump;
+	public GameObject rebindteam;
 
 	private void Start(){
 		text = GameObject.Find ("Text (1)");
@@ -26,6 +28,8 @@ public class Credits : MonoBehaviour
 		rebindlogo = GameObject.Find ("REBINDLOGO");
 		chardesign = GameObject.Find ("chardesign");
 		fullbodyavatar = GameObject.Find ("fullbodyavatar");
+		SampleTorsoJump  = GameObject.Find ("SampleTorsoJump");
+		rebindteam = GameObject.Find ("rebindteam");
 	}
 
 	private void Update()
@@ -38,6 +42,8 @@ public class Credits : MonoBehaviour
 		rebindlogo.transform.Translate (Vector3.up * Time.deltaTime * speed);
 		chardesign.transform.Translate (Vector3.up * Time.deltaTime * speed);
 		fullbodyavatar.transform.Translate (Vector3.up * Time.deltaTime * speed);
+		SampleTorsoJump.transform.Translate (Vector3.up * Time.deltaTime * speed);
+		rebindteam.transform.Translate (Vector3.up * Time.deltaTime * speed);
 		StartCoroutine ("waitFor");
 	}
 
