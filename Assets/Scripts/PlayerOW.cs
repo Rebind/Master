@@ -103,7 +103,7 @@ public class PlayerOW : MonoBehaviour {
 	void moveTo() {
 		targetPos = new Vector3(target.transform.position.x, target.transform.position.y, 
 			target.transform.position.z);
-		transform.position = Vector3.MoveTowards(transform.position, targetPos, 0.3f);
+		transform.position = Vector3.MoveTowards(transform.position, targetPos, 0.4f);
 		if (transform.position == targetPos) {
 			moving = false;
 			lockbutton = false;
