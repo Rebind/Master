@@ -88,9 +88,9 @@ public class UIManager : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.P) || (Input.GetButtonDown("Xbox_StartButton"))) {
 			isPaused = !isPaused;
 			if (!isPaused) {
-				player.SetActive(true);
+				player.GetComponent<Player>().enabled = true;
 			} else {
-				player.SetActive(false);
+				player.GetComponent<Player>().enabled = false;
 			}
 		} 
 	}
