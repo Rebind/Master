@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class NewGame : MonoBehaviour
 {
 
-    string[] buttons = new string[3] { "Start", "Level Select", "Exit" };
+    string[] buttons = new string[4] { "Start", "Level Select", "Credits", "Exit" };
 
     int selected = 0;
     bool inputVertical = false;
@@ -59,7 +59,7 @@ public class NewGame : MonoBehaviour
         {
             if (inputVertical == false)
             {
-                selected = menuSelection(buttons, selected, "up");
+                selected = menuSelection(buttons, selected, "down");
             }
             inputVertical = true;
 
@@ -69,13 +69,13 @@ public class NewGame : MonoBehaviour
         {
             if (inputVertical == false)
             {
-                selected = menuSelection(buttons, selected, "down");
+                selected = menuSelection(buttons, selected, "up");
             }
             inputVertical = true;
 
         }
 
-        if (Input.GetAxisRaw("Vertical") == 0)
+        if (Input.GetAxisRaw("Horizontal") == 0)
         {
             inputVertical = false;
         }
@@ -144,6 +144,7 @@ public class NewGame : MonoBehaviour
                 Application.LoadLevel("LoadingScene");
 
             }
+			GUI.SetNextControlName(buttons[2]);
             if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2 -50, playButton.width / 2, playButton.height / 2), creditsButton))
             {
                 PlayerPrefs.SetInt("Level", 14);
@@ -160,7 +161,7 @@ public class NewGame : MonoBehaviour
                 Application.LoadLevel("LoadingScene");
 
             }
-            GUI.SetNextControlName(buttons[2]);
+            GUI.SetNextControlName(buttons[3]);
 
             if (GUI.Button(new Rect(Screen.width / 2 + 150, Screen.height / 2 -50, playButton.width / 2, playButton.height / 2), quitButton))
             {
