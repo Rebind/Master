@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour {
 	
 	public Texture2D restartButton;
 
-	private Player player;
+	private GameObject player;
 	
 	public bool clickedStart = false;
 	private bool aPressed = false; 
@@ -28,6 +28,8 @@ public class UIManager : MonoBehaviour {
 	private AsyncOperation async = null; // When assigned, load is in progress.
 	private LevelManager lvlmanager;
 	private Loading loading;
+
+
 
  
 	int menuSelection (string[] buttonsArray, int selectedItem, string direction) {
@@ -64,7 +66,7 @@ public class UIManager : MonoBehaviour {
  
 	
 	public void Start(){
-		player = GameObject.Find ("Player").GetComponent<Player>();
+		player = GameObject.Find ("Player");
 		isPaused = false;
         lvlManager = GameObject.Find("LevelManager");
 	}
@@ -86,7 +88,9 @@ public class UIManager : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.P) || (Input.GetButtonDown("Xbox_StartButton"))) {
 			isPaused = !isPaused;
 			if (!isPaused) {
-				player.enabled = true;
+				player.SetActive(true);
+			} else {
+				player.SetActive(false);
 			}
 		} 
 	}
@@ -129,7 +133,7 @@ public class UIManager : MonoBehaviour {
 		if (state) {
 			Time.timeScale = 0.0f;
             lvlManager.GetComponent<AudioSource>().Pause();
-			player.enabled = false;
+			player.SetActive(false);
         }
         else {
 			Time.timeScale = 1.0f;
@@ -146,7 +150,7 @@ public class UIManager : MonoBehaviour {
 		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), resumeButton )){
 			isPaused = false;
 			if (!isPaused) {
-				player.enabled = true;
+					player.SetActive(true);
 			}
 			Debug.Log("Clicked Start");
 		}
@@ -156,7 +160,7 @@ public class UIManager : MonoBehaviour {
 			//Application.LoadLevel("LoadingScene");	
 			isPaused = false;
 				if (!isPaused) {
-					player.enabled = true;
+					player.SetActive(true);
 				}
 		}
 		GUI.SetNextControlName(buttons[1]);
