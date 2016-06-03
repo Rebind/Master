@@ -2,12 +2,14 @@
 using System.Collections;
 
 public class bat_movement : MonoBehaviour {
+		
+	private bool movingRight;
 
 		// put the points from unity interface
-		public Transform[] wayPointList;
+		public Vector2[] wayPointList;
+		private Vector3 theScale;
 
 		public int currentWayPoint = 0; 
-		Transform targetWayPoint;
 
 		public float speed = 4f;
 
@@ -15,31 +17,62 @@ public class bat_movement : MonoBehaviour {
 		void Start () {
 		}
 
-		// Update is called once per frame
-		void Update () {
+	void Update () {
 
-			// check if we have somewere to walk
-		if (currentWayPoint < this.wayPointList.Length) {
-			if (targetWayPoint == null)
-				targetWayPoint = wayPointList [currentWayPoint];
-			walk ();
-		} else {
-			currentWayPoint = 0;
-		}
-		}
+		
 
-		void walk(){
-			// rotate towards the target
-		//transform.forward = Vector3.RotateTowards(transform.forward, targetWayPoint.position - transform.position, speed*Time.deltaTime, 0.0f);
+	
 
+		if ((Vector2)transform.position == wayPointList[currentWayPoint]) {
+			if (currentWayPoint == wayPointList.Length-1) {
+				if ((Vector2)this.transform.position == wayPointList [currentWayPoint]) {
+					currentWayPoint = 0;
+				}
+			} else {
+				currentWayPoint++;
 
-			// move towards the target
-			transform.position = Vector3.MoveTowards(transform.position, targetWayPoint.position,   speed*Time.deltaTime);
-
-			if(transform.position == targetWayPoint.position)
-			{
-				currentWayPoint ++ ;
-				targetWayPoint = wayPointList[currentWayPoint];
 			}
-		} 
+
+
+		}
+
+		if (this.transform.position.x > wayPointList [currentWayPoint].x) {
+			movingRight = true;
+		} else {
+			movingRight = false;
+		}
+
+		assignSpriteFacing();
+
+		this.transform.position = Vector2.MoveTowards (this.transform.position, wayPointList [currentWayPoint], speed * Time.deltaTime);
+
+
+		}
+
+	void OnDrawGizmos() {
+		if (wayPointList != null) {
+			Gizmos.color = Color.red;
+			float size = .3f;
+
+			for (int i =0; i < wayPointList.Length; i ++) {
+				Vector3 globalWaypointPos = wayPointList [i];
+				Gizmos.DrawLine(globalWaypointPos - Vector3.up * size, globalWaypointPos + Vector3.up * size);
+				Gizmos.DrawLine(globalWaypointPos - Vector3.left * size, globalWaypointPos + Vector3.left * size);
+			}
+		}
+	}
+
+
+	void assignSpriteFacing(){
+		if (movingRight) {
+			GetComponent<SpriteRenderer> ().flipX = false;
+		} else {
+			GetComponent<SpriteRenderer> ().flipX = true;
+
+		}
+	}
+
+
+
+
 	}
