@@ -24,11 +24,13 @@ public class SwitchControl : MonoBehaviour {
 	private bool axisLeft = false;
 	private bool axisRight = false;
     private Sound sounds;
+	private bool enabled;
     // Use this for initialization
 
     GameObject player;
 
 	void Start () {
+		enabled = true;
         //find the camera object and obtain its script
         cameraObject = GameObject.Find("Main Camera");
 		CameraScript = cameraObject.GetComponent<CameraFollow>();
@@ -56,37 +58,34 @@ public class SwitchControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		ClosestLimb = FindClosestLimb();
-		updateLists ();
-		//Switch to nearest limb
-		if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetButtonDown("Xbox_XButton"))
-		{
-            //Debug.Log("E is pressed");
-            if (axisLeft == false){
-				GameObject newTarget = FindClosestLimb();
-				if (newTarget != null) {
-					toggleScript (newTarget, true);
-					toggleScript (inControl, false);
-					inControl = newTarget;
-					if (inControl.tag == "leg")
-					{
-						inControlTag = 2;
-					} else 
-					{
-						inControlTag = 1;
+		if (enabled) {
+			ClosestLimb = FindClosestLimb ();
+			updateLists ();
+			//Switch to nearest limb
+			if (Input.GetKeyUp (KeyCode.LeftControl) || Input.GetButtonDown ("Xbox_XButton")) {
+				//Debug.Log("E is pressed");
+				if (axisLeft == false) {
+					GameObject newTarget = FindClosestLimb ();
+					if (newTarget != null) {
+						toggleScript (newTarget, true);
+						toggleScript (inControl, false);
+						inControl = newTarget;
+						if (inControl.tag == "leg") {
+							inControlTag = 2;
+						} else {
+							inControlTag = 1;
+						}
+						CameraScript.ChangeTarget (newTarget.name);
+						sounds.audioLimbControl.Play ();
 					}
-					CameraScript.ChangeTarget(newTarget.name);
-                    sounds.audioLimbControl.Play();
-                }
-                axisLeft = true;
+					axisLeft = true;
+				}
 			}
-		}
-		//Return to head
-		if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetButtonDown("Xbox_YButton"))
-		{
-			//Debug.Log("Q is pressed");
-			if(axisRight == false && inControl != player){
-                /*
+			//Return to head
+			if (Input.GetKeyUp (KeyCode.LeftShift) || Input.GetButtonDown ("Xbox_YButton")) {
+				//Debug.Log("Q is pressed");
+				if (axisRight == false && inControl != player) {
+					/*
 				GameObject newTarget = GameObject.Find("Player");
 				toggleScript (newTarget, true);
 				toggleScript (inControl, false);
@@ -94,18 +93,19 @@ public class SwitchControl : MonoBehaviour {
 				inControlTag = 0;
 				CameraScript.ChangeTarget(newTarget.name);
 				*/
-                sounds.audioLimbControl.Play();
-				switchToHead();
-				axisRight = true;
+					sounds.audioLimbControl.Play ();
+					switchToHead ();
+					axisRight = true;
+				}
 			}
-		}
-		//This is to make sure the axis on the xbox is pressed only once. Without this, then, the changed player
-		//won't move. 
-		if(Input.GetAxisRaw("Xbox_LeftButton") == 0){
-			axisLeft = false;
-		}
-		if(Input.GetAxisRaw("Xbox_RightButton") == 0){
-			axisRight = false;
+			//This is to make sure the axis on the xbox is pressed only once. Without this, then, the changed player
+			//won't move. 
+			if (Input.GetAxisRaw ("Xbox_LeftButton") == 0) {
+				axisLeft = false;
+			}
+			if (Input.GetAxisRaw ("Xbox_RightButton") == 0) {
+				axisRight = false;
+			}
 		}
 	}
 
@@ -141,6 +141,7 @@ public class SwitchControl : MonoBehaviour {
 		}
 		//ClosestLimb = Closest;
 		return Closest;
+
 	}
 
 	private void updateLists(){

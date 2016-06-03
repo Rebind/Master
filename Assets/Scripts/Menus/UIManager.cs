@@ -89,8 +89,12 @@ public class UIManager : MonoBehaviour {
 			isPaused = !isPaused;
 			if (!isPaused) {
 				player.GetComponent<Player>().enabled = true;
+				player.GetComponent<SwitchControl>().enabled = true;
+
 			} else {
 				player.GetComponent<Player>().enabled = false;
+				player.GetComponent<SwitchControl>().enabled = true;
+
 			}
 		} 
 	}
@@ -133,7 +137,6 @@ public class UIManager : MonoBehaviour {
 		if (state) {
 			Time.timeScale = 0.0f;
             lvlManager.GetComponent<AudioSource>().Pause();
-			player.SetActive(false);
         }
         else {
 			Time.timeScale = 1.0f;
@@ -150,7 +153,6 @@ public class UIManager : MonoBehaviour {
 		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,100,50), resumeButton )){
 			isPaused = false;
 			if (!isPaused) {
-					player.SetActive(true);
 			}
 			Debug.Log("Clicked Start");
 		}
@@ -160,7 +162,6 @@ public class UIManager : MonoBehaviour {
 			//Application.LoadLevel("LoadingScene");	
 			isPaused = false;
 				if (!isPaused) {
-					player.SetActive(true);
 				}
 		}
 		GUI.SetNextControlName(buttons[1]);
