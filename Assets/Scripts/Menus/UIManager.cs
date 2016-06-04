@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour {
 	public bool isPaused;
@@ -180,14 +181,22 @@ public class UIManager : MonoBehaviour {
 		GUI.SetNextControlName(buttons[2]);
  
 		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2 + 200,100,50), quitButton)){
-			//when selected Exit button
-			Application.Quit();
-			Debug.Log("Exit");
+                //when selected Exit button
+                
+                PauseGame(false);
+                
+                PlayerPrefs.SetInt("Level", 0);
+                Application.LoadLevel("LoadingScene");
+                Debug.Log("Exit");
 		}
 		//If players select exit. 
-		if(GUI.GetNameOfFocusedControl() == "Exit" && (e.keyCode == KeyCode.Return || aPressed)){	
-			Application.Quit();
-		}
+		if(GUI.GetNameOfFocusedControl() == "Exit" && (e.keyCode == KeyCode.Return || aPressed)){
+                
+                PauseGame(false);
+                
+                PlayerPrefs.SetInt("Level", 0);
+                Application.LoadLevel("LoadingScene");
+            }
 		GUI.FocusControl(buttons[selected]);
 		}
  
